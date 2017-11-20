@@ -1,0 +1,155 @@
+<html><head><title>pureconfig</title><meta charset="utf-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="com.github.pureconfig" /><meta name="description" content="A boilerplate-free library for loading configuration files" /><meta name="og:image" content="/img/poster.png" /><meta name="og:title" content="pureconfig" /><meta name="og:site_name" content="pureconfig" /><meta name="og:url" content="https://pureconfig.github.io/" /><meta name="og:type" content="website" /><meta name="og:description" content="A boilerplate-free library for loading configuration files" /><link rel="icon" type="image/png" href="/img/favicon.png" /><meta name="twitter:title" content="pureconfig" /><meta name="twitter:image" content="https://pureconfig.github.io/img/poster.png" /><meta name="twitter:description" content="A boilerplate-free library for loading configuration files" /><meta name="twitter:card" content="summary_large_image" /><link rel="icon" type="image/png" sizes="16x16" href="/img/pureconfig-logo-16x16.ico" /><link rel="icon" type="image/png" sizes="32x32" href="/img/pureconfig-logo-32x32.ico" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" /><link rel="stylesheet" href="/highlight/styles/default.css" /><link rel="stylesheet" href="/css/style.css" /><link rel="stylesheet" href="/css/palette.css" /><link rel="stylesheet" href="/css/codemirror.css" /><link rel="stylesheet" href="/css/kazari-style.css" /><link rel="stylesheet" href="/css/monokai.css" /><link rel="stylesheet" href="/css/custom.css" /></head><body class="docs"><div id="wrapper"><div id="sidebar-wrapper"><ul id="sidebar" class="sidebar-nav"><li class="sidebar-brand"><a href="/" class="brand"><div class="brand-wrapper"><span>pureconfig</span></div></a></li> <li><a href="/setup-pureconfig.html" class="">Setup PureConfig</a></li> <li><a href="/use-pureconfig.html" class="">Use PureConfig</a></li> <li><a href="/supported-types.html" class="">Supported types</a></li> <li><a href="/configurable-converters.html" class="">Configurable Converters</a></li> <li><a href="/support-new-types.html" class="">Support new types</a> <ul class="sub_section"> <li><a href="/add-support-for-simple-types.html" class="">Simple types</a></li> <li><a href="/add-support-for-complex-types.html" class="">Complex types</a></li></ul></li> <li><a href="/override-behaviour-for-types.html" class="">Override behaviour for</a> <ul class="sub_section"> <li><a href="/override-behaviour-for-types.html" class="">Types</a></li> <li><a href="/override-behaviour-for-case-classes.html" class=" active ">Case classes</a></li> <li><a href="/override-behaviour-for-sealed-families.html" class="">Sealed families</a></li></ul></li> <li><a href="/debugging-implicits-not-found.html" class="">Debugging implicits not found</a></li> <li><a href="/error-handling.html" class="">Error handling</a></li> <li><a href="/handling-missing-keys.html" class="">Handling missing keys</a></li> <li><a href="/example.html" class="">Example</a></li> <li><a href="/config-files.html" class="">Config files</a></li> <li><a href="/support-for-duration.html" class="">Support for Duration</a></li> <li><a href="/integrating.html" class="">Integrating with other libraries</a></li> <li><a href="/index.html#contribute" class="">Contribute</a></li> <li><a href="/faq.html" class="">FAQ</a></li></ul></div><div id="page-content-wrapper"><div class="nav"><div class="container-fluid"><div class="row"><div class="col-lg-12"><div class="action-menu pull-left clearfix"><a href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a></div><ul class="pull-right"><li id="gh-eyes-item" class="hidden-xs"><a href="https://github.com/pureconfig/pureconfig"><i class="fa fa-eye"></i><span>WATCH<span id="eyes" class="label label-default">--</span></span></a></li><li id="gh-stars-item" class="hidden-xs"><a href="https://github.com/pureconfig/pureconfig"><i class="fa fa-star-o"></i><span>STARS<span id="stars" class="label label-default">--</span></span></a></li><li><a href="#" onclick="shareSiteTwitter('pureconfig A boilerplate-free library for loading configuration files');"><i class="fa fa-twitter"></i></a></li><li><a href="#" onclick="shareSiteFacebook('pureconfig A boilerplate-free library for loading configuration files');"><i class="fa fa-facebook"></i></a></li><li><a href="#" onclick="shareSiteGoogle();"><i class="fa fa-google-plus"></i></a></li></ul></div></div></div></div><div id="content" data-github-owner="pureconfig" data-github-repo="pureconfig"><div class="content-wrapper"><section><h2 id="override-behaviour-for-case-classes">Override behaviour for case classes</h2>
+
+<p>PureConfig has to assume some conventions and behaviours when deriving
+<code class="highlighter-rouge">ConfigConvert</code> instances for case classes:</p>
+
+<ul>
+  <li>How do keys in config objects map to field names of the case class?</li>
+  <li>Are unknown keys allowed in the config object?</li>
+  <li>Should default values in case class fields be applied when its respective
+config key is missing?</li>
+</ul>
+
+<p>By default, PureConfig:</p>
+
+<ul>
+  <li>expects config keys to be written in kebab case (such as <code class="highlighter-rouge">my-field</code>) and the
+associated field names are written in camel case (such as <code class="highlighter-rouge">myField</code>);</li>
+  <li>allows unknown keys;</li>
+  <li>uses the default values when a key is missing.</li>
+</ul>
+
+<p>All of these assumptions can be overridden by putting an implicit
+<code class="highlighter-rouge">ProductHint</code> - an object that “hints” PureConfig on how to best derive
+converters for products in scope.</p>
+
+<h3 id="field-mappings">Field mappings</h3>
+
+<p>In case the naming convention you use in your configuration files differs from
+the default one, PureConfig allows you to define proper mappings. A mapping
+between different naming conventions is done using a <code class="highlighter-rouge">ConfigFieldMapping</code>
+object, with which one can construct a <code class="highlighter-rouge">ProductHint</code>. The <code class="highlighter-rouge">ConfigFieldMapping</code>
+trait has a single <code class="highlighter-rouge">apply</code> method that maps field names in Scala objects to
+field names in the source configuration file.</p>
+
+<p>For instance, here’s a contrived
+example where the configuration file has all keys in upper case and we’re
+loading it into a type whose fields are all in lower case. First, define a <code class="highlighter-rouge">ProductHint</code>
+instance in implict scope:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.typesafe.config.ConfigFactory.parseString</span>
+<span class="k">import</span> <span class="nn">pureconfig._</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">SampleConf</span><span class="o">(</span><span class="n">foo</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">bar</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="k">implicit</span> <span class="k">val</span> <span class="n">productHint</span> <span class="k">=</span> <span class="nc">ProductHint</span><span class="o">[</span><span class="kt">SampleConf</span><span class="o">](</span><span class="k">new</span> <span class="nc">ConfigFieldMapping</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">apply</span><span class="o">(</span><span class="n">fieldName</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="n">fieldName</span><span class="o">.</span><span class="n">toUpperCase</span>
+<span class="o">})</span>
+</code></pre></div></div>
+
+<p>Then load a config:</p>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="n">conf</span> <span class="k">=</span> <span class="n">parseString</span><span class="o">(</span><span class="s">"""{
+  FOO = 2
+  BAR = "two"
+}"""</span><span class="o">)</span>
+<span class="c1">// conf: com.typesafe.config.Config = Config(SimpleConfigObject({"BAR":"two","FOO":2}))
+</span>
+<span class="n">loadConfig</span><span class="o">[</span><span class="kt">SampleConf</span><span class="o">](</span><span class="n">conf</span><span class="o">)</span>
+<span class="c1">// res2: Either[pureconfig.error.ConfigReaderFailures,SampleConf] = Right(SampleConf(2,two))
+</span></code></pre></div></div>
+
+<p>PureConfig provides a way to create a <code class="highlighter-rouge">ConfigFieldMapping</code> by defining the
+naming conventions of the fields in the Scala object and in the configuration
+file. Some of the most used naming conventions are supported directly in the
+library:</p>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Camel_case"><code class="highlighter-rouge">CamelCase</code></a>: <code class="highlighter-rouge">camelCase</code>, <code class="highlighter-rouge">useMorePureconfig</code></li>
+  <li><a href="https://en.wikipedia.org/wiki/Snake_case"><code class="highlighter-rouge">SnakeCase</code></a>: <code class="highlighter-rouge">snake_case</code>, <code class="highlighter-rouge">use_more_pureconfig</code></li>
+  <li><a href="http://wiki.c2.com/?KebabCase"><code class="highlighter-rouge">KebabCase</code></a>: <code class="highlighter-rouge">kebab-case</code>, <code class="highlighter-rouge">use-more-pureconfig</code></li>
+  <li><a href="https://en.wikipedia.org/wiki/PascalCase"><code class="highlighter-rouge">PascalCase</code></a>: <code class="highlighter-rouge">PascalCase</code>, <code class="highlighter-rouge">UseMorePureconfig</code></li>
+</ul>
+
+<p>You can use the <code class="highlighter-rouge">apply</code> method of <code class="highlighter-rouge">ConfigFieldMapping</code> that accepts the two
+naming conventions (for the fields in the Scala object and for the fields in the
+configuration file, respectively). A common use case is to have both your field
+names and your configuration files in <code class="highlighter-rouge">camelCase</code>. In order to support it, you
+can make sure the following implicit is in scope before loading or writing
+configuration files:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig._</span>
+
+<span class="k">implicit</span> <span class="k">def</span> <span class="n">hint</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ProductHint</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="nc">ConfigFieldMapping</span><span class="o">(</span><span class="nc">CamelCase</span><span class="o">,</span> <span class="nc">CamelCase</span><span class="o">))</span>
+</code></pre></div></div>
+
+<h3 id="default-field-values">Default field values</h3>
+
+<p>If a case class has a default argument and the underlying configuration is
+missing a value for that field, then by default PureConfig will happily
+create an instance of the class, loading the other values from the
+configuration.</p>
+
+<p>For example, with this setup:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.typesafe.config.ConfigFactory.parseString</span>
+<span class="k">import</span> <span class="nn">pureconfig._</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.duration._</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Holiday</span><span class="o">(</span><span class="n">where</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"last resort"</span><span class="o">,</span> <span class="n">howLong</span><span class="k">:</span> <span class="kt">Duration</span> <span class="o">=</span> <span class="mi">7</span> <span class="n">days</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>We can load configurations using default values:</p>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Defaulting `where`
+</span><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="n">parseString</span><span class="o">(</span><span class="s">"""{ how-long: 21 days }"""</span><span class="o">))</span>
+<span class="c1">// res2: Either[pureconfig.error.ConfigReaderFailures,Holiday] = Right(Holiday(last resort,21 days))
+</span>
+<span class="c1">// Defaulting `howLong`
+</span><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="n">parseString</span><span class="o">(</span><span class="s">"""{ where: Zürich }"""</span><span class="o">))</span>
+<span class="c1">// res4: Either[pureconfig.error.ConfigReaderFailures,Holiday] = Right(Holiday(Zürich,7 days))
+</span>
+<span class="c1">// Defaulting both arguments
+</span><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="n">parseString</span><span class="o">(</span><span class="s">"""{}"""</span><span class="o">))</span>
+<span class="c1">// res6: Either[pureconfig.error.ConfigReaderFailures,Holiday] = Right(Holiday(last resort,7 days))
+</span>
+<span class="c1">// Specifying both arguments
+</span><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="n">parseString</span><span class="o">(</span><span class="s">"""{ where: Texas, how-long: 3 hours }"""</span><span class="o">))</span>
+<span class="c1">// res8: Either[pureconfig.error.ConfigReaderFailures,Holiday] = Right(Holiday(Texas,3 hours))
+</span></code></pre></div></div>
+
+<p>A <code class="highlighter-rouge">ProductHint</code> can make the conversion fail if a key is missing from the
+config regardless of whether a default value exists or not:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">hint</span> <span class="k">=</span> <span class="nc">ProductHint</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="n">useDefaultArgs</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="c1">// hint: pureconfig.ProductHint[Holiday] = ProductHintImpl(&lt;function1&gt;,false,true)
+</span>
+<span class="n">loadConfig</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="n">parseString</span><span class="o">(</span><span class="s">"""{ how-long: 21 days }"""</span><span class="o">))</span>
+<span class="c1">// res9: Either[pureconfig.error.ConfigReaderFailures,Holiday] = Left(ConfigReaderFailures(ConvertFailure(KeyNotFound(where,Set()),None,),List()))
+</span></code></pre></div></div>
+
+<h3 id="unknown-keys">Unknown keys</h3>
+
+<p>By default, PureConfig ignores keys in the config that do not map to any
+case class field, leading to potential bugs due to misspellings:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="n">parseString</span><span class="o">(</span><span class="s">"""{ wher: Texas, how-long: 21 days }"""</span><span class="o">))</span>
+<span class="c1">// res1: Either[pureconfig.error.ConfigReaderFailures,Holiday] = Right(Holiday(last resort,21 days))
+</span></code></pre></div></div>
+
+<p>With a <code class="highlighter-rouge">ProductHint</code>, one can tell the converter to fail if an unknown key is
+found:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">hint</span> <span class="k">=</span> <span class="nc">ProductHint</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="n">allowUnknownKeys</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="c1">// hint: pureconfig.ProductHint[Holiday] = ProductHintImpl(&lt;function1&gt;,true,false)
+</span>
+<span class="n">loadConfig</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="n">parseString</span><span class="o">(</span><span class="s">"""{ wher: Texas, how-long: 21 days }"""</span><span class="o">))</span>
+<span class="c1">// res2: Either[pureconfig.error.ConfigReaderFailures,Holiday] = Left(ConfigReaderFailures(ConvertFailure(UnknownKey(wher),None,wher),List()))
+</span></code></pre></div></div>
+</section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({
+languages:['scala','java','bash']
+});
+hljs.initHighlighting();
+             </script><script src="/js/main.js"></script><script src="/js/kazari.js"></script><script>
+$(document).ready(function() {
+	kazari.KazariPlugin().decorateCode('https://scala-evaluator-212.herokuapp.com/eval', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.S2F6YXJp.Jl2eqMfw8IakJF93PjxTbrf-8YUJgX5OoOfy5JHE8Yw', '', 'monokai')
+})
+    </script></body></html>
