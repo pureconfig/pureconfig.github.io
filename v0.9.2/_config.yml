@@ -1,0 +1,11 @@
+name: PureConfig
+baseurl: /v0.9.2
+description: A boilerplate-free library for loading configuration files
+highlighter: rouge
+docs: true
+collections:
+  tut:
+    output: true
+version: 0.9.2
+org: com.github.pureconfig
+markdown: kramdown
