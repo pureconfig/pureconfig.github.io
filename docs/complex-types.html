@@ -12,7 +12,7 @@ support, the <a href="#add-support-for-identifiable">second part</a> provides th
 <p>First of all, let’s start with the data type that we want to support. 
 The example is composed of one interface and two implementations:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">trait</span> <span class="nc">Identifiable</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">trait</span> <span class="nc">Identifiable</span> <span class="o">{</span>
   <span class="k">def</span> <span class="n">getId</span><span class="k">:</span> <span class="kt">String</span>
 <span class="o">}</span>
 
@@ -24,8 +24,7 @@ The example is composed of one interface and two implementations:</p>
   <span class="k">def</span> <span class="n">getId</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">id</span>
   <span class="k">def</span> <span class="n">getValue</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="n">value</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Because PureConfig is based on shapeless and shapeless doesn’t support non-case classes and interfaces,
 the class above cannot be read automatically by PureConfig.</p>
@@ -44,7 +43,7 @@ to support unsupported complex types is to:</p>
 
 <p>In the case above, we could do:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig._</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig._</span>
 <span class="k">import</span> <span class="nn">pureconfig.error._</span>
 <span class="k">import</span> <span class="nn">pureconfig.generic.auto._</span>
 <span class="k">import</span> <span class="nn">pureconfig.generic.FieldCoproductHint</span>
@@ -75,8 +74,7 @@ to support unsupported complex types is to:</p>
 // and then maps it to Identifiable
 </span><span class="k">implicit</span> <span class="k">val</span> <span class="n">identifiableConfigReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">Identifiable</span><span class="o">]</span> <span class="k">=</span>
   <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">IdentifiableDummy</span><span class="o">].</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">toIdentifiable</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>pros</strong>: it’s idiomatic and elegant. It uses a type supported by PureConfig to extract the data
 needed from the configuration and then maps it to the original complex type. Note that this
@@ -91,7 +89,7 @@ steps to read it.</p>
 <p>Similarly to adding support for simple types, it is possible to manually create a
 <code class="highlighter-rouge">ConfigReader[Identifiable]</code>:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig._</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig._</span>
 <span class="k">import</span> <span class="nn">pureconfig.error._</span>
 
 <span class="k">val</span> <span class="n">class1Reader</span> <span class="k">=</span> <span class="nc">ConfigReader</span><span class="o">.</span><span class="n">forProduct1</span><span class="o">(</span><span class="s">"id"</span><span class="o">)(</span><span class="k">new</span> <span class="nc">Class1</span><span class="o">(</span><span class="k">_</span><span class="o">))</span>
@@ -113,8 +111,7 @@ steps to read it.</p>
     <span class="n">ident</span> <span class="k">&lt;-</span> <span class="n">extractByType</span><span class="o">(</span><span class="n">typeStr</span><span class="o">,</span> <span class="n">objCur</span><span class="o">)</span>
   <span class="o">}</span> <span class="k">yield</span> <span class="n">ident</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>pros</strong>: The main advantage of this method is that PureConfig delegates to it when decoding your configuration.
 PureConfig takes the manually defined <code class="highlighter-rouge">ConfigReader[Identifiable]</code> as a blackbox and applies it when it has to read your configuration.</p>
@@ -142,7 +139,7 @@ two things in order to read them:</p>
 
 <p>The first item is solved by the code:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">shapeless._</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">shapeless._</span>
 <span class="k">import</span> <span class="nn">shapeless.labelled._</span>
 
 <span class="c1">// create the singleton idw for the field id
@@ -169,12 +166,11 @@ two things in order to read them:</p>
     <span class="n">field</span><span class="o">[</span><span class="kt">idw.T</span><span class="o">](</span><span class="n">t</span><span class="o">.</span><span class="n">getId</span><span class="o">)</span> <span class="o">::</span> <span class="n">field</span><span class="o">[</span><span class="kt">valuew.T</span><span class="o">](</span><span class="n">t</span><span class="o">.</span><span class="n">getValue</span><span class="o">)</span> <span class="o">::</span> <span class="nc">HNil</span>
   <span class="k">override</span> <span class="k">def</span> <span class="n">from</span><span class="o">(</span><span class="n">r</span><span class="k">:</span> <span class="kt">Repr</span><span class="o">)</span><span class="k">:</span> <span class="kt">Class2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Class2</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="n">head</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="n">tail</span><span class="o">.</span><span class="n">head</span><span class="o">)</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The second item is trivial because neither <code class="highlighter-rouge">Class1</code> nor <code class="highlighter-rouge">Class2</code> have default values for fields:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">class1Default</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Default</span><span class="o">.</span><span class="nc">AsOptions</span><span class="o">[</span><span class="kt">Class1</span><span class="o">]</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">class1Default</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Default</span><span class="o">.</span><span class="nc">AsOptions</span><span class="o">[</span><span class="kt">Class1</span><span class="o">]</span> <span class="o">{</span>
   <span class="k">override</span> <span class="k">type</span> <span class="kt">Out</span> <span class="o">=</span> <span class="nc">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="o">::</span> <span class="nc">HNil</span>
   <span class="k">override</span> <span class="k">def</span> <span class="n">apply</span><span class="o">()</span><span class="k">:</span> <span class="kt">Out</span> <span class="o">=</span> <span class="nc">None</span> <span class="o">::</span> <span class="nc">HNil</span>
 <span class="o">}</span>
@@ -183,14 +179,13 @@ two things in order to read them:</p>
   <span class="k">override</span> <span class="k">type</span> <span class="kt">Out</span> <span class="o">=</span> <span class="nc">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="o">::</span> <span class="nc">Option</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="o">::</span> <span class="nc">HNil</span>
   <span class="k">override</span> <span class="k">def</span> <span class="n">apply</span><span class="o">()</span><span class="k">:</span> <span class="kt">Out</span> <span class="o">=</span> <span class="nc">None</span> <span class="o">::</span> <span class="nc">None</span> <span class="o">::</span> <span class="nc">HNil</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>After we add this, PureConfig is able to load <code class="highlighter-rouge">Class1</code> and <code class="highlighter-rouge">Class2</code> from configuration.
 The second and final part of this method is to add the generic representation of <code class="highlighter-rouge">Identifiable</code>
 as a sealed family of <code class="highlighter-rouge">Class1</code> and <code class="highlighter-rouge">Class2</code>, or a coproduct of them if you want:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">class1w</span> <span class="k">=</span> <span class="nc">Witness</span><span class="o">(</span><span class="ss">'Class1)</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="n">class1w</span> <span class="k">=</span> <span class="nc">Witness</span><span class="o">(</span><span class="ss">'Class1)</span>
 <span class="k">val</span> <span class="n">class2w</span> <span class="k">=</span> <span class="nc">Witness</span><span class="o">(</span><span class="ss">'Class2)</span>
 
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">identifiableGeneric</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LabelledGeneric</span><span class="o">[</span><span class="kt">Identifiable</span><span class="o">]</span> <span class="o">{</span>
@@ -210,8 +205,7 @@ as a sealed family of <code class="highlighter-rouge">Class1</code> and <code cl
     <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="o">???</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>pro</strong>: more efficient than method 2 because instead of using another data type,
 it provides the missing pieces of information to PureConfig so that PureConfig

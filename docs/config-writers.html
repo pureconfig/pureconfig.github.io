@@ -11,7 +11,7 @@ writing configs.</p>
 <p>All types mentioned at <a href="built-in-supported-types.html">Built-in Supported Types</a> are supported both in reading and in
 writing operations:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig._</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig._</span>
 <span class="k">import</span> <span class="nn">pureconfig.generic.auto._</span>
 
 <span class="k">sealed</span> <span class="k">trait</span> <span class="nc">MyAdt</span>
@@ -27,46 +27,40 @@ writing operations:</p>
   <span class="n">option</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span>
   
 <span class="k">val</span> <span class="n">confObj</span> <span class="k">=</span> <span class="nc">MyClass</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="nc">Port</span><span class="o">(</span><span class="mi">8080</span><span class="o">),</span> <span class="nc">AdtB</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span> <span class="nc">List</span><span class="o">(</span><span class="mf">1.0</span><span class="o">,</span> <span class="mf">0.2</span><span class="o">),</span> <span class="nc">Map</span><span class="o">(</span><span class="s">"key"</span> <span class="o">-&gt;</span> <span class="s">"value"</span><span class="o">),</span> <span class="nc">None</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="nc">ConfigWriter</span><span class="o">[</span><span class="kt">MyClass</span><span class="o">].</span><span class="n">to</span><span class="o">(</span><span class="n">confObj</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ConfigWriter</span><span class="o">[</span><span class="kt">MyClass</span><span class="o">].</span><span class="n">to</span><span class="o">(</span><span class="n">confObj</span><span class="o">)</span>
 <span class="c1">// res0: com.typesafe.config.ConfigValue = SimpleConfigObject({"adt":{"b":1,"type":"adtb"},"boolean":true,"list":[1.0,0.2],"map":{"key":"value"},"port":8080})
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>The mechanisms with which PureConfig finds out how to write a type to a config are the same as ones used with
 <code class="highlighter-rouge">ConfigReader</code>. Therefore, you can use most tutorials and tips at <a href="supporting-new-types.html">Supporting New Types</a>
 and <a href="overriding-behavior-for-types.html">Overriding Behavior for Types</a> for creating <code class="highlighter-rouge">ConfigWriter</code> instances, too.
 <code class="highlighter-rouge">ConfigWriter</code> also has useful combinators and factory methods to simplify new implementations:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyInt</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyInt</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
   <span class="k">def</span> <span class="n">getValue</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="n">value</span>
   <span class="k">override</span> <span class="k">def</span> <span class="n">toString</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">s</span><span class="s">"MyInt($value)"</span>
 <span class="o">}</span>
 
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">myIntWriter</span> <span class="k">=</span> <span class="nc">ConfigWriter</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="n">contramap</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">](</span><span class="k">_</span><span class="o">.</span><span class="n">getValue</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="nc">ConfigWriter</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">].</span><span class="n">to</span><span class="o">(</span><span class="k">new</span> <span class="nc">MyInt</span><span class="o">(</span><span class="mi">1</span><span class="o">))</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ConfigWriter</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">].</span><span class="n">to</span><span class="o">(</span><span class="k">new</span> <span class="nc">MyInt</span><span class="o">(</span><span class="mi">1</span><span class="o">))</span>
 <span class="c1">// res1: com.typesafe.config.ConfigValue = ConfigInt(1)
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>Finally, if you need both the reading and the writing part for a custom type, you can implement a <code class="highlighter-rouge">ConfigConvert</code>:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">myIntConvert</span> <span class="k">=</span> <span class="nc">ConfigConvert</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="n">xmap</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">](</span><span class="k">new</span> <span class="nc">MyInt</span><span class="o">(</span><span class="k">_</span><span class="o">),</span> <span class="k">_</span><span class="o">.</span><span class="n">getValue</span><span class="o">)</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">myIntConvert</span> <span class="k">=</span> <span class="nc">ConfigConvert</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="n">xmap</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">](</span><span class="k">new</span> <span class="nc">MyInt</span><span class="o">(</span><span class="k">_</span><span class="o">),</span> <span class="k">_</span><span class="o">.</span><span class="n">getValue</span><span class="o">)</span>
+</code></pre></div></div>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">conf</span> <span class="k">=</span> <span class="nc">ConfigWriter</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">].</span><span class="n">to</span><span class="o">(</span><span class="k">new</span> <span class="nc">MyInt</span><span class="o">(</span><span class="mi">1</span><span class="o">))</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="n">conf</span> <span class="k">=</span> <span class="nc">ConfigWriter</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">].</span><span class="n">to</span><span class="o">(</span><span class="k">new</span> <span class="nc">MyInt</span><span class="o">(</span><span class="mi">1</span><span class="o">))</span>
 <span class="c1">// conf: com.typesafe.config.ConfigValue = ConfigInt(1)
 </span>
 <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">].</span><span class="n">from</span><span class="o">(</span><span class="n">conf</span><span class="o">)</span>
 <span class="c1">// res2: Either[pureconfig.error.ConfigReaderFailures,MyInt] = Right(MyInt(1))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>A <code class="highlighter-rouge">ConfigConvert</code> implements both the <code class="highlighter-rouge">ConfigReader</code> and <code class="highlighter-rouge">ConfigWriter</code> interfaces and can be used everywhere one of
 them is needed.</p>

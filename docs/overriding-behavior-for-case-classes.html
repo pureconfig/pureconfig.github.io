@@ -37,7 +37,7 @@ example where the configuration file has all keys in upper case and we’re
 loading it into a type whose fields are all in lower case. First, define a <code class="highlighter-rouge">ProductHint</code>
 instance in implicit scope:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.typesafe.config.ConfigFactory</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.typesafe.config.ConfigFactory</span>
 <span class="k">import</span> <span class="nn">pureconfig._</span>
 <span class="k">import</span> <span class="nn">pureconfig.generic.auto._</span>
 <span class="k">import</span> <span class="nn">pureconfig.generic.ProductHint</span>
@@ -47,14 +47,12 @@ instance in implicit scope:</p>
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">productHint</span> <span class="k">=</span> <span class="nc">ProductHint</span><span class="o">[</span><span class="kt">SampleConf</span><span class="o">](</span><span class="k">new</span> <span class="nc">ConfigFieldMapping</span> <span class="o">{</span>
   <span class="k">def</span> <span class="n">apply</span><span class="o">(</span><span class="n">fieldName</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="n">fieldName</span><span class="o">.</span><span class="n">toUpperCase</span>
 <span class="o">})</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Then load a config:</p>
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">SampleConf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ FOO: 2, BAR: two }"</span><span class="o">))</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">SampleConf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ FOO: 2, BAR: two }"</span><span class="o">))</span>
 <span class="c1">// res0: Either[pureconfig.error.ConfigReaderFailures,SampleConf] = Right(SampleConf(2,two))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>PureConfig provides a way to create a <code class="highlighter-rouge">ConfigFieldMapping</code> by defining the
 naming conventions of the fields in the Scala object and in the configuration
@@ -75,9 +73,8 @@ names and your configuration files in <code class="highlighter-rouge">camelCase<
 can make sure the following implicit is in scope before loading or writing
 configuration files:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">def</span> <span class="n">hint</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ProductHint</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="nc">ConfigFieldMapping</span><span class="o">(</span><span class="nc">CamelCase</span><span class="o">,</span> <span class="nc">CamelCase</span><span class="o">))</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">def</span> <span class="n">hint</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ProductHint</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="nc">ConfigFieldMapping</span><span class="o">(</span><span class="nc">CamelCase</span><span class="o">,</span> <span class="nc">CamelCase</span><span class="o">))</span>
+</code></pre></div></div>
 
 <h3 id="default-field-values">Default field values</h3>
 
@@ -88,19 +85,18 @@ configuration.</p>
 
 <p>For example, with this setup:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.typesafe.config.ConfigFactory</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.typesafe.config.ConfigFactory</span>
 <span class="k">import</span> <span class="nn">pureconfig._</span>
 <span class="k">import</span> <span class="nn">pureconfig.generic.auto._</span>
 <span class="k">import</span> <span class="nn">pureconfig.generic.ProductHint</span>
 <span class="k">import</span> <span class="nn">scala.concurrent.duration._</span>
 
 <span class="k">case</span> <span class="k">class</span> <span class="nc">Holiday</span><span class="o">(</span><span class="n">where</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"last resort"</span><span class="o">,</span> <span class="n">howLong</span><span class="k">:</span> <span class="kt">Duration</span> <span class="o">=</span> <span class="mi">7</span> <span class="n">days</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>We can load configurations using default values:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="c1">// Defaulting `where`
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Defaulting `where`
 </span><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ how-long: 21 days }"</span><span class="o">))</span>
 <span class="c1">// res1: Either[pureconfig.error.ConfigReaderFailures,Holiday] = Right(Holiday(last resort,21 days))
 </span>
@@ -115,41 +111,36 @@ configuration.</p>
 <span class="c1">// Specifying both arguments
 </span><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ where: Texas, how-long: 3 hours }"</span><span class="o">))</span>
 <span class="c1">// res7: Either[pureconfig.error.ConfigReaderFailures,Holiday] = Right(Holiday(Texas,3 hours))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>A <code class="highlighter-rouge">ProductHint</code> can make the conversion fail if a key is missing from the
 config regardless of whether a default value exists or not:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">hint</span> <span class="k">=</span> <span class="nc">ProductHint</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="n">useDefaultArgs</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">hint</span> <span class="k">=</span> <span class="nc">ProductHint</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="n">useDefaultArgs</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+</code></pre></div></div>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ how-long: 21 days }"</span><span class="o">))</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ how-long: 21 days }"</span><span class="o">))</span>
 <span class="c1">// res8: Either[pureconfig.error.ConfigReaderFailures,Holiday] = Left(ConfigReaderFailures(ConvertFailure(KeyNotFound(where,Set()),None,),List()))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <h3 id="unknown-keys">Unknown keys</h3>
 
 <p>By default, PureConfig ignores keys in the config that do not map to any
 case class field, leading to potential bugs due to misspellings:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ wher: Texas, how-long: 21 days }"</span><span class="o">))</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ wher: Texas, how-long: 21 days }"</span><span class="o">))</span>
 <span class="c1">// res1: Either[pureconfig.error.ConfigReaderFailures,Holiday] = Right(Holiday(last resort,21 days))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>With a <code class="highlighter-rouge">ProductHint</code>, one can tell the converter to fail if an unknown key is
 found:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">hint</span> <span class="k">=</span> <span class="nc">ProductHint</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="n">allowUnknownKeys</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">hint</span> <span class="k">=</span> <span class="nc">ProductHint</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="n">allowUnknownKeys</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
 <span class="c1">// hint: pureconfig.generic.ProductHint[Holiday] = ProductHintImpl(&lt;function1&gt;,true,false)
 </span>
 <span class="n">loadConfig</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ wher: Texas, how-long: 21 days }"</span><span class="o">))</span>
 <span class="c1">// res2: Either[pureconfig.error.ConfigReaderFailures,Holiday] = Left(ConfigReaderFailures(ConvertFailure(UnknownKey(wher),None,wher),List()))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <h3 id="missing-keys">Missing keys</h3>
 
@@ -158,24 +149,22 @@ required key is missing unless its type is an <code class="highlighter-rouge">Op
 
 <p>Consider this configuration:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.typesafe.config.ConfigFactory</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.typesafe.config.ConfigFactory</span>
 <span class="k">import</span> <span class="nn">pureconfig._</span>
 <span class="k">import</span> <span class="nn">pureconfig.generic.auto._</span>
 
 <span class="k">case</span> <span class="k">class</span> <span class="nc">Foo</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
 <span class="k">case</span> <span class="k">class</span> <span class="nc">FooOpt</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Int</span><span class="o">])</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Loading a <code class="highlighter-rouge">Foo</code> results in a <code class="highlighter-rouge">Left</code> because of missing keys, but loading a <code class="highlighter-rouge">FooOpt</code> produces a <code class="highlighter-rouge">Right</code>:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Foo</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">empty</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Foo</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">empty</span><span class="o">)</span>
 <span class="c1">// res0: Either[pureconfig.error.ConfigReaderFailures,Foo] = Left(ConfigReaderFailures(ConvertFailure(KeyNotFound(a,Set()),None,),List()))
 </span>
 <span class="n">loadConfig</span><span class="o">[</span><span class="kt">FooOpt</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">empty</span><span class="o">)</span>
 <span class="c1">// res1: Either[pureconfig.error.ConfigReaderFailures,FooOpt] = Right(FooOpt(None))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>However, if you want to allow your custom <code class="highlighter-rouge">ConfigReader</code>s to handle missing keys, you can extend the <code class="highlighter-rouge">ReadsMissingKeys</code>
 trait. For <code class="highlighter-rouge">ConfigReader</code>s extending <code class="highlighter-rouge">ReadsMissingKeys</code>, a missing key will issue a call to the <code class="highlighter-rouge">from</code> method of the
@@ -183,19 +172,17 @@ available <code class="highlighter-rouge">ConfigReader</code> for that type with
 
 <p>Under this setup:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">maybeIntReader</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">with</span> <span class="nc">ReadsMissingKeys</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">maybeIntReader</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">with</span> <span class="nc">ReadsMissingKeys</span> <span class="o">{</span>
   <span class="k">override</span> <span class="k">def</span> <span class="n">from</span><span class="o">(</span><span class="n">cur</span><span class="k">:</span> <span class="kt">ConfigCursor</span><span class="o">)</span> <span class="k">=</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">cur</span><span class="o">.</span><span class="n">isUndefined</span><span class="o">)</span> <span class="nc">Right</span><span class="o">(</span><span class="mi">42</span><span class="o">)</span> <span class="k">else</span> <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="n">from</span><span class="o">(</span><span class="n">cur</span><span class="o">)</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can load an empty configuration and get a <code class="highlighter-rouge">Right</code>:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Foo</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">empty</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Foo</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">empty</span><span class="o">)</span>
 <span class="c1">// res2: Either[pureconfig.error.ConfigReaderFailures,Foo] = Right(Foo(42))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({languages:['scala','java','bash']});
 hljs.initHighlighting();
               </script><script src="/js/main.js"></script></body></html>

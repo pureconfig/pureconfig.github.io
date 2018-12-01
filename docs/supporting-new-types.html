@@ -3,7 +3,7 @@
 <p>Not all types are supported automatically by PureConfig. For instance, classes that are not case classes are not
 supported out-of-the-box:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.typesafe.config.ConfigFactory</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.typesafe.config.ConfigFactory</span>
 <span class="k">import</span> <span class="nn">pureconfig._</span>
 <span class="k">import</span> <span class="nn">pureconfig.generic.auto._</span>
 <span class="k">import</span> <span class="nn">pureconfig.syntax._</span>
@@ -13,18 +13,16 @@ supported out-of-the-box:</p>
 <span class="o">}</span>
 
 <span class="k">case</span> <span class="k">class</span> <span class="nc">Conf</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">MyInt</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In order to read an instance of a given type <code class="highlighter-rouge">T</code> from a config, PureConfig needs to have in scope in implicit instance
 of <code class="highlighter-rouge">ConfigReader[T]</code>. This won’t compile because there’s no <code class="highlighter-rouge">ConfigReader</code> instance for <code class="highlighter-rouge">MyInt</code>:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ n: 1 }"</span><span class="o">))</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ n: 1 }"</span><span class="o">))</span>
 <span class="c1">// &lt;console&gt;:25: error: could not find implicit value for parameter reader: pureconfig.Derivation[pureconfig.ConfigReader[Conf]]
 //        loadConfig[Conf](ConfigFactory.parseString("{ n: 1 }"))
 //                        ^
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>PureConfig can be extended to support those types. To do so, an instance for the <code class="highlighter-rouge">ConfigReader</code> type class must be
 provided. There are three main ways to build such an instance:</p>
@@ -38,19 +36,17 @@ provided. There are three main ways to build such an instance:</p>
 <p>For the <code class="highlighter-rouge">MyInt</code> type above, we could create a <code class="highlighter-rouge">ConfigReader[MyInt]</code> by mapping the result of <code class="highlighter-rouge">ConfigReader[Int]</code> like
 this:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">myIntReader</span> <span class="k">=</span> <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="n">map</span><span class="o">(</span><span class="n">n</span> <span class="k">=&gt;</span> <span class="k">new</span> <span class="nc">MyInt</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">myIntReader</span> <span class="k">=</span> <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="n">map</span><span class="o">(</span><span class="n">n</span> <span class="k">=&gt;</span> <span class="k">new</span> <span class="nc">MyInt</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
+</code></pre></div></div>
 
 <p>Note that the <code class="highlighter-rouge">ConfigReader[Int]</code> expression “summons” an existing implicit instance, being syntatic sugar for <code class="highlighter-rouge">implicitly[ConfigReader[Int]]</code>. This is usually the easiest way to create a <code class="highlighter-rouge">ConfigReader</code> for simple types. See
 <a href="combinators.html">Combinators</a> for more examples.</p>
 
 <p>As an example for the second approach, we could read the required integer by parsing it from a string form like this:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">myIntReader</span> <span class="k">=</span> <span class="nc">ConfigReader</span><span class="o">.</span><span class="n">fromString</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">](</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">myIntReader</span> <span class="k">=</span> <span class="nc">ConfigReader</span><span class="o">.</span><span class="n">fromString</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">](</span>
   <span class="nc">ConvertHelpers</span><span class="o">.</span><span class="n">catchReadError</span><span class="o">(</span><span class="n">s</span> <span class="k">=&gt;</span> <span class="k">new</span> <span class="nc">MyInt</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="n">toInt</span><span class="o">)))</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">fromString</code> factory method allows users to easily read data from string representations in the config.
 <code class="highlighter-rouge">catchReadError</code> is a convenience function that catches exceptions thrown by the parsing code and transforms them into
@@ -58,21 +54,19 @@ this:</p>
 
 <p>Finally, we could simply implement the <code class="highlighter-rouge">ConfigReader</code> interface by hand:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">object</span> <span class="nc">MyIntReader</span> <span class="k">extends</span> <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">]</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">object</span> <span class="nc">MyIntReader</span> <span class="k">extends</span> <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">]</span> <span class="o">{</span>
   <span class="k">def</span> <span class="n">from</span><span class="o">(</span><span class="n">cur</span><span class="k">:</span> <span class="kt">ConfigCursor</span><span class="o">)</span> <span class="k">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">asString</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">s</span> <span class="k">=&gt;</span> <span class="k">new</span> <span class="nc">MyInt</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="n">toInt</span><span class="o">))</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The inteface consists of a single <code class="highlighter-rouge">from</code> method that takes a <code class="highlighter-rouge">ConfigCursor</code> and returns an <code class="highlighter-rouge">Either</code> of a <code class="highlighter-rouge">MyInt</code> or a
 list of errors. You can read more about cursors at <a href="config-cursors.html">Config Cursors</a>.</p>
 
 <p>Using any of the approaches above would now make <code class="highlighter-rouge">loadConfig</code> work:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ n: 1 }"</span><span class="o">))</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ n: 1 }"</span><span class="o">))</span>
 <span class="c1">// res1: Either[pureconfig.error.ConfigReaderFailures,Conf] = Right(Conf(MyInt(1)))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>The case above serves as an example for most simple types. While for those types it is straightforward to create a
 <code class="highlighter-rouge">ConfigReader</code>, complex types that require access to an entire sub-tree of the configuration to be read can make

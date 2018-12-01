@@ -3,9 +3,8 @@
 <p>To use PureConfig in an existing SBT project with Scala 2.11 or a later version, add the following dependency to your
 <code class="highlighter-rouge">build.sbt</code>:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.github.pureconfig"</span> <span class="o">%%</span> <span class="s">"pureconfig"</span> <span class="o">%</span> <span class="s">"0.10.0"</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.github.pureconfig"</span> <span class="o">%%</span> <span class="s">"pureconfig"</span> <span class="o">%</span> <span class="s">"0.10.1"</span>
+</code></pre></div></div>
 
 <p>For a full example of <code class="highlighter-rouge">build.sbt</code> you can have a look at this <a href="https://github.com/pureconfig/pureconfig/blob/master/example/build.sbt">build.sbt</a>.</p>
 
@@ -14,7 +13,7 @@ As a result we recommend only using the latest Scala versions within the minor s
 
 <p>In your code, import <code class="highlighter-rouge">pureconfig.generic.auto</code> and define data types and a case class to hold the configuration:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig.generic.auto._</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig.generic.auto._</span>
 
 <span class="k">sealed</span> <span class="k">trait</span> <span class="nc">MyAdt</span>
 <span class="k">case</span> <span class="k">class</span> <span class="nc">AdtA</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">MyAdt</span>
@@ -27,8 +26,7 @@ As a result we recommend only using the latest Scala versions within the minor s
   <span class="n">list</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Double</span><span class="o">],</span>
   <span class="n">map</span><span class="k">:</span> <span class="kt">Map</span><span class="o">[</span><span class="kt">String</span>, <span class="kt">String</span><span class="o">],</span>
   <span class="n">option</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Second, define an <code class="highlighter-rouge">application.conf</code> file like
 <a href="https://github.com/pureconfig/pureconfig/blob/master/docs/src/main/resources/application.conf">this</a> and add it as a
@@ -36,14 +34,13 @@ resource file of your application (with SBT, they are usually placed in <code cl
 
 <p>Finally, load the configuration:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">pureconfig</span><span class="o">.</span><span class="n">loadConfig</span><span class="o">[</span><span class="kt">MyClass</span><span class="o">]</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pureconfig</span><span class="o">.</span><span class="n">loadConfig</span><span class="o">[</span><span class="kt">MyClass</span><span class="o">]</span>
 <span class="c1">// res0: Either[pureconfig.error.ConfigReaderFailures,MyClass] = Right(MyClass(true,Port(8080),AdtB(1),List(1.0, 0.2),Map(key -&gt; value),None))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>The various <code class="highlighter-rouge">loadConfig</code> methods defer to Typesafe Config’s
 <a href="https://lightbend.github.io/config/latest/api/com/typesafe/config/ConfigFactory.html"><code class="highlighter-rouge">ConfigFactory</code></a> to
-select where to load the config files from. Typesafe Config has <a href="https://github.com/typesafehub/config#standard-behavior">well-documented rules for configuration
+select where to load the config files from. Typesafe Config has <a href="https://github.com/lightbend/config#standard-behavior">well-documented rules for configuration
 loading</a> which we’ll not repeat. Please see Typesafe
 Config’s documentation for a full telling of the subtleties.</p>
 
@@ -51,9 +48,9 @@ Config’s documentation for a full telling of the subtleties.</p>
 an explicit list of files. Files earlier in the list have greater precedence than later ones. Each file can
 include a partial configuration as long as the whole list produces a complete configuration. For an example,
 see the test of <code class="highlighter-rouge">loadConfigFromFiles</code> in
-<a href="https://github.com/pureconfig/pureconfig/blob/master/core/src/test/scala/pureconfig/ApiSuite.scala"><code class="highlighter-rouge">ApiSuite.scala</code></a>.</p>
+<a href="https://github.com/pureconfig/pureconfig/blob/master/tests/src/test/scala/pureconfig/ApiSuite.scala"><code class="highlighter-rouge">ApiSuite.scala</code></a>.</p>
 
-<p>Because PureConfig uses Typesafe Config to load configurations, it supports reading files in <a href="https://github.com/typesafehub/config/blob/master/HOCON.md#hocon-human-optimized-config-object-notation">HOCON</a>, JSON, and Java <code class="highlighter-rouge">.properties</code> formats. HOCON is a delightful superset of both JSON and <code class="highlighter-rouge">.properties</code> that is highly recommended. As an added bonus it supports <a href="https://github.com/typesafehub/config/blob/master/README.md#features-of-hocon">advanced features</a> like variable substitution and file sourcing.</p>
+<p>Because PureConfig uses Typesafe Config to load configurations, it supports reading files in <a href="https://github.com/lightbend/config/blob/master/HOCON.md#hocon-human-optimized-config-object-notation">HOCON</a>, JSON, and Java <code class="highlighter-rouge">.properties</code> formats. HOCON is a delightful superset of both JSON and <code class="highlighter-rouge">.properties</code> that is highly recommended. As an added bonus it supports <a href="https://github.com/lightbend/config/blob/master/README.md#features-of-hocon">advanced features</a> like variable substitution and file sourcing.</p>
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({languages:['scala','java','bash']});
 hljs.initHighlighting();
               </script><script src="/js/main.js"></script></body></html>

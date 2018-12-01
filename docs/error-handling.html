@@ -18,22 +18,20 @@ config files where the conversion error occurred and a path in the config.</p>
 
 <p>For example, given a config like this:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.typesafe.config.ConfigFactory</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.typesafe.config.ConfigFactory</span>
 <span class="k">import</span> <span class="nn">pureconfig._</span>
 <span class="k">import</span> <span class="nn">pureconfig.generic.auto._</span>
 
 <span class="k">case</span> <span class="k">class</span> <span class="nc">Name</span><span class="o">(</span><span class="n">firstName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">lastName</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
 <span class="k">case</span> <span class="k">class</span> <span class="nc">Person</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">Name</span><span class="o">,</span> <span class="n">age</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
 <span class="k">case</span> <span class="k">class</span> <span class="nc">Conf</span><span class="o">(</span><span class="n">person</span><span class="k">:</span> <span class="kt">Person</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Trying to load it with a string instead of an object at <code class="highlighter-rouge">name</code> results in a <code class="highlighter-rouge">ConvertFailure</code> because of a <code class="highlighter-rouge">WrongType</code>:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">res</span> <span class="k">=</span> <span class="n">loadConfig</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ person: { name: John Doe, age: 35 } }"</span><span class="o">))</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="n">res</span> <span class="k">=</span> <span class="n">loadConfig</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ person: { name: John Doe, age: 35 } }"</span><span class="o">))</span>
 <span class="c1">// res: Either[pureconfig.error.ConfigReaderFailures,Conf] = Left(ConfigReaderFailures(ConvertFailure(WrongType(STRING,Set(OBJECT)),None,person.name),List()))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>All error-related classes are present in the <code class="highlighter-rouge">pureconfig.error</code> package.</p>
 
@@ -42,7 +40,7 @@ config files where the conversion error occurred and a path in the config.</p>
 <p>When implementing custom readers, the cursor API already deals with the most common reasons for a reader to fail.
 However, it also provides a <code class="highlighter-rouge">failed</code> method for users to do validations on their side, too:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.typesafe.config.ConfigValueType._</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.typesafe.config.ConfigValueType._</span>
 <span class="k">import</span> <span class="nn">scala.util.</span><span class="o">{</span><span class="nc">Try</span><span class="o">,</span> <span class="nc">Success</span><span class="o">,</span> <span class="nc">Failure</span><span class="o">}</span>
 <span class="k">import</span> <span class="nn">pureconfig.error._</span>
 
@@ -61,10 +59,9 @@ However, it also provides a <code class="highlighter-rouge">failed</code> method
 <span class="o">}</span>
 
 <span class="k">case</span> <span class="k">class</span> <span class="nc">Conf</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">PositiveInt</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ n: 23 }"</span><span class="o">))</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ n: 23 }"</span><span class="o">))</span>
 <span class="c1">// res0: Either[pureconfig.error.ConfigReaderFailures,Conf] = Right(Conf(PositiveInt(23)))
 </span>
 <span class="n">loadConfig</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ n: -23 }"</span><span class="o">))</span>
@@ -72,15 +69,14 @@ However, it also provides a <code class="highlighter-rouge">failed</code> method
 </span>
 <span class="n">loadConfig</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ n: abc }"</span><span class="o">))</span>
 <span class="c1">// res2: Either[pureconfig.error.ConfigReaderFailures,Conf] = Left(ConfigReaderFailures(ConvertFailure(WrongType(STRING,Set(NUMBER)),None,n),List()))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <h3 id="custom-failure-reasons">Custom failure reasons</h3>
 
 <p>Users are not restricted to the failure reasons provided by PureConfig. If we wanted to use a domain-specific failure
 reason for our <code class="highlighter-rouge">PositiveInt</code>, for example, we could create it like this:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">case</span> <span class="k">class</span> <span class="nc">NonPositiveInt</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">FailureReason</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">case</span> <span class="k">class</span> <span class="nc">NonPositiveInt</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">FailureReason</span> <span class="o">{</span>
   <span class="k">def</span> <span class="n">description</span> <span class="k">=</span> <span class="n">s</span><span class="s">"$value is not positive"</span>
 <span class="o">}</span>
 
@@ -93,13 +89,11 @@ reason for our <code class="highlighter-rouge">PositiveInt</code>, for example, 
     <span class="o">}</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ n: -23 }"</span><span class="o">))</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ n: -23 }"</span><span class="o">))</span>
 <span class="c1">// res3: Either[pureconfig.error.ConfigReaderFailures,Conf] = Left(ConfigReaderFailures(ConvertFailure(NonPositiveInt(-23),None,n),List()))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <h3 id="throwing-an-exception-instead-of-returning-either">Throwing an exception instead of returning <code class="highlighter-rouge">Either</code></h3>
 
@@ -107,21 +101,19 @@ reason for our <code class="highlighter-rouge">PositiveInt</code>, for example, 
 in an application is to load the whole config with PureConfig at initialization time, causing the application to fail
 fast in case of a malformed config. For those cases, the <code class="highlighter-rouge">loadConfigOrThrow</code> method can be used instead of <code class="highlighter-rouge">loadConfig</code>:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">loadConfigOrThrow</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ n: 23 }"</span><span class="o">))</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfigOrThrow</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ n: 23 }"</span><span class="o">))</span>
 <span class="c1">// res4: Conf = Conf(PositiveInt(23))
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="n">loadConfigOrThrow</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ n: -23 }"</span><span class="o">))</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfigOrThrow</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ n: -23 }"</span><span class="o">))</span>
 <span class="c1">// pureconfig.error.ConfigReaderException: Cannot convert configuration to a Conf. Failures are:
 //   at 'n':
 //     - -23 is not positive
 // 
 //   at pureconfig.package$.getResultOrThrow(package.scala:139)
 //   at pureconfig.package$.loadConfigOrThrow(package.scala:195)
-//   ... 48 elided
-</span></code></pre>
-</div>
+//   ... 43 elided
+</span></code></pre></div></div>
 
 <p>The message of the thrown exception contains human-readable information of all the errors found by PureConfig, with the
 errors grouped and organized by path.</p>

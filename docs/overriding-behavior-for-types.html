@@ -6,32 +6,28 @@ the ones defined by PureConfig, according to the Scala <a href="https://docs.sca
 
 <p>For instance, the default behavior of PureConfig for <code class="highlighter-rouge">String</code> is to return the string itself in the configuration:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.typesafe.config.ConfigValueFactory</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.typesafe.config.ConfigValueFactory</span>
 <span class="k">import</span> <span class="nn">pureconfig._</span>
 <span class="k">import</span> <span class="nn">pureconfig.generic.auto._</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">String</span><span class="o">].</span><span class="n">from</span><span class="o">(</span><span class="nc">ConfigValueFactory</span><span class="o">.</span><span class="n">fromAnyRef</span><span class="o">(</span><span class="s">"FooBar"</span><span class="o">))</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">String</span><span class="o">].</span><span class="n">from</span><span class="o">(</span><span class="nc">ConfigValueFactory</span><span class="o">.</span><span class="n">fromAnyRef</span><span class="o">(</span><span class="s">"FooBar"</span><span class="o">))</span>
 <span class="c1">// res0: Either[pureconfig.error.ConfigReaderFailures,String] = Right(FooBar)
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>Now let’s say that we want to override this behavior such that <code class="highlighter-rouge">String</code>s are always read lower case. We can define a
 custom <code class="highlighter-rouge">ConfigReader</code> instance for <code class="highlighter-rouge">String</code>:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig.ConvertHelpers._</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig.ConvertHelpers._</span>
 
 <span class="k">implicit</span> <span class="k">val</span> <span class="n">overrideStrReader</span> <span class="k">=</span> <span class="nc">ConfigReader</span><span class="o">.</span><span class="n">fromString</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="n">catchReadError</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">toLowerCase</span><span class="o">))</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>PureConfig will now use the custom <code class="highlighter-rouge">overrideStrReader</code> instance:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">String</span><span class="o">].</span><span class="n">from</span><span class="o">(</span><span class="nc">ConfigValueFactory</span><span class="o">.</span><span class="n">fromAnyRef</span><span class="o">(</span><span class="s">"FooBar"</span><span class="o">))</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">String</span><span class="o">].</span><span class="n">from</span><span class="o">(</span><span class="nc">ConfigValueFactory</span><span class="o">.</span><span class="n">fromAnyRef</span><span class="o">(</span><span class="s">"FooBar"</span><span class="o">))</span>
 <span class="c1">// res1: Either[pureconfig.error.ConfigReaderFailures,String] = Right(foobar)
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>All the techniques described in <a href="supporting-new-types.html">Supporting New Types</a> can be used to define the higher
 priority reader.</p>
