@@ -28,7 +28,7 @@ three ways of setting up reader derivation, which are presented in the next sect
 <p>This import provides <code class="highlighter-rouge">ConfigReader</code> instances for all supported classes out-of-the-box:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pureconfig</span><span class="o">.</span><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Person</span><span class="o">](</span><span class="n">conf</span><span class="o">)</span>
-<span class="c1">// res0: Either[pureconfig.error.ConfigReaderFailures,Person] = Right(Person(John,Doe))
+<span class="c1">// res0: pureconfig.ConfigReader.Result[Person] = Right(Person(John,Doe))
 </span></code></pre></div></div>
 
 <p>Internally, derivation is made through the use of <a href="https://github.com/milessabin/shapeless">shapeless</a>, a generic
@@ -54,7 +54,7 @@ reader for <code class="highlighter-rouge">Person</code> by calling <code class=
 <p>We are now ready to read <code class="highlighter-rouge">Person</code> configs:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pureconfig</span><span class="o">.</span><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Person</span><span class="o">](</span><span class="n">conf</span><span class="o">)</span>
-<span class="c1">// res0: Either[pureconfig.error.ConfigReaderFailures,Person] = Right(Person(John,Doe))
+<span class="c1">// res0: pureconfig.ConfigReader.Result[Person] = Right(Person(John,Doe))
 </span></code></pre></div></div>
 
 <h3 id="manual">Manual</h3>
@@ -69,7 +69,7 @@ methods are convenient for creating readers and writers for case class-like type
 </code></pre></div></div>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pureconfig</span><span class="o">.</span><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Person</span><span class="o">](</span><span class="n">conf</span><span class="o">)</span>
-<span class="c1">// res0: Either[pureconfig.error.ConfigReaderFailures,Person] = Right(Person(John,Doe))
+<span class="c1">// res0: pureconfig.ConfigReader.Result[Person] = Right(Person(John,Doe))
 </span></code></pre></div></div>
 
 <p>If you don’t need reader or writer derivation anywhere in your project, you can replace the <code class="highlighter-rouge">pureconfig</code> Maven

@@ -3,7 +3,7 @@
 <p>When a <code class="highlighter-rouge">ConfigReader</code> needs to be created from scratch, users need to implement a <code class="highlighter-rouge">from</code> method with the following
 signature:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="n">from</span><span class="o">(</span><span class="n">cur</span><span class="k">:</span> <span class="kt">ConfigCursor</span><span class="o">)</span><span class="k">:</span> <span class="kt">Either</span><span class="o">[</span><span class="kt">ConfigReaderFailures</span>, <span class="kt">A</span><span class="o">]</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="n">from</span><span class="o">(</span><span class="n">cur</span><span class="k">:</span> <span class="kt">ConfigCursor</span><span class="o">)</span><span class="k">:</span> <span class="kt">ConfigReader.Result</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span>
 </code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">ConfigCursor</code> class is a wrapper for the raw <code class="highlighter-rouge">ConfigValue</code> provided by Typesafe Config. It provides an idiomatic,
@@ -50,7 +50,7 @@ properly, most errors are automatically handled and filled with rich information
 </code></pre></div></div>
 
 <p>The factory method <code class="highlighter-rouge">ConfigReader.fromCursor</code> allows us to create a <code class="highlighter-rouge">ConfigReader</code> without much boilerplate by providing
-the required <code class="highlighter-rouge">ConfigCursor =&gt; Either[ConfigReaderFailures, A]</code> function. Since most methods in the cursor API return
+the required <code class="highlighter-rouge">ConfigCursor =&gt; ConfigReader.Result[A]</code> function. Since most methods in the cursor API return
 <code class="highlighter-rouge">Either</code> values with failures at their left side,
 <a href="https://docs.scala-lang.org/tour/for-comprehensions.html">for comprehensions</a> are a natural fit (note that on Scala
 2.11 and below you need to add <code class="highlighter-rouge">.right</code> projections at the end of each <code class="highlighter-rouge">Either</code> result). Let’s analyze the lines
@@ -65,22 +65,31 @@ access a non-existing key results in an error, stopping the for comprehension;</
 string.</li>
 </ol>
 
-<p>Loading a well-formed config will now work correctly:</p>
+<p>You can use the fluent cursor API, an alternative interface focused on easy navigation over error handling, to achieve the same effect:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="n">personReader</span> <span class="k">=</span> <span class="nc">ConfigReader</span><span class="o">.</span><span class="n">fromCursor</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span> <span class="o">{</span> <span class="n">cur</span> <span class="k">=&gt;</span>
+  <span class="n">cur</span><span class="o">.</span><span class="n">fluent</span><span class="o">.</span><span class="n">at</span><span class="o">(</span><span class="s">"name"</span><span class="o">).</span><span class="n">asString</span><span class="o">.</span><span class="n">map</span> <span class="o">{</span> <span class="n">name</span> <span class="k">=&gt;</span>
+    <span class="k">new</span> <span class="nc">Person</span><span class="o">(</span><span class="n">firstNameOf</span><span class="o">(</span><span class="n">name</span><span class="o">),</span> <span class="n">lastNamesOf</span><span class="o">(</span><span class="n">name</span><span class="o">))</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Either way, a well-formed config will now work correctly:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="n">conf</span><span class="o">)</span>
-<span class="c1">// res0: Either[pureconfig.error.ConfigReaderFailures,Conf] = Right(Conf(Person(John Doe)))
+<span class="c1">// res1: pureconfig.ConfigReader.Result[Conf] = Right(Conf(Person(John Doe)))
 </span></code></pre></div></div>
 
 <p>While malformed configs will fail to load with appropriate errors:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"person = 45"</span><span class="o">))</span>
-<span class="c1">// res1: Either[pureconfig.error.ConfigReaderFailures,Conf] = Left(ConfigReaderFailures(ConvertFailure(WrongType(NUMBER,Set(OBJECT)),None,person),List()))
+<span class="c1">// res2: pureconfig.ConfigReader.Result[Conf] = Left(ConfigReaderFailures(ConvertFailure(WrongType(NUMBER,Set(OBJECT)),None,person),List()))
 </span>
 <span class="n">loadConfig</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"person.eman = John Doe"</span><span class="o">))</span>
-<span class="c1">// res2: Either[pureconfig.error.ConfigReaderFailures,Conf] = Left(ConfigReaderFailures(ConvertFailure(KeyNotFound(name,Set()),None,person),List()))
+<span class="c1">// res3: pureconfig.ConfigReader.Result[Conf] = Left(ConfigReaderFailures(ConvertFailure(KeyNotFound(name,Set()),None,person),List()))
 </span>
 <span class="n">loadConfig</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"person.name = [1, 2]"</span><span class="o">))</span>
-<span class="c1">// res3: Either[pureconfig.error.ConfigReaderFailures,Conf] = Left(ConfigReaderFailures(ConvertFailure(WrongType(LIST,Set(STRING)),None,person.name),List()))
+<span class="c1">// res4: pureconfig.ConfigReader.Result[Conf] = Left(ConfigReaderFailures(ConvertFailure(WrongType(LIST,Set(STRING)),None,person.name),List()))
 </span></code></pre></div></div>
 
 <p>By using the appropriate <code class="highlighter-rouge">ConfigCursor</code> methods, all error handling was taken care of by PureConfig. That makes

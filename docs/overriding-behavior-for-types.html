@@ -12,7 +12,7 @@ the ones defined by PureConfig, according to the Scala <a href="https://docs.sca
 </code></pre></div></div>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">String</span><span class="o">].</span><span class="n">from</span><span class="o">(</span><span class="nc">ConfigValueFactory</span><span class="o">.</span><span class="n">fromAnyRef</span><span class="o">(</span><span class="s">"FooBar"</span><span class="o">))</span>
-<span class="c1">// res0: Either[pureconfig.error.ConfigReaderFailures,String] = Right(FooBar)
+<span class="c1">// res0: pureconfig.ConfigReader.Result[String] = Right(FooBar)
 </span></code></pre></div></div>
 
 <p>Now let’s say that we want to override this behavior such that <code class="highlighter-rouge">String</code>s are always read lower case. We can define a
@@ -26,7 +26,7 @@ custom <code class="highlighter-rouge">ConfigReader</code> instance for <code cl
 <p>PureConfig will now use the custom <code class="highlighter-rouge">overrideStrReader</code> instance:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">String</span><span class="o">].</span><span class="n">from</span><span class="o">(</span><span class="nc">ConfigValueFactory</span><span class="o">.</span><span class="n">fromAnyRef</span><span class="o">(</span><span class="s">"FooBar"</span><span class="o">))</span>
-<span class="c1">// res1: Either[pureconfig.error.ConfigReaderFailures,String] = Right(foobar)
+<span class="c1">// res1: pureconfig.ConfigReader.Result[String] = Right(foobar)
 </span></code></pre></div></div>
 
 <p>All the techniques described in <a href="supporting-new-types.html">Supporting New Types</a> can be used to define the higher

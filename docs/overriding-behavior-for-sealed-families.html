@@ -19,7 +19,7 @@ concrete class represented in the configuration.</p>
 <p>This will load a <code class="highlighter-rouge">DogConf</code> instance:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">AnimalConf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ type: dogconf, age: 4 }"</span><span class="o">))</span>
-<span class="c1">// res0: Either[pureconfig.error.ConfigReaderFailures,AnimalConf] = Right(DogConf(4))
+<span class="c1">// res0: pureconfig.ConfigReader.Result[AnimalConf] = Right(DogConf(4))
 </span></code></pre></div></div>
 
 <p>For sealed families, PureConfig provides a way to customize the conversion
@@ -38,7 +38,7 @@ of a case class option, we can use another field.</p>
 <p>Then load the config:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">AnimalConf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ kind: dogconf, age: 4 }"</span><span class="o">))</span>
-<span class="c1">// res1: Either[pureconfig.error.ConfigReaderFailures,AnimalConf] = Right(DogConf(4))
+<span class="c1">// res1: pureconfig.ConfigReader.Result[AnimalConf] = Right(DogConf(4))
 </span></code></pre></div></div>
 
 <p><code class="highlighter-rouge">FieldCoproductHint</code> can also be adapted to write class names in a different
@@ -52,7 +52,7 @@ way. First, define a new <code class="highlighter-rouge">FieldCoproductHint</cod
 <p>Then load the config:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">AnimalConf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ type: Bird, can-fly: true }"</span><span class="o">))</span>
-<span class="c1">// res2: Either[pureconfig.error.ConfigReaderFailures,AnimalConf] = Right(BirdConf(true))
+<span class="c1">// res2: pureconfig.ConfigReader.Result[AnimalConf] = Right(BirdConf(true))
 </span></code></pre></div></div>
 
 <p>With a <code class="highlighter-rouge">CoproductHint</code> you can even opt not to use any extra field at all. If you encode enumerations using sealed
@@ -75,7 +75,7 @@ an enumeration for seasons:</p>
 <p>We can load seasons by specifying them by class name:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">MyConf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ list: [spring, summer, autumn, winter] }"</span><span class="o">))</span>
-<span class="c1">// res3: Either[pureconfig.error.ConfigReaderFailures,MyConf] = Right(MyConf(List(Spring, Summer, Autumn, Winter)))
+<span class="c1">// res3: pureconfig.ConfigReader.Result[MyConf] = Right(MyConf(List(Spring, Summer, Autumn, Winter)))
 </span></code></pre></div></div>
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({languages:['scala','java','bash']});
 hljs.initHighlighting();

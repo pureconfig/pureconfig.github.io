@@ -59,7 +59,7 @@ and <a href="overriding-behavior-for-types.html">Overriding Behavior for Types</
 <span class="c1">// conf: com.typesafe.config.ConfigValue = ConfigInt(1)
 </span>
 <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">].</span><span class="n">from</span><span class="o">(</span><span class="n">conf</span><span class="o">)</span>
-<span class="c1">// res2: Either[pureconfig.error.ConfigReaderFailures,MyInt] = Right(MyInt(1))
+<span class="c1">// res2: pureconfig.ConfigReader.Result[MyInt] = Right(MyInt(1))
 </span></code></pre></div></div>
 
 <p>A <code class="highlighter-rouge">ConfigConvert</code> implements both the <code class="highlighter-rouge">ConfigReader</code> and <code class="highlighter-rouge">ConfigWriter</code> interfaces and can be used everywhere one of

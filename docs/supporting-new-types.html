@@ -65,7 +65,7 @@ list of errors. You can read more about cursors at <a href="config-cursors.html"
 <p>Using any of the approaches above would now make <code class="highlighter-rouge">loadConfig</code> work:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ n: 1 }"</span><span class="o">))</span>
-<span class="c1">// res1: Either[pureconfig.error.ConfigReaderFailures,Conf] = Right(Conf(MyInt(1)))
+<span class="c1">// res1: pureconfig.ConfigReader.Result[Conf] = Right(Conf(MyInt(1)))
 </span></code></pre></div></div>
 
 <p>The case above serves as an example for most simple types. While for those types it is straightforward to create a
