@@ -30,7 +30,7 @@ writing operations:</p>
 </code></pre></div></div>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ConfigWriter</span><span class="o">[</span><span class="kt">MyClass</span><span class="o">].</span><span class="n">to</span><span class="o">(</span><span class="n">confObj</span><span class="o">)</span>
-<span class="c1">// res0: com.typesafe.config.ConfigValue = SimpleConfigObject({"adt":{"b":1,"type":"adtb"},"boolean":true,"list":[1.0,0.2],"map":{"key":"value"},"port":8080})
+<span class="c1">// res0: com.typesafe.config.ConfigValue = SimpleConfigObject({"adt":{"b":1,"type":"adt-b"},"boolean":true,"list":[1.0,0.2],"map":{"key":"value"},"port":8080})
 </span></code></pre></div></div>
 
 <p>The mechanisms with which PureConfig finds out how to write a type to a config are the same as ones used with

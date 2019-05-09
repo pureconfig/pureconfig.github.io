@@ -19,7 +19,8 @@ supported out-of-the-box:</p>
 of <code class="highlighter-rouge">ConfigReader[T]</code>. This won’t compile because there’s no <code class="highlighter-rouge">ConfigReader</code> instance for <code class="highlighter-rouge">MyInt</code>:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Conf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ n: 1 }"</span><span class="o">))</span>
-<span class="c1">// &lt;console&gt;:25: error: could not find implicit value for parameter reader: pureconfig.Derivation[pureconfig.ConfigReader[Conf]]
+<span class="c1">// &lt;console&gt;:25: error: Cannot find an implicit instance of pureconfig.ConfigReader[Conf].
+// If you are trying to read or write a case class or sealed trait consider using PureConfig's auto derivation by adding `import pureconfig.generic.auto._`
 //        loadConfig[Conf](ConfigFactory.parseString("{ n: 1 }"))
 //                        ^
 </span></code></pre></div></div>

@@ -118,7 +118,8 @@ to understand the reason of the failure. Consider the following example:</p>
 <p>When we try to load a <code class="highlighter-rouge">Conf</code> from a config, we’ll simply get this error message:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
-<span class="c1">// &lt;console&gt;:21: error: could not find implicit value for parameter reader: pureconfig.Derivation[pureconfig.ConfigReader[Conf]]
+<span class="c1">// &lt;console&gt;:21: error: Cannot find an implicit instance of pureconfig.ConfigReader[Conf].
+// If you are trying to read or write a case class or sealed trait consider using PureConfig's auto derivation by adding `import pureconfig.generic.auto._`
 //        loadConfig[Conf]
 //                  ^
 </span></code></pre></div></div>

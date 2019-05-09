@@ -18,7 +18,7 @@ concrete class represented in the configuration.</p>
 
 <p>This will load a <code class="highlighter-rouge">DogConf</code> instance:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">AnimalConf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ type: dogconf, age: 4 }"</span><span class="o">))</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">AnimalConf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ type: dog-conf, age: 4 }"</span><span class="o">))</span>
 <span class="c1">// res0: pureconfig.ConfigReader.Result[AnimalConf] = Right(DogConf(4))
 </span></code></pre></div></div>
 
@@ -37,7 +37,7 @@ of a case class option, we can use another field.</p>
 
 <p>Then load the config:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">AnimalConf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ kind: dogconf, age: 4 }"</span><span class="o">))</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">AnimalConf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ kind: dog-conf, age: 4 }"</span><span class="o">))</span>
 <span class="c1">// res1: pureconfig.ConfigReader.Result[AnimalConf] = Right(DogConf(4))
 </span></code></pre></div></div>
 
@@ -55,11 +55,11 @@ way. First, define a new <code class="highlighter-rouge">FieldCoproductHint</cod
 <span class="c1">// res2: pureconfig.ConfigReader.Result[AnimalConf] = Right(BirdConf(true))
 </span></code></pre></div></div>
 
-<p>With a <code class="highlighter-rouge">CoproductHint</code> you can even opt not to use any extra field at all. If you encode enumerations using sealed
-traits, you can just write the lowercase name of the class by using an <code class="highlighter-rouge">EnumCoproductHint</code>. For example, if we create
-an enumeration for seasons:</p>
+<p>If you encode enumerations using sealed traits of case objects, you can use the
+<code class="highlighter-rouge">deriveEnumerationReader</code> method from the <code class="highlighter-rouge">pureconfig.generic.semiauto</code> package
+to derive <code class="highlighter-rouge">ConfigReader</code> instances for your sealed trait.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig.generic.EnumCoproductHint</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig.generic.semiauto._</span>
 
 <span class="k">sealed</span> <span class="k">trait</span> <span class="nc">Season</span>
 <span class="k">case</span> <span class="k">object</span> <span class="nc">Spring</span> <span class="k">extends</span> <span class="nc">Season</span>
@@ -67,7 +67,7 @@ an enumeration for seasons:</p>
 <span class="k">case</span> <span class="k">object</span> <span class="nc">Autumn</span> <span class="k">extends</span> <span class="nc">Season</span>
 <span class="k">case</span> <span class="k">object</span> <span class="nc">Winter</span> <span class="k">extends</span> <span class="nc">Season</span>
 
-<span class="k">implicit</span> <span class="k">val</span> <span class="n">seasonHint</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">EnumCoproductHint</span><span class="o">[</span><span class="kt">Season</span><span class="o">]</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="n">seasonConvert</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">Season</span><span class="o">]</span> <span class="k">=</span> <span class="n">deriveEnumerationReader</span><span class="o">[</span><span class="kt">Season</span><span class="o">]</span>
 
 <span class="k">case</span> <span class="k">class</span> <span class="nc">MyConf</span><span class="o">(</span><span class="n">list</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Season</span><span class="o">])</span>
 </code></pre></div></div>
@@ -76,6 +76,23 @@ an enumeration for seasons:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">MyConf</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ list: [spring, summer, autumn, winter] }"</span><span class="o">))</span>
 <span class="c1">// res3: pureconfig.ConfigReader.Result[MyConf] = Right(MyConf(List(Spring, Summer, Autumn, Winter)))
+</span></code></pre></div></div>
+
+<p>By default, enumerations will be encoded as strings with the <code class="highlighter-rouge">kebab-case</code>
+representation of the class name, but that behavior can be overridden by
+specifying a different transformation function.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">sealed</span> <span class="k">trait</span> <span class="nc">Color</span>
+<span class="k">case</span> <span class="k">object</span> <span class="nc">RainyBlue</span> <span class="k">extends</span> <span class="nc">Color</span>
+<span class="k">case</span> <span class="k">object</span> <span class="nc">SunnyYellow</span> <span class="k">extends</span> <span class="nc">Color</span>
+
+<span class="k">implicit</span> <span class="k">val</span> <span class="n">colorReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">Color</span><span class="o">]</span> <span class="k">=</span> <span class="n">deriveEnumerationReader</span><span class="o">[</span><span class="kt">Color</span><span class="o">](</span><span class="nc">ConfigFieldMapping</span><span class="o">(</span><span class="nc">PascalCase</span><span class="o">,</span> <span class="nc">SnakeCase</span><span class="o">))</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">ColorList</span><span class="o">(</span><span class="n">colors</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Color</span><span class="o">])</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loadConfig</span><span class="o">[</span><span class="kt">ColorList</span><span class="o">](</span><span class="nc">ConfigFactory</span><span class="o">.</span><span class="n">parseString</span><span class="o">(</span><span class="s">"{ colors: [rainy_blue, sunny_yellow] }"</span><span class="o">))</span>
+<span class="c1">// res4: pureconfig.ConfigReader.Result[ColorList] = Right(ColorList(List(RainyBlue, SunnyYellow)))
 </span></code></pre></div></div>
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>hljs.configure({languages:['scala','java','bash']});
 hljs.initHighlighting();

@@ -3,7 +3,7 @@
 <p>To use PureConfig in an existing SBT project with Scala 2.11 or a later version, add the following dependency to your
 <code class="highlighter-rouge">build.sbt</code>:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.github.pureconfig"</span> <span class="o">%%</span> <span class="s">"pureconfig"</span> <span class="o">%</span> <span class="s">"0.10.2"</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.github.pureconfig"</span> <span class="o">%%</span> <span class="s">"pureconfig"</span> <span class="o">%</span> <span class="s">"0.11.0"</span>
 </code></pre></div></div>
 
 <p>For a full example of <code class="highlighter-rouge">build.sbt</code> you can have a look at this <a href="https://github.com/pureconfig/pureconfig/blob/master/example/build.sbt">build.sbt</a>.</p>
@@ -35,7 +35,7 @@ resource file of your application (with SBT, they are usually placed in <code cl
 <p>Finally, load the configuration:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pureconfig</span><span class="o">.</span><span class="n">loadConfig</span><span class="o">[</span><span class="kt">MyClass</span><span class="o">]</span>
-<span class="c1">// res0: pureconfig.ConfigReader.Result[MyClass] = Right(MyClass(true,Port(8080),AdtB(1),List(1.0, 0.2),Map(key -&gt; value),None))
+<span class="c1">// res0: pureconfig.ConfigReader.Result[MyClass] = Left(ConfigReaderFailures(ConvertFailure(UnexpectedValueForFieldCoproductHint(Quoted("adtb")),Some(ConfigValueLocation(file:/Users/rui/Documents/Dev/own/pureconfig/docs/target/scala-2.12/classes/application.conf,4)),adt.type),List()))
 </span></code></pre></div></div>
 
 <p><code class="highlighter-rouge">ConfigReader.Result[MyClass]</code> is just an alias for <code class="highlighter-rouge">Either[ConfigReaderFailures, MyClass]</code>, so you can handle it just like you
