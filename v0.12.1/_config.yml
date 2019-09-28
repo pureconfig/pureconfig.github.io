@@ -1,5 +1,5 @@
 name: PureConfig
-baseurl: ''
+baseurl: /v0.12.1
 description: A boilerplate-free library for loading configuration files
 highlighter: rouge
 docs: true

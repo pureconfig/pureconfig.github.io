@@ -1,0 +1,82 @@
+<html><head><title>PureConfig: Non-Automatic Derivation</title><meta charset="utf-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="com.github.pureconfig" /><meta name="description" content="A boilerplate-free library for loading configuration files" /><meta name="og:image" content="/v0.12.1/img/poster.png" /><meta name="image" property="og:image" content="/v0.12.1/img/poster.png" /><meta name="og:title" content="PureConfig: Non-Automatic Derivation" /><meta name="title" property="og:title" content="PureConfig: Non-Automatic Derivation" /><meta name="og:site_name" content="PureConfig" /><meta name="og:url" content="https://pureconfig.github.io/" /><meta name="og:type" content="website" /><meta name="og:description" content="A boilerplate-free library for loading configuration files" /><link rel="icon" type="image/png" href="/v0.12.1/img/favicon.png" /><meta name="twitter:title" content="PureConfig: Non-Automatic Derivation" /><meta name="twitter:image" content="/v0.12.1/img/poster.png" /><meta name="twitter:description" content="A boilerplate-free library for loading configuration files" /><meta name="twitter:card" content="summary_large_image" /><link rel="icon" type="image/png" sizes="16x16" href="/v0.12.1/img/favicon16x16.png" /><link rel="icon" type="image/png" sizes="24x24" href="/v0.12.1/img/favicon24x24.png" /><link rel="icon" type="image/png" sizes="32x32" href="/v0.12.1/img/favicon32x32.png" /><link rel="icon" type="image/png" sizes="48x48" href="/v0.12.1/img/favicon48x48.png" /><link rel="icon" type="image/png" sizes="57x57" href="/v0.12.1/img/favicon57x57.png" /><link rel="icon" type="image/png" sizes="60x60" href="/v0.12.1/img/favicon60x60.png" /><link rel="icon" type="image/png" sizes="64x64" href="/v0.12.1/img/favicon64x64.png" /><link rel="icon" type="image/png" sizes="70x70" href="/v0.12.1/img/favicon70x70.png" /><link rel="icon" type="image/png" sizes="72x72" href="/v0.12.1/img/favicon72x72.png" /><link rel="icon" type="image/png" sizes="76x76" href="/v0.12.1/img/favicon76x76.png" /><link rel="icon" type="image/png" sizes="96x96" href="/v0.12.1/img/favicon96x96.png" /><link rel="icon" type="image/png" sizes="114x114" href="/v0.12.1/img/favicon114x114.png" /><link rel="icon" type="image/png" sizes="120x120" href="/v0.12.1/img/favicon120x120.png" /><link rel="icon" type="image/png" sizes="128x128" href="/v0.12.1/img/favicon128x128.png" /><link rel="icon" type="image/png" sizes="144x144" href="/v0.12.1/img/favicon144x144.png" /><link rel="icon" type="image/png" sizes="150x150" href="/v0.12.1/img/favicon150x150.png" /><link rel="icon" type="image/png" sizes="152x152" href="/v0.12.1/img/favicon152x152.png" /><link rel="icon" type="image/png" sizes="196x196" href="/v0.12.1/img/favicon196x196.png" /><link rel="icon" type="image/png" sizes="310x310" href="/v0.12.1/img/favicon310x310.png" /><link rel="icon" type="image/png" sizes="310x150" href="/v0.12.1/img/favicon310x150.png" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" /><link rel="stylesheet" href="/v0.12.1/highlight/styles/default.css" /><link rel="stylesheet" href="/v0.12.1/css/style.css" /><link rel="stylesheet" href="/v0.12.1/css/palette.css" /><link rel="stylesheet" href="/v0.12.1/css/codemirror.css" /><link rel="stylesheet" href="/v0.12.1/css/custom.css" /></head><body class="docs"><div id="wrapper"><div id="sidebar-wrapper"><ul id="sidebar" class="sidebar-nav"><li class="sidebar-brand"><a href="/v0.12.1/" class="brand"><div class="brand-wrapper"><span>PureConfig</span></div></a></li> <li><a href="/v0.12.1/docs/index.html" class="">Quick Start</a></li> <li><a href="/v0.12.1/docs/loading-a-config.html" class="">Loading a Config</a></li> <li><a href="/v0.12.1/docs/built-in-supported-types.html" class="">Built-in Supported Types</a></li> <li><a href="/v0.12.1/docs/supporting-new-types.html" class="">Supporting New Types</a> <ul class="sub_section"> <li><a href="/v0.12.1/docs/combinators.html" class="">Combinators</a></li> <li><a href="/v0.12.1/docs/config-cursors.html" class="">Config Cursors</a></li> <li><a href="/v0.12.1/docs/complex-types.html" class="">Complex Types</a></li></ul></li> <li><a href="/v0.12.1/docs/overriding-behavior-for-types.html" class="">Overriding Behavior for Types</a> <ul class="sub_section"> <li><a href="/v0.12.1/docs/overriding-behavior-for-case-classes.html" class="">Case Classes</a></li> <li><a href="/v0.12.1/docs/overriding-behavior-for-sealed-families.html" class="">Sealed Families</a></li></ul></li> <li><a href="/v0.12.1/docs/configurable-converters.html" class="">Configurable Converters</a></li> <li><a href="/v0.12.1/docs/error-handling.html" class="">Error Handling</a></li> <li><a href="/v0.12.1/docs/config-writers.html" class="">Config Writers</a></li> <li><a href="/v0.12.1/docs/non-automatic-derivation.html" class=" active ">Non-Automatic Derivation</a></li> <li><a href="/v0.12.1/docs/library-integrations.html" class="">Library Integrations</a></li> <li><a href="/v0.12.1/docs/faq.html" class="">FAQ</a></li></ul></div><div id="page-content-wrapper"><div class="nav"><div class="container-fluid"><div class="row"><div class="col-lg-12"><div class="action-menu pull-left clearfix"><a href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a></div><ul class="pull-right"><li id="gh-eyes-item" class="hidden-xs"><a href="https://github.com/pureconfig/pureconfig"><i class="fa fa-eye"></i><span>WATCH<span id="eyes" class="label label-default">--</span></span></a></li><li id="gh-stars-item" class="hidden-xs"><a href="https://github.com/pureconfig/pureconfig"><i class="fa fa-star-o"></i><span>STARS<span id="stars" class="label label-default">--</span></span></a></li><li><a href="#" onclick="shareSiteTwitter('PureConfig A boilerplate-free library for loading configuration files');"><i class="fa fa-twitter"></i></a></li><li><a href="#" onclick="shareSiteFacebook('PureConfig A boilerplate-free library for loading configuration files');"><i class="fa fa-facebook"></i></a></li><li><a href="#" onclick="shareSiteGoogle();"><i class="fa fa-google-plus"></i></a></li></ul></div></div></div></div><div id="content" data-github-owner="pureconfig" data-github-repo="pureconfig"><div class="content-wrapper"><section><h2 id="non-automatic-derivation">Non-Automatic Derivation</h2>
+
+<p>All the examples in the documentation rely on automatic derivation of readers and writers for case classes and sealed
+traits. That is the recommended way of using PureConfig, in line with its core goal of providing a boilerplate-free but
+still type-safe way of handling config files.</p>
+
+<p>However, some users may prefer to declare explicitly their intention to derive readers for a type, some advanced users
+may have their own ways of deriving readers and some may not want to use derivation at all. PureConfig actually provides
+three ways of setting up reader derivation, which are presented in the next sections.</p>
+
+<h3 id="automatic">Automatic</h3>
+
+<p>First, let’s define an example case class and a config for us to load:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.typesafe.config.ConfigFactory</span>
+<span class="k">import</span> <span class="nn">pureconfig._</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Person</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">surname</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">conf</span> <span class="k">=</span> <span class="nv">ConfigFactory</span><span class="o">.</span><span class="py">parseString</span><span class="o">(</span><span class="s">"{ name: John, surname: Doe }"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>Automatic reader derivation is used throughout all the documentation pages. It is activated simply by importing
+<code class="highlighter-rouge">pureconfig.generic.auto._</code> everywhere readers are needed (for example, where <code class="highlighter-rouge">ConfigSource#load</code> is used):</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig.generic.auto._</span>
+</code></pre></div></div>
+
+<p>This import provides <code class="highlighter-rouge">ConfigReader</code> instances for all supported classes out-of-the-box:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">fromConfig</span><span class="o">(</span><span class="n">conf</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span>
+<span class="c1">// res0: pureconfig.ConfigReader.Result[Person] = Right(Person(John,Doe))
+</span></code></pre></div></div>
+
+<p>Internally, derivation is made through the use of <a href="https://github.com/milessabin/shapeless">shapeless</a>, a generic
+programming Scala library.</p>
+
+<p>Custom readers can still be placed in the companion object of the respective classes; PureConfig will make sure that
+they are used instead of the automatically-derived ones.</p>
+
+<h3 id="semi-automatic">Semi-Automatic</h3>
+
+<p>With semi-automatic derivation, readers can still be derived using all the machinery presented on these documentation
+pages, but the reader instances are not provided as implicits. Instead, PureConfig provides two one-liner methods to
+create derived instances, which you must put somewhere on the implicit scope.</p>
+
+<p>Semi-automatic derivation is enabled by importing <code class="highlighter-rouge">pureconfig.generic.semiauto._</code>. We can now explicitly define the
+reader for <code class="highlighter-rouge">Person</code> by calling <code class="highlighter-rouge">deriveReader</code>:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig.generic.semiauto._</span>
+
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">personReader</span> <span class="k">=</span> <span class="n">deriveReader</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span>
+</code></pre></div></div>
+
+<p>We are now ready to read <code class="highlighter-rouge">Person</code> configs:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">fromConfig</span><span class="o">(</span><span class="n">conf</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span>
+<span class="c1">// res0: pureconfig.ConfigReader.Result[Person] = Right(Person(John,Doe))
+</span></code></pre></div></div>
+
+<h3 id="manual">Manual</h3>
+
+<p>When case class and sealed trait derivation is not needed or wanted, we can simply not import anything and define our
+reader using any of ways explained in <a href="supporting-new-types.html">Supporting New Types</a>. The <code class="highlighter-rouge">forProductN</code> helper
+methods are convenient for creating readers and writers for case class-like types without generic derivation:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig._</span>
+
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">personReader</span> <span class="k">=</span> <span class="nv">ConfigReader</span><span class="o">.</span><span class="py">forProduct2</span><span class="o">(</span><span class="s">"name"</span><span class="o">,</span> <span class="s">"surname"</span><span class="o">)(</span><span class="nc">Person</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="k">_</span><span class="o">))</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">fromConfig</span><span class="o">(</span><span class="n">conf</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span>
+<span class="c1">// res0: pureconfig.ConfigReader.Result[Person] = Right(Person(John,Doe))
+</span></code></pre></div></div>
+
+<p>If you don’t need reader or writer derivation anywhere in your project, you can replace the <code class="highlighter-rouge">pureconfig</code> Maven
+dependency with <code class="highlighter-rouge">pureconfig-core</code>. <code class="highlighter-rouge">pureconfig-core</code> contains only the core classes needed by PureConfig, as well as
+readers and writers for primitive and collection types. It has the advantage of not depending on shapeless, which can be
+useful to prevent version conflicts.</p>
+</section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/v0.12.1/highlight/highlight.pack.js"></script><script>hljs.configure({languages:['scala','java','bash']});
+hljs.initHighlighting();
+              </script><script src="/v0.12.1/js/main.js"></script></body></html>

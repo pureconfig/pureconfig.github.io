@@ -1,0 +1,228 @@
+<html><head><title>PureConfig: Complex Types</title><meta charset="utf-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="com.github.pureconfig" /><meta name="description" content="A boilerplate-free library for loading configuration files" /><meta name="og:image" content="/v0.12.1/img/poster.png" /><meta name="image" property="og:image" content="/v0.12.1/img/poster.png" /><meta name="og:title" content="PureConfig: Complex Types" /><meta name="title" property="og:title" content="PureConfig: Complex Types" /><meta name="og:site_name" content="PureConfig" /><meta name="og:url" content="https://pureconfig.github.io/" /><meta name="og:type" content="website" /><meta name="og:description" content="A boilerplate-free library for loading configuration files" /><link rel="icon" type="image/png" href="/v0.12.1/img/favicon.png" /><meta name="twitter:title" content="PureConfig: Complex Types" /><meta name="twitter:image" content="/v0.12.1/img/poster.png" /><meta name="twitter:description" content="A boilerplate-free library for loading configuration files" /><meta name="twitter:card" content="summary_large_image" /><link rel="icon" type="image/png" sizes="16x16" href="/v0.12.1/img/favicon16x16.png" /><link rel="icon" type="image/png" sizes="24x24" href="/v0.12.1/img/favicon24x24.png" /><link rel="icon" type="image/png" sizes="32x32" href="/v0.12.1/img/favicon32x32.png" /><link rel="icon" type="image/png" sizes="48x48" href="/v0.12.1/img/favicon48x48.png" /><link rel="icon" type="image/png" sizes="57x57" href="/v0.12.1/img/favicon57x57.png" /><link rel="icon" type="image/png" sizes="60x60" href="/v0.12.1/img/favicon60x60.png" /><link rel="icon" type="image/png" sizes="64x64" href="/v0.12.1/img/favicon64x64.png" /><link rel="icon" type="image/png" sizes="70x70" href="/v0.12.1/img/favicon70x70.png" /><link rel="icon" type="image/png" sizes="72x72" href="/v0.12.1/img/favicon72x72.png" /><link rel="icon" type="image/png" sizes="76x76" href="/v0.12.1/img/favicon76x76.png" /><link rel="icon" type="image/png" sizes="96x96" href="/v0.12.1/img/favicon96x96.png" /><link rel="icon" type="image/png" sizes="114x114" href="/v0.12.1/img/favicon114x114.png" /><link rel="icon" type="image/png" sizes="120x120" href="/v0.12.1/img/favicon120x120.png" /><link rel="icon" type="image/png" sizes="128x128" href="/v0.12.1/img/favicon128x128.png" /><link rel="icon" type="image/png" sizes="144x144" href="/v0.12.1/img/favicon144x144.png" /><link rel="icon" type="image/png" sizes="150x150" href="/v0.12.1/img/favicon150x150.png" /><link rel="icon" type="image/png" sizes="152x152" href="/v0.12.1/img/favicon152x152.png" /><link rel="icon" type="image/png" sizes="196x196" href="/v0.12.1/img/favicon196x196.png" /><link rel="icon" type="image/png" sizes="310x310" href="/v0.12.1/img/favicon310x310.png" /><link rel="icon" type="image/png" sizes="310x150" href="/v0.12.1/img/favicon310x150.png" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" /><link rel="stylesheet" href="/v0.12.1/highlight/styles/default.css" /><link rel="stylesheet" href="/v0.12.1/css/style.css" /><link rel="stylesheet" href="/v0.12.1/css/palette.css" /><link rel="stylesheet" href="/v0.12.1/css/codemirror.css" /><link rel="stylesheet" href="/v0.12.1/css/custom.css" /></head><body class="docs"><div id="wrapper"><div id="sidebar-wrapper"><ul id="sidebar" class="sidebar-nav"><li class="sidebar-brand"><a href="/v0.12.1/" class="brand"><div class="brand-wrapper"><span>PureConfig</span></div></a></li> <li><a href="/v0.12.1/docs/index.html" class="">Quick Start</a></li> <li><a href="/v0.12.1/docs/loading-a-config.html" class="">Loading a Config</a></li> <li><a href="/v0.12.1/docs/built-in-supported-types.html" class="">Built-in Supported Types</a></li> <li><a href="/v0.12.1/docs/supporting-new-types.html" class="">Supporting New Types</a> <ul class="sub_section"> <li><a href="/v0.12.1/docs/combinators.html" class="">Combinators</a></li> <li><a href="/v0.12.1/docs/config-cursors.html" class="">Config Cursors</a></li> <li><a href="/v0.12.1/docs/complex-types.html" class=" active ">Complex Types</a></li></ul></li> <li><a href="/v0.12.1/docs/overriding-behavior-for-types.html" class="">Overriding Behavior for Types</a> <ul class="sub_section"> <li><a href="/v0.12.1/docs/overriding-behavior-for-case-classes.html" class="">Case Classes</a></li> <li><a href="/v0.12.1/docs/overriding-behavior-for-sealed-families.html" class="">Sealed Families</a></li></ul></li> <li><a href="/v0.12.1/docs/configurable-converters.html" class="">Configurable Converters</a></li> <li><a href="/v0.12.1/docs/error-handling.html" class="">Error Handling</a></li> <li><a href="/v0.12.1/docs/config-writers.html" class="">Config Writers</a></li> <li><a href="/v0.12.1/docs/non-automatic-derivation.html" class="">Non-Automatic Derivation</a></li> <li><a href="/v0.12.1/docs/library-integrations.html" class="">Library Integrations</a></li> <li><a href="/v0.12.1/docs/faq.html" class="">FAQ</a></li></ul></div><div id="page-content-wrapper"><div class="nav"><div class="container-fluid"><div class="row"><div class="col-lg-12"><div class="action-menu pull-left clearfix"><a href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a></div><ul class="pull-right"><li id="gh-eyes-item" class="hidden-xs"><a href="https://github.com/pureconfig/pureconfig"><i class="fa fa-eye"></i><span>WATCH<span id="eyes" class="label label-default">--</span></span></a></li><li id="gh-stars-item" class="hidden-xs"><a href="https://github.com/pureconfig/pureconfig"><i class="fa fa-star-o"></i><span>STARS<span id="stars" class="label label-default">--</span></span></a></li><li><a href="#" onclick="shareSiteTwitter('PureConfig A boilerplate-free library for loading configuration files');"><i class="fa fa-twitter"></i></a></li><li><a href="#" onclick="shareSiteFacebook('PureConfig A boilerplate-free library for loading configuration files');"><i class="fa fa-facebook"></i></a></li><li><a href="#" onclick="shareSiteGoogle();"><i class="fa fa-google-plus"></i></a></li></ul></div></div></div></div><div id="content" data-github-owner="pureconfig" data-github-repo="pureconfig"><div class="content-wrapper"><section><h2 id="complex-types">Complex Types</h2>
+
+<p>Support for more complex types, such as Java configurations, can be achieved with many different methods,
+each one with pros and cons. The preferred method is shown <a href="#method-1-use-a-scala-copy-of-the-configuration">here</a>
+but for the sake of completeness this section will describe all the methods and provide hints on when one should be used instead of others. This
+section is organized in the following way: the <a href="#data-type-to-support">first part</a> describes an example of complex type to
+support, the <a href="#add-support-for-identifiable">second part</a> provides the three methods to add support for that complex type and the
+<a href="#summary">final part</a> discusses when one method should be picked instead of another one.</p>
+
+<h3 id="data-type-to-support">Data type to support</h3>
+
+<p>First of all, let’s start with the data type that we want to support. 
+The example is composed of one interface and two implementations:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">trait</span> <span class="nc">Identifiable</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">getId</span><span class="k">:</span> <span class="kt">String</span>
+<span class="o">}</span>
+
+<span class="k">class</span> <span class="nc">Class1</span><span class="o">(</span><span class="n">id</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Identifiable</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">getId</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">id</span>
+<span class="o">}</span>
+
+<span class="k">class</span> <span class="nc">Class2</span><span class="o">(</span><span class="n">id</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Identifiable</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">getId</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">id</span>
+  <span class="k">def</span> <span class="nf">getValue</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="n">value</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Because PureConfig is based on shapeless and shapeless doesn’t support non-case classes and interfaces,
+the class above cannot be read automatically by PureConfig.</p>
+
+<h3 id="add-support-for-identifiable">Add support for Identifiable</h3>
+
+<h4 id="method-1-use-a-scala-copy-of-the-configuration">Method 1: Use a Scala copy of the configuration</h4>
+
+<p>Because PureConfig works out-of-the-box with Scala sealed familes of case classes, one simple solution
+to support unsupported complex types is to:</p>
+
+<ol>
+  <li>define a hierarchy of Scala classes mirroring the complex type;</li>
+  <li>define a conversion from this Scala configuration to the complex type.</li>
+</ol>
+
+<p>In the case above, we could do:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig._</span>
+<span class="k">import</span> <span class="nn">pureconfig.error._</span>
+<span class="k">import</span> <span class="nn">pureconfig.generic.auto._</span>
+<span class="k">import</span> <span class="nn">pureconfig.generic.FieldCoproductHint</span>
+
+<span class="c1">// define the "dummy" scala hierarchy
+</span><span class="k">sealed</span> <span class="k">trait</span> <span class="nc">IdentifiableDummy</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">id</span><span class="k">:</span> <span class="kt">String</span>
+  <span class="k">def</span> <span class="nf">toIdentifiable</span><span class="k">:</span> <span class="kt">Identifiable</span>
+<span class="o">}</span>
+
+<span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">Class1Dummy</span><span class="o">(</span><span class="n">id</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">IdentifiableDummy</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">toIdentifiable</span><span class="k">:</span> <span class="kt">Identifiable</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Class1</span><span class="o">(</span><span class="n">id</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="k">final</span> <span class="k">case</span> <span class="k">class</span> <span class="nc">Class2Dummy</span><span class="o">(</span><span class="n">id</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">IdentifiableDummy</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">toIdentifiable</span><span class="k">:</span> <span class="kt">Identifiable</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Class2</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span> 
+<span class="o">}</span>
+
+<span class="c1">// change the coproduct hint to tell PureConfig that the type value specified
+// is the name of the class without the "Dummy" suffix because we want the type to
+// be the one of the new types, not the mirroring types
+</span><span class="k">implicit</span> <span class="k">val</span> <span class="nv">identifiableCoproductHint</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">FieldCoproductHint</span><span class="o">[</span><span class="kt">IdentifiableDummy</span><span class="o">](</span><span class="s">"type"</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">protected</span> <span class="k">def</span> <span class="nf">fieldValue</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span>
+    <span class="nv">name</span><span class="o">.</span><span class="py">take</span><span class="o">(</span><span class="nv">name</span><span class="o">.</span><span class="py">length</span> <span class="o">-</span> <span class="s">"Dummy"</span><span class="o">.</span><span class="py">length</span><span class="o">).</span><span class="py">toLowerCase</span>
+<span class="o">}</span>
+
+<span class="c1">// we tell PureConfig that to read Identifiable, it has to read IdentifiableDummy first
+// and then maps it to Identifiable
+</span><span class="k">implicit</span> <span class="k">val</span> <span class="nv">identifiableConfigReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">Identifiable</span><span class="o">]</span> <span class="k">=</span>
+  <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">IdentifiableDummy</span><span class="o">].</span><span class="py">map</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">toIdentifiable</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p><strong>pros</strong>: it’s idiomatic and elegant. It uses a type supported by PureConfig to extract the data
+needed from the configuration and then maps it to the original complex type. Note that this
+method follows what you usually do in other libraries (e.g. Circe) to support new data types and
+it’s both composable and nice to read.</p>
+
+<p><strong>cons</strong>: needs the configuration to be duplicated and PureConfig needs to do two
+steps to read it.</p>
+
+<h4 id="method-2-implement-configreaderidentifiable-manually">Method 2: Implement <code class="highlighter-rouge">ConfigReader[Identifiable]</code> manually</h4>
+
+<p>Similarly to adding support for simple types, it is possible to manually create a
+<code class="highlighter-rouge">ConfigReader[Identifiable]</code>:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig._</span>
+
+<span class="k">val</span> <span class="nv">class1Reader</span> <span class="k">=</span> <span class="nv">ConfigReader</span><span class="o">.</span><span class="py">forProduct1</span><span class="o">(</span><span class="s">"id"</span><span class="o">)(</span><span class="k">new</span> <span class="nc">Class1</span><span class="o">(</span><span class="k">_</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">class2Reader</span> <span class="k">=</span> <span class="nv">ConfigReader</span><span class="o">.</span><span class="py">forProduct2</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"value"</span><span class="o">)(</span><span class="k">new</span> <span class="nc">Class2</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="k">_</span><span class="o">))</span>
+
+<span class="k">def</span> <span class="nf">extractByType</span><span class="o">(</span><span class="n">typ</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">objCur</span><span class="k">:</span> <span class="kt">ConfigObjectCursor</span><span class="o">)</span><span class="k">:</span> <span class="kt">ConfigReader.Result</span><span class="o">[</span><span class="kt">Identifiable</span><span class="o">]</span> <span class="k">=</span> <span class="n">typ</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="s">"class1"</span> <span class="k">=&gt;</span> <span class="nv">class1Reader</span><span class="o">.</span><span class="py">from</span><span class="o">(</span><span class="n">objCur</span><span class="o">)</span>
+  <span class="k">case</span> <span class="s">"class2"</span> <span class="k">=&gt;</span> <span class="nv">class2Reader</span><span class="o">.</span><span class="py">from</span><span class="o">(</span><span class="n">objCur</span><span class="o">)</span>
+  <span class="k">case</span> <span class="n">t</span> <span class="k">=&gt;</span>
+    <span class="nv">objCur</span><span class="o">.</span><span class="py">failed</span><span class="o">(</span><span class="nc">CannotConvert</span><span class="o">(</span><span class="nv">objCur</span><span class="o">.</span><span class="py">value</span><span class="o">.</span><span class="py">toString</span><span class="o">,</span> <span class="s">"Identifiable"</span><span class="o">,</span>
+      <span class="n">s</span><span class="s">"type has value $t instead of class1 or class2"</span><span class="o">))</span>
+<span class="o">}</span>
+
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">identifiableConfigReader</span> <span class="k">=</span> <span class="nv">ConfigReader</span><span class="o">.</span><span class="py">fromCursor</span> <span class="o">{</span> <span class="n">cur</span> <span class="k">=&gt;</span>
+  <span class="k">for</span> <span class="o">{</span>
+    <span class="n">objCur</span> <span class="k">&lt;-</span> <span class="nv">cur</span><span class="o">.</span><span class="py">asObjectCursor</span>
+    <span class="n">typeCur</span> <span class="k">&lt;-</span> <span class="nv">objCur</span><span class="o">.</span><span class="py">atKey</span><span class="o">(</span><span class="s">"type"</span><span class="o">)</span>
+    <span class="n">typeStr</span> <span class="k">&lt;-</span> <span class="nv">typeCur</span><span class="o">.</span><span class="py">asString</span>
+    <span class="n">ident</span> <span class="k">&lt;-</span> <span class="nf">extractByType</span><span class="o">(</span><span class="n">typeStr</span><span class="o">,</span> <span class="n">objCur</span><span class="o">)</span>
+  <span class="o">}</span> <span class="k">yield</span> <span class="n">ident</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>pros</strong>: The main advantage of this method is that PureConfig delegates to it when decoding your configuration.
+PureConfig takes the manually defined <code class="highlighter-rouge">ConfigReader[Identifiable]</code> as a blackbox and applies it when it has to read your configuration.</p>
+
+<p><strong>cons</strong>: The main advantage of this method is also its drawback, because by taking control over 
+PureConfig in how to read sealed families of case classes, it prevents PureConfig from doing its 
+magic. For instance, it prevents PureConfig from using the <code class="highlighter-rouge">CoproductHint</code> as strategy to read 
+<code class="highlighter-rouge">Identifiable</code>. This is, generally speaking, not a good idea. In most cases you want PureConfig 
+features also for your custom class.</p>
+
+<h4 id="method-3-give-a-generic-representation-of-your-configuration">Method 3: Give a <code class="highlighter-rouge">Generic</code> representation of your configuration</h4>
+
+<p>PureConfig is based on <a href="https://github.com/milessabin/shapeless">shapeless</a> <code class="highlighter-rouge">Generic</code>, which is used to represent data
+structures in a generic form. The reason why in method 2 PureConfig was able to decode <code class="highlighter-rouge">IdentifiableDummy</code> but not
+<code class="highlighter-rouge">Identifiable</code> prior our code is that <code class="highlighter-rouge">IdentifiableDummy</code> has a <code class="highlighter-rouge">Generic</code> instance provided by shapeless while
+<code class="highlighter-rouge">Identifiable</code> doesn’t. This method consists of adding the generic representation for the configuration.</p>
+
+<p>Let’s start with the concrete classes <code class="highlighter-rouge">Class1</code> and <code class="highlighter-rouge">Class2</code>. PureConfig needs to know
+two things in order to read them:</p>
+
+<ol>
+  <li>Their generic representation;</li>
+  <li>For each field in the generic representation, whether each field in the generic representation has a default value.</li>
+</ol>
+
+<p>The first item is solved by the code:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">shapeless._</span>
+<span class="k">import</span> <span class="nn">shapeless.labelled._</span>
+
+<span class="c1">// create the singleton idw for the field id
+</span><span class="k">val</span> <span class="nv">idw</span> <span class="k">=</span> <span class="nc">Witness</span><span class="o">(</span><span class="ss">'id)</span>
+
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">class1Generic</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LabelledGeneric</span><span class="o">[</span><span class="kt">Class1</span><span class="o">]</span> <span class="o">{</span>
+  <span class="c1">// the generic representation of Class1 is the field id of type String
+</span>  <span class="k">override</span> <span class="k">type</span> <span class="kt">Repr</span> <span class="o">=</span> <span class="nc">FieldType</span><span class="o">[</span><span class="kt">idw.T</span>, <span class="kt">String</span><span class="o">]</span> <span class="o">::</span> <span class="nc">HNil</span>
+
+  <span class="c1">// mapping from/to is trivial
+</span>  <span class="k">override</span> <span class="k">def</span> <span class="nf">to</span><span class="o">(</span><span class="n">t</span><span class="k">:</span> <span class="kt">Class1</span><span class="o">)</span><span class="k">:</span> <span class="kt">Repr</span> <span class="o">=</span> <span class="n">field</span><span class="o">[</span><span class="kt">idw.T</span><span class="o">](</span><span class="nv">t</span><span class="o">.</span><span class="py">getId</span><span class="o">)</span> <span class="o">::</span> <span class="nc">HNil</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">from</span><span class="o">(</span><span class="n">r</span><span class="k">:</span> <span class="kt">Repr</span><span class="o">)</span><span class="k">:</span> <span class="kt">Class1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Class1</span><span class="o">(</span><span class="nv">r</span><span class="o">.</span><span class="py">head</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="c1">// create the singleton valuew for the field value
+</span><span class="k">val</span> <span class="nv">valuew</span> <span class="k">=</span> <span class="nc">Witness</span><span class="o">(</span><span class="ss">'value)</span>
+
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">class2Generic</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LabelledGeneric</span><span class="o">[</span><span class="kt">Class2</span><span class="o">]</span> <span class="o">{</span>
+  <span class="c1">// the generic representation of Class2 is the fields id of type String and value of type Int
+</span>  <span class="k">override</span> <span class="k">type</span> <span class="kt">Repr</span> <span class="o">=</span> <span class="nc">FieldType</span><span class="o">[</span><span class="kt">idw.T</span>, <span class="kt">String</span><span class="o">]</span> <span class="o">::</span> <span class="nc">FieldType</span><span class="o">[</span><span class="kt">valuew.T</span>, <span class="kt">Int</span><span class="o">]</span> <span class="o">::</span> <span class="nc">HNil</span>
+
+  <span class="c1">// mapping from/to is trivial here too
+</span>  <span class="k">override</span> <span class="k">def</span> <span class="nf">to</span><span class="o">(</span><span class="n">t</span><span class="k">:</span> <span class="kt">Class2</span><span class="o">)</span><span class="k">:</span> <span class="kt">Repr</span> <span class="o">=</span>
+    <span class="n">field</span><span class="o">[</span><span class="kt">idw.T</span><span class="o">](</span><span class="nv">t</span><span class="o">.</span><span class="py">getId</span><span class="o">)</span> <span class="o">::</span> <span class="n">field</span><span class="o">[</span><span class="kt">valuew.T</span><span class="o">](</span><span class="nv">t</span><span class="o">.</span><span class="py">getValue</span><span class="o">)</span> <span class="o">::</span> <span class="nc">HNil</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">from</span><span class="o">(</span><span class="n">r</span><span class="k">:</span> <span class="kt">Repr</span><span class="o">)</span><span class="k">:</span> <span class="kt">Class2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Class2</span><span class="o">(</span><span class="nv">r</span><span class="o">.</span><span class="py">head</span><span class="o">,</span> <span class="nv">r</span><span class="o">.</span><span class="py">tail</span><span class="o">.</span><span class="py">head</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The second item is trivial because neither <code class="highlighter-rouge">Class1</code> nor <code class="highlighter-rouge">Class2</code> have default values for fields:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">class1Default</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">Default</span><span class="o">.</span><span class="py">AsOptions</span><span class="o">[</span><span class="kt">Class1</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">type</span> <span class="kt">Out</span> <span class="o">=</span> <span class="nc">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="o">::</span> <span class="nc">HNil</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">apply</span><span class="o">()</span><span class="k">:</span> <span class="kt">Out</span> <span class="o">=</span> <span class="nc">None</span> <span class="o">::</span> <span class="nc">HNil</span>
+<span class="o">}</span>
+
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">class2Default</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">Default</span><span class="o">.</span><span class="py">AsOptions</span><span class="o">[</span><span class="kt">Class2</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">type</span> <span class="kt">Out</span> <span class="o">=</span> <span class="nc">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="o">::</span> <span class="nc">Option</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="o">::</span> <span class="nc">HNil</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">apply</span><span class="o">()</span><span class="k">:</span> <span class="kt">Out</span> <span class="o">=</span> <span class="nc">None</span> <span class="o">::</span> <span class="nc">None</span> <span class="o">::</span> <span class="nc">HNil</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>After we add this, PureConfig is able to load <code class="highlighter-rouge">Class1</code> and <code class="highlighter-rouge">Class2</code> from configuration.
+The second and final part of this method is to add the generic representation of <code class="highlighter-rouge">Identifiable</code>
+as a sealed family of <code class="highlighter-rouge">Class1</code> and <code class="highlighter-rouge">Class2</code>, or a coproduct of them if you want:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">class1w</span> <span class="k">=</span> <span class="nc">Witness</span><span class="o">(</span><span class="ss">'Class1)</span>
+<span class="k">val</span> <span class="nv">class2w</span> <span class="k">=</span> <span class="nc">Witness</span><span class="o">(</span><span class="ss">'Class2)</span>
+
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">identifiableGeneric</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LabelledGeneric</span><span class="o">[</span><span class="kt">Identifiable</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">type</span> <span class="kt">Repr</span> <span class="o">=</span>
+    <span class="nc">FieldType</span><span class="o">[</span><span class="kt">class1w.T</span>, <span class="kt">Class1</span><span class="o">]</span> <span class="o">:+:</span>
+    <span class="nc">FieldType</span><span class="o">[</span><span class="kt">class2w.T</span>, <span class="kt">Class2</span><span class="o">]</span> <span class="o">:+:</span>
+    <span class="nc">CNil</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">to</span><span class="o">(</span><span class="n">t</span><span class="k">:</span> <span class="kt">Identifiable</span><span class="o">)</span><span class="k">:</span> <span class="kt">Repr</span> <span class="o">=</span> <span class="n">t</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="n">class1</span><span class="k">:</span> <span class="kt">Class1</span> <span class="o">=&gt;</span> <span class="nc">Inl</span><span class="o">(</span><span class="n">field</span><span class="o">[</span><span class="kt">class1w.T</span><span class="o">](</span><span class="n">class1</span><span class="o">))</span>
+    <span class="k">case</span> <span class="n">class2</span><span class="k">:</span> <span class="kt">Class2</span> <span class="o">=&gt;</span> <span class="nc">Inr</span><span class="o">(</span><span class="nc">Inl</span><span class="o">(</span><span class="n">field</span><span class="o">[</span><span class="kt">class2w.T</span><span class="o">](</span><span class="n">class2</span><span class="o">)))</span>
+  <span class="o">}</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">from</span><span class="o">(</span><span class="n">r</span><span class="k">:</span> <span class="kt">Repr</span><span class="o">)</span><span class="k">:</span> <span class="kt">Identifiable</span> <span class="o">=</span> <span class="n">r</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="nc">Inl</span><span class="o">(</span><span class="n">class1</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">class1</span>
+    <span class="k">case</span> <span class="nc">Inr</span><span class="o">(</span><span class="nc">Inl</span><span class="o">(</span><span class="n">class2</span><span class="o">))</span> <span class="k">=&gt;</span> <span class="n">class2</span>
+    <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="o">???</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>pro</strong>: more efficient than method 2 because instead of using another data type,
+it provides the missing pieces of information to PureConfig so that PureConfig
+can derive the <code class="highlighter-rouge">ConfigReader[Identifiable]</code> by itself.</p>
+
+<p><strong>cons</strong>: shapeless magic. If you know shapeless, this is doable, otherwise caution is recommended.</p>
+
+<h3 id="summary">Summary</h3>
+
+<ul>
+  <li><strong>Method 1</strong> is good to add support for complex types with a similar structure of what is supported by PureConfig, e.g. products and coproducts;</li>
+  <li><strong>Method 2</strong> is good to add support for simple types or types that don’t need PureConfig’s way to decode products (case classes) or coproducts (sealed families of classes);</li>
+  <li><strong>Method 3</strong> is good when method 2 is too slow or when you need to add only part of the information to let PureConfig work, e.g. if you had the generic representation of <code class="highlighter-rouge">Class1</code> and you just have to add the default instance for the arguments.</li>
+</ul>
+
+<p>The preferred method is <strong>method 1</strong> because it’s the easiest to use and the more idiomatic.
+In libraries like PureConfig, the best way to add a new data type is often to take something
+supported by the library and “map it” to the new data type.</p>
+</section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/v0.12.1/highlight/highlight.pack.js"></script><script>hljs.configure({languages:['scala','java','bash']});
+hljs.initHighlighting();
+              </script><script src="/v0.12.1/js/main.js"></script></body></html>
