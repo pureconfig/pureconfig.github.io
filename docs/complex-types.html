@@ -84,10 +84,10 @@ it’s both composable and nice to read.</p>
 <p><strong>cons</strong>: needs the configuration to be duplicated and PureConfig needs to do two
 steps to read it.</p>
 
-<h4 id="method-2-implement-configreaderidentifiable-manually">Method 2: Implement <code class="highlighter-rouge">ConfigReader[Identifiable]</code> manually</h4>
+<h4 id="method-2-implement-configreaderidentifiable-manually">Method 2: Implement <code class="language-plaintext highlighter-rouge">ConfigReader[Identifiable]</code> manually</h4>
 
 <p>Similarly to adding support for simple types, it is possible to manually create a
-<code class="highlighter-rouge">ConfigReader[Identifiable]</code>:</p>
+<code class="language-plaintext highlighter-rouge">ConfigReader[Identifiable]</code>:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig._</span>
 
@@ -98,7 +98,7 @@ steps to read it.</p>
   <span class="k">case</span> <span class="s">"class1"</span> <span class="k">=&gt;</span> <span class="nv">class1Reader</span><span class="o">.</span><span class="py">from</span><span class="o">(</span><span class="n">objCur</span><span class="o">)</span>
   <span class="k">case</span> <span class="s">"class2"</span> <span class="k">=&gt;</span> <span class="nv">class2Reader</span><span class="o">.</span><span class="py">from</span><span class="o">(</span><span class="n">objCur</span><span class="o">)</span>
   <span class="k">case</span> <span class="n">t</span> <span class="k">=&gt;</span>
-    <span class="nv">objCur</span><span class="o">.</span><span class="py">failed</span><span class="o">(</span><span class="nc">CannotConvert</span><span class="o">(</span><span class="nv">objCur</span><span class="o">.</span><span class="py">value</span><span class="o">.</span><span class="py">toString</span><span class="o">,</span> <span class="s">"Identifiable"</span><span class="o">,</span>
+    <span class="nv">objCur</span><span class="o">.</span><span class="py">failed</span><span class="o">(</span><span class="nc">CannotConvert</span><span class="o">(</span><span class="nv">objCur</span><span class="o">.</span><span class="py">objValue</span><span class="o">.</span><span class="py">toString</span><span class="o">,</span> <span class="s">"Identifiable"</span><span class="o">,</span>
       <span class="n">s</span><span class="s">"type has value $t instead of class1 or class2"</span><span class="o">))</span>
 <span class="o">}</span>
 
@@ -113,22 +113,22 @@ steps to read it.</p>
 </code></pre></div></div>
 
 <p><strong>pros</strong>: The main advantage of this method is that PureConfig delegates to it when decoding your configuration.
-PureConfig takes the manually defined <code class="highlighter-rouge">ConfigReader[Identifiable]</code> as a blackbox and applies it when it has to read your configuration.</p>
+PureConfig takes the manually defined <code class="language-plaintext highlighter-rouge">ConfigReader[Identifiable]</code> as a blackbox and applies it when it has to read your configuration.</p>
 
 <p><strong>cons</strong>: The main advantage of this method is also its drawback, because by taking control over 
 PureConfig in how to read sealed families of case classes, it prevents PureConfig from doing its 
-magic. For instance, it prevents PureConfig from using the <code class="highlighter-rouge">CoproductHint</code> as strategy to read 
-<code class="highlighter-rouge">Identifiable</code>. This is, generally speaking, not a good idea. In most cases you want PureConfig 
+magic. For instance, it prevents PureConfig from using the <code class="language-plaintext highlighter-rouge">CoproductHint</code> as strategy to read 
+<code class="language-plaintext highlighter-rouge">Identifiable</code>. This is, generally speaking, not a good idea. In most cases you want PureConfig 
 features also for your custom class.</p>
 
-<h4 id="method-3-give-a-generic-representation-of-your-configuration">Method 3: Give a <code class="highlighter-rouge">Generic</code> representation of your configuration</h4>
+<h4 id="method-3-give-a-generic-representation-of-your-configuration">Method 3: Give a <code class="language-plaintext highlighter-rouge">Generic</code> representation of your configuration</h4>
 
-<p>PureConfig is based on <a href="https://github.com/milessabin/shapeless">shapeless</a> <code class="highlighter-rouge">Generic</code>, which is used to represent data
-structures in a generic form. The reason why in method 2 PureConfig was able to decode <code class="highlighter-rouge">IdentifiableDummy</code> but not
-<code class="highlighter-rouge">Identifiable</code> prior our code is that <code class="highlighter-rouge">IdentifiableDummy</code> has a <code class="highlighter-rouge">Generic</code> instance provided by shapeless while
-<code class="highlighter-rouge">Identifiable</code> doesn’t. This method consists of adding the generic representation for the configuration.</p>
+<p>PureConfig is based on <a href="https://github.com/milessabin/shapeless">shapeless</a> <code class="language-plaintext highlighter-rouge">Generic</code>, which is used to represent data
+structures in a generic form. The reason why in method 2 PureConfig was able to decode <code class="language-plaintext highlighter-rouge">IdentifiableDummy</code> but not
+<code class="language-plaintext highlighter-rouge">Identifiable</code> prior our code is that <code class="language-plaintext highlighter-rouge">IdentifiableDummy</code> has a <code class="language-plaintext highlighter-rouge">Generic</code> instance provided by shapeless while
+<code class="language-plaintext highlighter-rouge">Identifiable</code> doesn’t. This method consists of adding the generic representation for the configuration.</p>
 
-<p>Let’s start with the concrete classes <code class="highlighter-rouge">Class1</code> and <code class="highlighter-rouge">Class2</code>. PureConfig needs to know
+<p>Let’s start with the concrete classes <code class="language-plaintext highlighter-rouge">Class1</code> and <code class="language-plaintext highlighter-rouge">Class2</code>. PureConfig needs to know
 two things in order to read them:</p>
 
 <ol>
@@ -167,7 +167,7 @@ two things in order to read them:</p>
 <span class="o">}</span>
 </code></pre></div></div>
 
-<p>The second item is trivial because neither <code class="highlighter-rouge">Class1</code> nor <code class="highlighter-rouge">Class2</code> have default values for fields:</p>
+<p>The second item is trivial because neither <code class="language-plaintext highlighter-rouge">Class1</code> nor <code class="language-plaintext highlighter-rouge">Class2</code> have default values for fields:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">class1Default</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">Default</span><span class="o">.</span><span class="py">AsOptions</span><span class="o">[</span><span class="kt">Class1</span><span class="o">]</span> <span class="o">{</span>
   <span class="k">override</span> <span class="k">type</span> <span class="kt">Out</span> <span class="o">=</span> <span class="nc">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="o">::</span> <span class="nc">HNil</span>
@@ -180,9 +180,9 @@ two things in order to read them:</p>
 <span class="o">}</span>
 </code></pre></div></div>
 
-<p>After we add this, PureConfig is able to load <code class="highlighter-rouge">Class1</code> and <code class="highlighter-rouge">Class2</code> from configuration.
-The second and final part of this method is to add the generic representation of <code class="highlighter-rouge">Identifiable</code>
-as a sealed family of <code class="highlighter-rouge">Class1</code> and <code class="highlighter-rouge">Class2</code>, or a coproduct of them if you want:</p>
+<p>After we add this, PureConfig is able to load <code class="language-plaintext highlighter-rouge">Class1</code> and <code class="language-plaintext highlighter-rouge">Class2</code> from configuration.
+The second and final part of this method is to add the generic representation of <code class="language-plaintext highlighter-rouge">Identifiable</code>
+as a sealed family of <code class="language-plaintext highlighter-rouge">Class1</code> and <code class="language-plaintext highlighter-rouge">Class2</code>, or a coproduct of them if you want:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">class1w</span> <span class="k">=</span> <span class="nc">Witness</span><span class="o">(</span><span class="nc">Symbol</span><span class="o">(</span><span class="s">"Class1"</span><span class="o">))</span>
 <span class="k">val</span> <span class="nv">class2w</span> <span class="k">=</span> <span class="nc">Witness</span><span class="o">(</span><span class="nc">Symbol</span><span class="o">(</span><span class="s">"Class2"</span><span class="o">))</span>
@@ -208,7 +208,7 @@ as a sealed family of <code class="highlighter-rouge">Class1</code> and <code cl
 
 <p><strong>pro</strong>: more efficient than method 2 because instead of using another data type,
 it provides the missing pieces of information to PureConfig so that PureConfig
-can derive the <code class="highlighter-rouge">ConfigReader[Identifiable]</code> by itself.</p>
+can derive the <code class="language-plaintext highlighter-rouge">ConfigReader[Identifiable]</code> by itself.</p>
 
 <p><strong>cons</strong>: shapeless magic. If you know shapeless, this is doable, otherwise caution is recommended.</p>
 
@@ -217,7 +217,7 @@ can derive the <code class="highlighter-rouge">ConfigReader[Identifiable]</code>
 <ul>
   <li><strong>Method 1</strong> is good to add support for complex types with a similar structure of what is supported by PureConfig, e.g. products and coproducts;</li>
   <li><strong>Method 2</strong> is good to add support for simple types or types that don’t need PureConfig’s way to decode products (case classes) or coproducts (sealed families of classes);</li>
-  <li><strong>Method 3</strong> is good when method 2 is too slow or when you need to add only part of the information to let PureConfig work, e.g. if you had the generic representation of <code class="highlighter-rouge">Class1</code> and you just have to add the default instance for the arguments.</li>
+  <li><strong>Method 3</strong> is good when method 2 is too slow or when you need to add only part of the information to let PureConfig work, e.g. if you had the generic representation of <code class="language-plaintext highlighter-rouge">Class1</code> and you just have to add the default instance for the arguments.</li>
 </ul>
 
 <p>The preferred method is <strong>method 1</strong> because it’s the easiest to use and the more idiomatic.

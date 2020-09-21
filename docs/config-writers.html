@@ -5,7 +5,7 @@ typesafe and boilerplate-free way. However, there are situations where users may
 operation: to write a config file from a Scala data structure. An example would be to save a config after it is changed
 in-app.</p>
 
-<p>Just as PureConfig provides a <code class="highlighter-rouge">ConfigReader</code> interface for reading configurations, it also provides a <code class="highlighter-rouge">ConfigWriter</code> for
+<p>Just as PureConfig provides a <code class="language-plaintext highlighter-rouge">ConfigReader</code> interface for reading configurations, it also provides a <code class="language-plaintext highlighter-rouge">ConfigWriter</code> for
 writing configs.</p>
 
 <p>All types mentioned at <a href="built-in-supported-types.html">Built-in Supported Types</a> are supported both in reading and in
@@ -34,9 +34,9 @@ writing operations:</p>
 </code></pre></div></div>
 
 <p>The mechanisms with which PureConfig finds out how to write a type to a config are the same as ones used with
-<code class="highlighter-rouge">ConfigReader</code>. Therefore, you can use most tutorials and tips at <a href="supporting-new-types.html">Supporting New Types</a>
-and <a href="overriding-behavior-for-types.html">Overriding Behavior for Types</a> for creating <code class="highlighter-rouge">ConfigWriter</code> instances, too.
-<code class="highlighter-rouge">ConfigWriter</code> also has useful combinators and factory methods to simplify new implementations:</p>
+<code class="language-plaintext highlighter-rouge">ConfigReader</code>. Therefore, you can use most tutorials and tips at <a href="supporting-new-types.html">Supporting New Types</a>
+and <a href="overriding-behavior-for-types.html">Overriding Behavior for Types</a> for creating <code class="language-plaintext highlighter-rouge">ConfigWriter</code> instances, too.
+<code class="language-plaintext highlighter-rouge">ConfigWriter</code> also has useful combinators and factory methods to simplify new implementations:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyInt</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
   <span class="k">def</span> <span class="nf">getValue</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="n">value</span>
@@ -50,7 +50,7 @@ and <a href="overriding-behavior-for-types.html">Overriding Behavior for Types</
 <span class="c1">// res2: com.typesafe.config.ConfigValue = ConfigInt(1)</span>
 </code></pre></div></div>
 
-<p>Finally, if you need both the reading and the writing part for a custom type, you can implement a <code class="highlighter-rouge">ConfigConvert</code>:</p>
+<p>Finally, if you need both the reading and the writing part for a custom type, you can implement a <code class="language-plaintext highlighter-rouge">ConfigConvert</code>:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">myIntConvert</span> <span class="k">=</span> <span class="nc">ConfigConvert</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="py">xmap</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">](</span><span class="k">new</span> <span class="nc">MyInt</span><span class="o">(</span><span class="k">_</span><span class="o">),</span> <span class="nv">_</span><span class="o">.</span><span class="py">getValue</span><span class="o">)</span>
 </code></pre></div></div>
@@ -61,7 +61,7 @@ and <a href="overriding-behavior-for-types.html">Overriding Behavior for Types</
 <span class="c1">// res3: ConfigReader.Result[MyInt] = Right(MyInt(1))</span>
 </code></pre></div></div>
 
-<p>A <code class="highlighter-rouge">ConfigConvert</code> implements both the <code class="highlighter-rouge">ConfigReader</code> and <code class="highlighter-rouge">ConfigWriter</code> interfaces and can be used everywhere one of
+<p>A <code class="language-plaintext highlighter-rouge">ConfigConvert</code> implements both the <code class="language-plaintext highlighter-rouge">ConfigReader</code> and <code class="language-plaintext highlighter-rouge">ConfigWriter</code> interfaces and can be used everywhere one of
 them is needed.</p>
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script>
 // For all code blocks, copy the language from the containing div

@@ -2,10 +2,10 @@
 
 <p>In order for PureConfig to disambiguate between different options of a sealed
 family of case classes, it must read and write additional information in
-configurations. By default it uses the additional field <code class="highlighter-rouge">type</code>, encoding the
+configurations. By default it uses the additional field <code class="language-plaintext highlighter-rouge">type</code>, encoding the
 concrete class represented in the configuration.</p>
 
-<p>Given an <code class="highlighter-rouge">AnimalConf</code> sealed trait:</p>
+<p>Given an <code class="language-plaintext highlighter-rouge">AnimalConf</code> sealed trait:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig._</span>
 <span class="k">import</span> <span class="nn">pureconfig.generic.auto._</span>
@@ -15,19 +15,19 @@ concrete class represented in the configuration.</p>
 <span class="k">case</span> <span class="k">class</span> <span class="nc">BirdConf</span><span class="o">(</span><span class="n">canFly</span><span class="k">:</span> <span class="kt">Boolean</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">AnimalConf</span>
 </code></pre></div></div>
 
-<p>This will load a <code class="highlighter-rouge">DogConf</code> instance:</p>
+<p>This will load a <code class="language-plaintext highlighter-rouge">DogConf</code> instance:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ type: dog-conf, age: 4 }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">AnimalConf</span><span class="o">]</span>
 <span class="c1">// res0: ConfigReader.Result[AnimalConf] = Right(DogConf(4))</span>
 </code></pre></div></div>
 
 <p>For sealed families, PureConfig provides a way to customize the conversion
-without replacing the default <code class="highlighter-rouge">ConfigReader</code>. By putting in scope an instance
-of <code class="highlighter-rouge">CoproductHint</code> for that sealed family, we can customize how the
-disambiguation is made. For example, if <code class="highlighter-rouge">type</code> clashes with one of the fields
+without replacing the default <code class="language-plaintext highlighter-rouge">ConfigReader</code>. By putting in scope an instance
+of <code class="language-plaintext highlighter-rouge">CoproductHint</code> for that sealed family, we can customize how the
+disambiguation is made. For example, if <code class="language-plaintext highlighter-rouge">type</code> clashes with one of the fields
 of a case class option, we can use another field.</p>
 
-<p>First, define a <code class="highlighter-rouge">CoproductHint</code> in implicit scope:</p>
+<p>First, define a <code class="language-plaintext highlighter-rouge">CoproductHint</code> in implicit scope:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig.generic.FieldCoproductHint</span>
 
@@ -40,8 +40,8 @@ of a case class option, we can use another field.</p>
 <span class="c1">// res1: ConfigReader.Result[AnimalConf] = Right(DogConf(4))</span>
 </code></pre></div></div>
 
-<p><code class="highlighter-rouge">FieldCoproductHint</code> can also be adapted to write class names in a different
-way. First, define a new <code class="highlighter-rouge">FieldCoproductHint</code> in implicit scope:</p>
+<p><code class="language-plaintext highlighter-rouge">FieldCoproductHint</code> can also be adapted to write class names in a different
+way. First, define a new <code class="language-plaintext highlighter-rouge">FieldCoproductHint</code> in implicit scope:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">animalConfHint</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">FieldCoproductHint</span><span class="o">[</span><span class="kt">AnimalConf</span><span class="o">](</span><span class="s">"type"</span><span class="o">)</span> <span class="o">{</span>
   <span class="k">override</span> <span class="k">def</span> <span class="nf">fieldValue</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="nv">name</span><span class="o">.</span><span class="py">dropRight</span><span class="o">(</span><span class="s">"Conf"</span><span class="o">.</span><span class="py">length</span><span class="o">)</span>
@@ -55,8 +55,8 @@ way. First, define a new <code class="highlighter-rouge">FieldCoproductHint</cod
 </code></pre></div></div>
 
 <p>If you encode enumerations using sealed traits of case objects, you can use the
-<code class="highlighter-rouge">deriveEnumerationReader</code> method from the <code class="highlighter-rouge">pureconfig.generic.semiauto</code> package
-to derive <code class="highlighter-rouge">ConfigReader</code> instances for your sealed trait.</p>
+<code class="language-plaintext highlighter-rouge">deriveEnumerationReader</code> method from the <code class="language-plaintext highlighter-rouge">pureconfig.generic.semiauto</code> package
+to derive <code class="language-plaintext highlighter-rouge">ConfigReader</code> instances for your sealed trait.</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig._</span>
 <span class="k">import</span> <span class="nn">pureconfig.generic.auto._</span>
@@ -81,7 +81,7 @@ to derive <code class="highlighter-rouge">ConfigReader</code> instances for your
 <span class="c1">// )</span>
 </code></pre></div></div>
 
-<p>By default, enumerations will be encoded as strings with the <code class="highlighter-rouge">kebab-case</code>
+<p>By default, enumerations will be encoded as strings with the <code class="language-plaintext highlighter-rouge">kebab-case</code>
 representation of the class name, but that behavior can be overridden by
 specifying a different transformation function.</p>
 
