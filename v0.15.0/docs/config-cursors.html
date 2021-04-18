@@ -1,0 +1,138 @@
+<!DOCTYPE html><html><head><title>PureConfig: Config Cursors</title><meta charset="utf-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="com.github.pureconfig" /><meta name="description" content="A boilerplate-free library for loading configuration files" /><meta name="og:image" content="/v0.15.0/img/poster.png" /><meta name="image" property="og:image" content="/v0.15.0/img/poster.png" /><meta name="og:title" content="PureConfig: Config Cursors" /><meta name="title" property="og:title" content="PureConfig: Config Cursors" /><meta name="og:site_name" content="PureConfig" /><meta name="og:url" content="https://pureconfig.github.io/" /><meta name="og:type" content="website" /><meta name="og:description" content="A boilerplate-free library for loading configuration files" /><link rel="icon" type="image/png" href="/v0.15.0/img/favicon.png" /><meta name="twitter:title" content="PureConfig: Config Cursors" /><meta name="twitter:image" content="/v0.15.0/img/poster.png" /><meta name="twitter:description" content="A boilerplate-free library for loading configuration files" /><meta name="twitter:card" content="summary_large_image" /><link rel="icon" type="image/png" sizes="16x16" href="/v0.15.0/img/favicon16x16.png" /><link rel="icon" type="image/png" sizes="24x24" href="/v0.15.0/img/favicon24x24.png" /><link rel="icon" type="image/png" sizes="32x32" href="/v0.15.0/img/favicon32x32.png" /><link rel="icon" type="image/png" sizes="48x48" href="/v0.15.0/img/favicon48x48.png" /><link rel="icon" type="image/png" sizes="57x57" href="/v0.15.0/img/favicon57x57.png" /><link rel="icon" type="image/png" sizes="60x60" href="/v0.15.0/img/favicon60x60.png" /><link rel="icon" type="image/png" sizes="64x64" href="/v0.15.0/img/favicon64x64.png" /><link rel="icon" type="image/png" sizes="70x70" href="/v0.15.0/img/favicon70x70.png" /><link rel="icon" type="image/png" sizes="72x72" href="/v0.15.0/img/favicon72x72.png" /><link rel="icon" type="image/png" sizes="76x76" href="/v0.15.0/img/favicon76x76.png" /><link rel="icon" type="image/png" sizes="96x96" href="/v0.15.0/img/favicon96x96.png" /><link rel="icon" type="image/png" sizes="114x114" href="/v0.15.0/img/favicon114x114.png" /><link rel="icon" type="image/png" sizes="120x120" href="/v0.15.0/img/favicon120x120.png" /><link rel="icon" type="image/png" sizes="128x128" href="/v0.15.0/img/favicon128x128.png" /><link rel="icon" type="image/png" sizes="144x144" href="/v0.15.0/img/favicon144x144.png" /><link rel="icon" type="image/png" sizes="150x150" href="/v0.15.0/img/favicon150x150.png" /><link rel="icon" type="image/png" sizes="152x152" href="/v0.15.0/img/favicon152x152.png" /><link rel="icon" type="image/png" sizes="196x196" href="/v0.15.0/img/favicon196x196.png" /><link rel="icon" type="image/png" sizes="310x310" href="/v0.15.0/img/favicon310x310.png" /><link rel="icon" type="image/png" sizes="310x150" href="/v0.15.0/img/favicon310x150.png" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" /><link rel="stylesheet" href="/v0.15.0/highlight/styles/default.css" /><link rel="stylesheet" href="/v0.15.0/css/pattern-style.css" /><link rel="stylesheet" href="/v0.15.0/css/custom.css" /></head><body class="docs"><div id="wrapper"><div id="sidebar-wrapper"><ul id="sidebar" class="sidebar-nav"><li class="sidebar-brand"><a href="/v0.15.0/" class="brand"><div class="brand-wrapper"><span>PureConfig</span></div></a></li> <li><a href="/v0.15.0/docs/index.html" class="">Quick Start</a></li> <li><a href="/v0.15.0/docs/loading-a-config.html" class="">Loading a Config</a></li> <li><a href="/v0.15.0/docs/built-in-supported-types.html" class="">Built-in Supported Types</a></li> <li><a href="/v0.15.0/docs/supporting-new-types.html" class="">Supporting New Types</a> <ul class="sub-section"> <li><a href="/v0.15.0/docs/combinators.html" class="">Combinators</a></li> <li><a href="/v0.15.0/docs/config-cursors.html" class=" active ">Config Cursors</a></li> <li><a href="/v0.15.0/docs/complex-types.html" class="">Complex Types</a></li></ul></li> <li><a href="/v0.15.0/docs/overriding-behavior-for-types.html" class="">Overriding Behavior for Types</a> <ul class="sub-section"> <li><a href="/v0.15.0/docs/overriding-behavior-for-case-classes.html" class="">Case Classes</a></li> <li><a href="/v0.15.0/docs/overriding-behavior-for-sealed-families.html" class="">Sealed Families</a></li></ul></li> <li><a href="/v0.15.0/docs/configurable-converters.html" class="">Configurable Converters</a></li> <li><a href="/v0.15.0/docs/error-handling.html" class="">Error Handling</a></li> <li><a href="/v0.15.0/docs/config-writers.html" class="">Config Writers</a></li> <li><a href="/v0.15.0/docs/non-automatic-derivation.html" class="">Non-Automatic Derivation</a></li> <li><a href="/v0.15.0/docs/library-integrations.html" class="">Library Integrations</a></li> <li><a href="/v0.15.0/docs/faq.html" class="">FAQ</a></li></ul></div><div id="page-content-wrapper"><div class="nav"><div class="container-fluid"><div class="row"><div class="col-lg-12"><div class="action-menu pull-left clearfix"><a href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a></div><ul class="pull-right"><li class="search-nav hidden-xs hidden-sm"><div id="search-dropdown"><label><i class="fa fa-search"></i>Search</label><input id="search-bar" type="text" placeholder="Enter keywords here..." onclick="displayToggleSearch(event)" /><ul id="search-dropdown-content" class="dropdown dropdown-content"></ul></div></li><li id="gh-eyes-item" class="hidden-xs to-uppercase"><a href="https://github.com/pureconfig/pureconfig" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"></i><span>Watchers<span id="eyes" class="label label-default">--</span></span></a></li><li id="gh-stars-item" class="hidden-xs to-uppercase"><a href="https://github.com/pureconfig/pureconfig" target="_blank" rel="noopener noreferrer"><i class="fa fa-star-o"></i><span>Stars<span id="stars" class="label label-default">--</span></span></a></li><li><a href="#" onclick="shareSiteTwitter('PureConfig A boilerplate-free library for loading configuration files');"><i class="fa fa-twitter"></i></a></li><li><a href="#" onclick="shareSiteFacebook('PureConfig A boilerplate-free library for loading configuration files');"><i class="fa fa-facebook"></i></a></li></ul></div></div></div></div><div id="content" data-github-owner="pureconfig" data-github-repo="pureconfig"><div class="content-wrapper"><section><h2 id="config-cursors">Config Cursors</h2>
+
+<p>When a <code class="language-plaintext highlighter-rouge">ConfigReader</code> needs to be created from scratch, users need to implement a <code class="language-plaintext highlighter-rouge">from</code> method with the following
+signature:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">from</span><span class="o">(</span><span class="n">cur</span><span class="k">:</span> <span class="kt">ConfigCursor</span><span class="o">)</span><span class="k">:</span> <span class="kt">ConfigReader.Result</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">ConfigCursor</code> class is a wrapper for the raw <code class="language-plaintext highlighter-rouge">ConfigValue</code> provided by Typesafe Config. It provides an idiomatic,
+typesafe API for the most common operations needed while reading a config. In particular, it provides cast operations
+and key accesses that integrate neatly with the <a href="error-handling.html">PureConfig errors API</a>. When using cursors
+properly, most errors are automatically handled and filled with rich information about the location of the failure.</p>
+
+<p>We’ll show how to implement our own <code class="language-plaintext highlighter-rouge">ConfigReader</code> for the following class:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="o">(</span><span class="n">firstName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">lastNames</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">toString</span> <span class="k">=</span> <span class="n">s</span><span class="s">"Person($firstName ${lastNames.mkString("</span> <span class="s">")})"</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Conf</span><span class="o">(</span><span class="n">person</span><span class="k">:</span> <span class="kt">Person</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>We intend our config to look like this:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.typesafe.config.ConfigFactory</span>
+
+<span class="k">val</span> <span class="nv">conf</span> <span class="k">=</span> <span class="nv">ConfigFactory</span><span class="o">.</span><span class="py">parseString</span><span class="o">(</span><span class="s">"person.name: John Doe"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>For the purposes of this example, we’ll assume the provided <code class="language-plaintext highlighter-rouge">name</code> will always have at least two words.</p>
+
+<p>An implementation of the <code class="language-plaintext highlighter-rouge">ConfigReader</code> using the cursors API is shown below:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig._</span>
+<span class="k">import</span> <span class="nn">pureconfig.generic.auto._</span>
+
+<span class="k">def</span> <span class="nf">firstNameOf</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span>
+  <span class="nv">name</span><span class="o">.</span><span class="py">takeWhile</span><span class="o">(</span><span class="k">_</span> <span class="o">!=</span> <span class="sc">' '</span><span class="o">)</span>
+
+<span class="k">def</span> <span class="nf">lastNamesOf</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span>
+  <span class="nv">name</span><span class="o">.</span><span class="py">dropWhile</span><span class="o">(</span><span class="k">_</span> <span class="o">!=</span> <span class="sc">' '</span><span class="o">).</span><span class="py">drop</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="py">split</span><span class="o">(</span><span class="s">" "</span><span class="o">)</span>
+
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">personReader</span> <span class="k">=</span> <span class="nv">ConfigReader</span><span class="o">.</span><span class="py">fromCursor</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span> <span class="o">{</span> <span class="n">cur</span> <span class="k">=&gt;</span>
+  <span class="k">for</span> <span class="o">{</span>
+    <span class="n">objCur</span> <span class="k">&lt;-</span> <span class="nv">cur</span><span class="o">.</span><span class="py">asObjectCursor</span>      <span class="c1">// 1</span>
+    <span class="n">nameCur</span> <span class="k">&lt;-</span> <span class="nv">objCur</span><span class="o">.</span><span class="py">atKey</span><span class="o">(</span><span class="s">"name"</span><span class="o">)</span>   <span class="c1">// 2</span>
+    <span class="n">name</span> <span class="k">&lt;-</span> <span class="nv">nameCur</span><span class="o">.</span><span class="py">asString</span>          <span class="c1">// 3</span>
+  <span class="o">}</span> <span class="k">yield</span> <span class="k">new</span> <span class="nc">Person</span><span class="o">(</span><span class="nf">firstNameOf</span><span class="o">(</span><span class="n">name</span><span class="o">),</span> <span class="nf">lastNamesOf</span><span class="o">(</span><span class="n">name</span><span class="o">))</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The factory method <code class="language-plaintext highlighter-rouge">ConfigReader.fromCursor</code> allows us to create a <code class="language-plaintext highlighter-rouge">ConfigReader</code> without much boilerplate by providing
+the required <code class="language-plaintext highlighter-rouge">ConfigCursor =&gt; ConfigReader.Result[A]</code> function. Since most methods in the cursor API return
+<code class="language-plaintext highlighter-rouge">Either</code> values with failures at their left side,
+<a href="https://docs.scala-lang.org/tour/for-comprehensions.html">for comprehensions</a> are a natural fit. Let’s analyze the lines
+marked above:</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">asObjectCursor</code> casts a cursor to a special <code class="language-plaintext highlighter-rouge">ConfigObjectCursor</code>, which contains methods exclusive to config
+objects. If the provided config value is not an object, the method returns a <code class="language-plaintext highlighter-rouge">Left</code> and the execution stops here;</li>
+  <li><code class="language-plaintext highlighter-rouge">atKey</code> is defined only on object cursors and accesses a given key on the underlying object. Once more, trying to
+access a non-existing key results in an error, stopping the for comprehension;</li>
+  <li>having a cursor for the <code class="language-plaintext highlighter-rouge">name</code> key we want, <code class="language-plaintext highlighter-rouge">asString</code> tries to cast the config value pointed to by the cursor to a
+string.</li>
+</ol>
+
+<p>You can use the fluent cursor API, an alternative interface focused on easy navigation over error handling, to achieve the same effect:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">personReader</span> <span class="k">=</span> <span class="nv">ConfigReader</span><span class="o">.</span><span class="py">fromCursor</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span> <span class="o">{</span> <span class="n">cur</span> <span class="k">=&gt;</span>
+  <span class="nv">cur</span><span class="o">.</span><span class="py">fluent</span><span class="o">.</span><span class="py">at</span><span class="o">(</span><span class="s">"name"</span><span class="o">).</span><span class="py">asString</span><span class="o">.</span><span class="py">map</span> <span class="o">{</span> <span class="n">name</span> <span class="k">=&gt;</span>
+    <span class="k">new</span> <span class="nc">Person</span><span class="o">(</span><span class="nf">firstNameOf</span><span class="o">(</span><span class="n">name</span><span class="o">),</span> <span class="nf">lastNamesOf</span><span class="o">(</span><span class="n">name</span><span class="o">))</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Either way, a well-formed config will now work correctly:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">fromConfig</span><span class="o">(</span><span class="n">conf</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
+<span class="c1">// res1: ConfigReader.Result[Conf] = Right(Conf(Person(John Doe)))</span>
+</code></pre></div></div>
+
+<p>While malformed configs will fail to load with appropriate errors:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"person = 45"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
+<span class="c1">// res2: ConfigReader.Result[Conf] = Left(</span>
+<span class="c1">//   ConfigReaderFailures(</span>
+<span class="c1">//     ConvertFailure(</span>
+<span class="c1">//       WrongType(NUMBER, Set(OBJECT)),</span>
+<span class="c1">//       Some(ConfigOrigin(String)),</span>
+<span class="c1">//       "person"</span>
+<span class="c1">//     ),</span>
+<span class="c1">//     WrappedArray()</span>
+<span class="c1">//   )</span>
+<span class="c1">// )</span>
+<span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"person.eman = John Doe"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
+<span class="c1">// res3: ConfigReader.Result[Conf] = Left(</span>
+<span class="c1">//   ConfigReaderFailures(</span>
+<span class="c1">//     ConvertFailure(</span>
+<span class="c1">//       KeyNotFound("name", Set()),</span>
+<span class="c1">//       Some(ConfigOrigin(String)),</span>
+<span class="c1">//       "person"</span>
+<span class="c1">//     ),</span>
+<span class="c1">//     WrappedArray()</span>
+<span class="c1">//   )</span>
+<span class="c1">// )</span>
+<span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"person.name = [1, 2]"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
+<span class="c1">// res4: ConfigReader.Result[Conf] = Left(</span>
+<span class="c1">//   ConfigReaderFailures(</span>
+<span class="c1">//     ConvertFailure(</span>
+<span class="c1">//       WrongType(LIST, Set(STRING)),</span>
+<span class="c1">//       Some(ConfigOrigin(String)),</span>
+<span class="c1">//       "person.name"</span>
+<span class="c1">//     ),</span>
+<span class="c1">//     WrappedArray()</span>
+<span class="c1">//   )</span>
+<span class="c1">// )</span>
+</code></pre></div></div>
+
+<p>By using the appropriate <code class="language-plaintext highlighter-rouge">ConfigCursor</code> methods, all error handling was taken care of by PureConfig. That makes
+PureConfig easy to use even when users have to deal with the low-level details of the conversions.</p>
+</section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/v0.15.0/highlight/highlight.pack.js"></script><script src="/v0.15.0/lunr/lunr.js"></script><script>
+// For all code blocks, copy the language from the containing div
+// to the inner code tag (where hljs expects it to be)
+const langPrefix = 'language-';
+document.querySelectorAll(`div[class^='${langPrefix}']`).forEach(function(div) {
+  div.classList.forEach(function(cssClass) {
+    if (cssClass.startsWith(langPrefix)) {
+      const lang = cssClass.substring(langPrefix.length);
+      div.querySelectorAll('pre code').forEach(function(code) {
+        code.classList.add(lang);
+      });
+    }
+  });
+});
+
+hljs.configure({languages:['scala','java','bash']});
+hljs.initHighlightingOnLoad();
+      </script><script>console.info('\x57\x65\x62\x73\x69\x74\x65\x20\x62\x75\x69\x6c\x74\x20\x77\x69\x74\x68\x3a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5f\x5f\x20\x20\x20\x20\x5f\x5f\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5f\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5f\x20\x5f\x5f\x0a\x20\x20\x20\x5f\x5f\x5f\x5f\x5f\x2f\x20\x2f\x5f\x20\x20\x2f\x20\x2f\x5f\x20\x20\x20\x20\x20\x20\x5f\x5f\x5f\x5f\x20\x5f\x5f\x5f\x20\x20\x28\x5f\x29\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x20\x20\x5f\x5f\x5f\x5f\x5f\x28\x5f\x29\x20\x2f\x5f\x5f\x5f\x5f\x20\x20\x5f\x5f\x5f\x5f\x5f\x0a\x20\x20\x2f\x20\x5f\x5f\x5f\x2f\x20\x5f\x5f\x20\x5c\x2f\x20\x5f\x5f\x2f\x5f\x5f\x5f\x5f\x5f\x2f\x20\x5f\x5f\x20\x60\x5f\x5f\x20\x5c\x2f\x20\x2f\x20\x5f\x5f\x5f\x2f\x20\x5f\x5f\x5f\x2f\x20\x5f\x5f\x20\x5c\x2f\x20\x5f\x5f\x5f\x2f\x20\x2f\x20\x5f\x5f\x2f\x20\x5f\x20\x5c\x2f\x20\x5f\x5f\x5f\x2f\x0a\x20\x28\x5f\x5f\x20\x20\x29\x20\x2f\x5f\x2f\x20\x2f\x20\x2f\x5f\x2f\x5f\x5f\x5f\x5f\x5f\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x5f\x5f\x2f\x20\x2f\x20\x20\x2f\x20\x2f\x5f\x2f\x20\x28\x5f\x5f\x20\x20\x29\x20\x2f\x20\x2f\x5f\x2f\x20\x20\x5f\x5f\x28\x5f\x5f\x20\x20\x29\x0a\x2f\x5f\x5f\x5f\x5f\x2f\x5f\x2e\x5f\x5f\x5f\x2f\x5c\x5f\x5f\x2f\x20\x20\x20\x20\x20\x2f\x5f\x2f\x20\x2f\x5f\x2f\x20\x2f\x5f\x2f\x5f\x2f\x5c\x5f\x5f\x5f\x2f\x5f\x2f\x20\x20\x20\x5c\x5f\x5f\x5f\x5f\x2f\x5f\x5f\x5f\x5f\x2f\x5f\x2f\x5c\x5f\x5f\x2f\x5c\x5f\x5f\x5f\x2f\x5f\x5f\x5f\x5f\x2f\x0a\x0a\x68\x74\x74\x70\x73\x3a\x2f\x2f\x34\x37\x64\x65\x67\x2e\x67\x69\x74\x68\x75\x62\x2e\x69\x6f\x2f\x73\x62\x74\x2d\x6d\x69\x63\x72\x6f\x73\x69\x74\x65\x73')</script><script src="/v0.15.0/js/search.js"></script><script src="/v0.15.0/js/main.js"></script></body></html>
