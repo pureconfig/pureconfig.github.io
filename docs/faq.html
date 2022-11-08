@@ -128,7 +128,7 @@ to understand the reason of the failure. Consider the following example:</p>
 <p>When we try to load a <code class="language-plaintext highlighter-rouge">Conf</code> from a config, we’ll simply get this error message:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">default</span><span class="o">.</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
-<span class="c1">// error: could not find implicit value for parameter reader: pureconfig.ConfigReader[App1.this.Conf]</span>
+<span class="c1">// error: could not find implicit value for parameter reader: pureconfig.ConfigReader[MdocApp1.this.Conf]</span>
 <span class="c1">// ConfigSource.default.load[Conf]</span>
 <span class="c1">// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
 </code></pre></div></div>

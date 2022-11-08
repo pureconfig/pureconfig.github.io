@@ -89,6 +89,7 @@ configuration.</p>
 <span class="k">import</span> <span class="nn">pureconfig.generic.auto._</span>
 <span class="k">import</span> <span class="nn">pureconfig.generic.ProductHint</span>
 <span class="k">import</span> <span class="nn">scala.concurrent.duration._</span>
+<span class="k">import</span> <span class="nn">scala.language.postfixOps</span>
 
 <span class="k">case</span> <span class="k">class</span> <span class="nc">Holiday</span><span class="o">(</span><span class="n">where</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"last resort"</span><span class="o">,</span> <span class="n">howLong</span><span class="k">:</span> <span class="kt">Duration</span> <span class="o">=</span> <span class="mi">7</span> <span class="n">days</span><span class="o">)</span>
 </code></pre></div></div>
@@ -101,7 +102,7 @@ configuration.</p>
 
 <span class="c1">// Defaulting `howLong`</span>
 <span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ where: Zürich }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">]</span>
-<span class="c1">// res3: ConfigReader.Result[Holiday] = Right(Holiday("Z\u00fcrich", 7 days))</span>
+<span class="c1">// res3: ConfigReader.Result[Holiday] = Right(Holiday("Zürich", 7 days))</span>
 
 <span class="c1">// Defaulting both arguments</span>
 <span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{}"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">]</span>

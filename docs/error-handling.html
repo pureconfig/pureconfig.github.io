@@ -135,15 +135,15 @@ fast in case of a malformed config. For those cases, the <code class="language-p
 </code></pre></div></div>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ n: -23 }"</span><span class="o">).</span><span class="py">loadOrThrow</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
-<span class="c1">// pureconfig.error.ConfigReaderException: Cannot convert configuration to a repl.MdocSession$App$Conf. Failures are:</span>
+<span class="c1">// pureconfig.error.ConfigReaderException: Cannot convert configuration to a repl.MdocSession$MdocApp$Conf. Failures are:</span>
 <span class="c1">//   at 'n':</span>
 <span class="c1">//     - (String: 1) -23 is not positive</span>
 <span class="c1">// </span>
 <span class="c1">// 	at pureconfig.ConfigSource.loadOrThrow(ConfigSource.scala:81)</span>
 <span class="c1">// 	at pureconfig.ConfigSource.loadOrThrow$(ConfigSource.scala:78)</span>
 <span class="c1">// 	at pureconfig.ConfigObjectSource.loadOrThrow(ConfigSource.scala:92)</span>
-<span class="c1">// 	at repl.MdocSession$App$$anonfun$19.apply(error-handling.md:108)</span>
-<span class="c1">// 	at repl.MdocSession$App$$anonfun$19.apply(error-handling.md:108)</span>
+<span class="c1">// 	at repl.MdocSession$MdocApp$$anonfun$11.apply(error-handling.md:108)</span>
+<span class="c1">// 	at repl.MdocSession$MdocApp$$anonfun$11.apply(error-handling.md:108)</span>
 </code></pre></div></div>
 
 <p>The message of the thrown exception contains human-readable information of all the errors found by PureConfig, with the
