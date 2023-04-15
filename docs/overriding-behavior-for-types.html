@@ -2,7 +2,7 @@
 
 <p>It is possible to override the behavior of PureConfig for a given type <code class="language-plaintext highlighter-rouge">A</code> just by putting another implicit instance
 of <code class="language-plaintext highlighter-rouge">ConfigReader[A]</code> in scope. This happens because the newly defined implicit value will have a higher priority than
-the ones defined by PureConfig, according to the Scala <a href="https://docs.scala-lang.org/tutorials/FAQ/finding-implicits.html#where-do-implicits-come-from">implicit precedence rules</a>.</p>
+the ones defined by PureConfig, according to the Scala <a href="https://stackoverflow.com/questions/5598085/where-does-scala-look-for-implicits/5598107#5598107">implicit precedence rules</a>.</p>
 
 <p>For instance, the default behavior of PureConfig for <code class="language-plaintext highlighter-rouge">String</code> is to return the string itself in the configuration:</p>
 
