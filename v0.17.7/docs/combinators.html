@@ -1,0 +1,112 @@
+<!DOCTYPE html><html><head><title>PureConfig: Combinators</title><meta charset="utf-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="com.github.pureconfig" /><meta name="description" content="A boilerplate-free library for loading configuration files" /><meta name="og:image" content="/v0.17.7/img/poster.png" /><meta name="image" property="og:image" content="/v0.17.7/img/poster.png" /><meta name="og:title" content="PureConfig: Combinators" /><meta name="title" property="og:title" content="PureConfig: Combinators" /><meta name="og:site_name" content="PureConfig" /><meta name="og:url" content="https://pureconfig.github.io/" /><meta name="og:type" content="website" /><meta name="og:description" content="A boilerplate-free library for loading configuration files" /><link rel="icon" type="image/png" href="/v0.17.7/img/favicon.png" /><meta name="twitter:title" content="PureConfig: Combinators" /><meta name="twitter:image" content="/v0.17.7/img/poster.png" /><meta name="twitter:description" content="A boilerplate-free library for loading configuration files" /><meta name="twitter:card" content="summary_large_image" /><link rel="icon" type="image/png" sizes="16x16" href="/v0.17.7/img/favicon16x16.png" /><link rel="icon" type="image/png" sizes="24x24" href="/v0.17.7/img/favicon24x24.png" /><link rel="icon" type="image/png" sizes="32x32" href="/v0.17.7/img/favicon32x32.png" /><link rel="icon" type="image/png" sizes="48x48" href="/v0.17.7/img/favicon48x48.png" /><link rel="icon" type="image/png" sizes="57x57" href="/v0.17.7/img/favicon57x57.png" /><link rel="icon" type="image/png" sizes="60x60" href="/v0.17.7/img/favicon60x60.png" /><link rel="icon" type="image/png" sizes="64x64" href="/v0.17.7/img/favicon64x64.png" /><link rel="icon" type="image/png" sizes="70x70" href="/v0.17.7/img/favicon70x70.png" /><link rel="icon" type="image/png" sizes="72x72" href="/v0.17.7/img/favicon72x72.png" /><link rel="icon" type="image/png" sizes="76x76" href="/v0.17.7/img/favicon76x76.png" /><link rel="icon" type="image/png" sizes="96x96" href="/v0.17.7/img/favicon96x96.png" /><link rel="icon" type="image/png" sizes="114x114" href="/v0.17.7/img/favicon114x114.png" /><link rel="icon" type="image/png" sizes="120x120" href="/v0.17.7/img/favicon120x120.png" /><link rel="icon" type="image/png" sizes="128x128" href="/v0.17.7/img/favicon128x128.png" /><link rel="icon" type="image/png" sizes="144x144" href="/v0.17.7/img/favicon144x144.png" /><link rel="icon" type="image/png" sizes="150x150" href="/v0.17.7/img/favicon150x150.png" /><link rel="icon" type="image/png" sizes="152x152" href="/v0.17.7/img/favicon152x152.png" /><link rel="icon" type="image/png" sizes="196x196" href="/v0.17.7/img/favicon196x196.png" /><link rel="icon" type="image/png" sizes="310x310" href="/v0.17.7/img/favicon310x310.png" /><link rel="icon" type="image/png" sizes="310x150" href="/v0.17.7/img/favicon310x150.png" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" /><link rel="stylesheet" href="/v0.17.7/highlight/styles/default.css" /><link rel="stylesheet" href="/v0.17.7/css/pattern-style.css" /><link rel="stylesheet" href="/v0.17.7/css/custom.css" /></head><body class="docs"><div id="wrapper"><div id="sidebar-wrapper"><ul id="sidebar" class="sidebar-nav"><li class="sidebar-brand"><a href="/v0.17.7/" class="brand"><div class="brand-wrapper"><span>PureConfig</span></div></a></li> <li><a href="/v0.17.7/docs/index.html" class="">Quick Start</a></li> <li><a href="/v0.17.7/docs/loading-a-config.html" class="">Loading a Config</a></li> <li><a href="/v0.17.7/docs/built-in-supported-types.html" class="">Built-in Supported Types</a></li> <li><a href="/v0.17.7/docs/supporting-new-types.html" class="">Supporting New Types</a> <ul class="sub-section"> <li><a href="/v0.17.7/docs/combinators.html" class=" active ">Combinators</a></li> <li><a href="/v0.17.7/docs/config-cursors.html" class="">Config Cursors</a></li> <li><a href="/v0.17.7/docs/complex-types.html" class="">Complex Types</a></li></ul></li> <li><a href="/v0.17.7/docs/overriding-behavior-for-types.html" class="">Overriding Behavior for Types</a> <ul class="sub-section"> <li><a href="/v0.17.7/docs/overriding-behavior-for-case-classes.html" class="">Case Classes</a></li> <li><a href="/v0.17.7/docs/overriding-behavior-for-sealed-families.html" class="">Sealed Families</a></li></ul></li> <li><a href="/v0.17.7/docs/configurable-converters.html" class="">Configurable Converters</a></li> <li><a href="/v0.17.7/docs/error-handling.html" class="">Error Handling</a></li> <li><a href="/v0.17.7/docs/config-writers.html" class="">Config Writers</a></li> <li><a href="/v0.17.7/docs/non-automatic-derivation.html" class="">Non-Automatic Derivation</a></li> <li><a href="/v0.17.7/docs/scala-3-derivation.html" class="">Scala 3 Derivation</a></li> <li><a href="/v0.17.7/docs/library-integrations.html" class="">Library Integrations</a></li> <li><a href="/v0.17.7/docs/faq.html" class="">FAQ</a></li></ul></div><div id="page-content-wrapper"><div class="nav"><div class="container-fluid"><div class="row"><div class="col-lg-12"><div class="action-menu pull-left clearfix"><a href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a></div><ul class="pull-right"><li class="search-nav hidden-xs hidden-sm"><div id="search-dropdown"><label><i class="fa fa-search"></i>Search</label><input id="search-bar" type="text" placeholder="Enter keywords here..." onclick="displayToggleSearch(event)" /><ul id="search-dropdown-content" class="dropdown dropdown-content"></ul></div></li><li id="gh-eyes-item" class="hidden-xs to-uppercase"><a href="https://github.com/pureconfig/pureconfig" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"></i><span>Watchers<span id="eyes" class="label label-default">--</span></span></a></li><li id="gh-stars-item" class="hidden-xs to-uppercase"><a href="https://github.com/pureconfig/pureconfig" target="_blank" rel="noopener noreferrer"><i class="fa fa-star-o"></i><span>Stars<span id="stars" class="label label-default">--</span></span></a></li><li><a href="#" onclick="shareSiteTwitter('PureConfig A boilerplate-free library for loading configuration files');"><i class="fa fa-twitter"></i></a></li><li><a href="#" onclick="shareSiteFacebook('PureConfig A boilerplate-free library for loading configuration files');"><i class="fa fa-facebook"></i></a></li></ul></div></div></div></div><div id="content" data-github-owner="pureconfig" data-github-repo="pureconfig"><div class="content-wrapper"><section><h2 id="combinators">Combinators</h2>
+
+<p>The combinators defined in
+<a href="https://www.javadoc.io/page/com.github.pureconfig/pureconfig-core_2.12/latest/pureconfig/ConfigReader.html"><code class="language-plaintext highlighter-rouge">ConfigReader</code></a>
+provide an easy way to create new <code class="language-plaintext highlighter-rouge">ConfigReader</code> instances by transforming existing ones. They are the simplest solution
+for supporting new simple types and for slightly modifying existing implementations, since the amount of boilerplate
+required is very small. This section contains some examples of combinators and shows how to work with them in
+PureConfig.</p>
+
+<p>The simplest combinator is <code class="language-plaintext highlighter-rouge">map</code>, which simply transforms the result of an existing reader:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig._</span>
+<span class="k">import</span> <span class="nn">pureconfig.generic.auto._</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">BytesConf</span><span class="o">(</span><span class="n">bytes</span><span class="k">:</span> <span class="kt">Vector</span><span class="o">[</span><span class="kt">Byte</span><span class="o">])</span>
+
+<span class="c1">// reads an array of bytes from a string</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">byteVectorReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">Vector</span><span class="o">[</span><span class="kt">Byte</span><span class="o">]]</span> <span class="k">=</span>
+  <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">String</span><span class="o">].</span><span class="py">map</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">getBytes</span><span class="o">.</span><span class="py">toVector</span><span class="o">)</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"""{ bytes = "Hello world" }"""</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">BytesConf</span><span class="o">]</span>
+<span class="c1">// res0: ConfigReader.Result[BytesConf] = Right(</span>
+<span class="c1">//   BytesConf(Vector(72, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100))</span>
+<span class="c1">// )</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">emap</code> allows users to validate the inputs and provide detailed failures:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig.error._</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Port</span><span class="o">(</span><span class="n">number</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">PortConf</span><span class="o">(</span><span class="n">port</span><span class="k">:</span> <span class="kt">Port</span><span class="o">)</span>
+
+<span class="c1">// reads a TCP port, validating the number range</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">portReader</span> <span class="k">=</span> <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="py">emap</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="n">n</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">65536</span> <span class="k">=&gt;</span> <span class="nc">Right</span><span class="o">(</span><span class="nc">Port</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
+  <span class="k">case</span> <span class="n">n</span> <span class="k">=&gt;</span> <span class="nc">Left</span><span class="o">(</span><span class="nc">CannotConvert</span><span class="o">(</span><span class="nv">n</span><span class="o">.</span><span class="py">toString</span><span class="o">,</span> <span class="s">"Port"</span><span class="o">,</span> <span class="s">"Invalid port number"</span><span class="o">))</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ port = 8080 }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">PortConf</span><span class="o">]</span>
+<span class="c1">// res1: ConfigReader.Result[PortConf] = Right(PortConf(Port(8080)))</span>
+<span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ port = -1 }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">PortConf</span><span class="o">]</span>
+<span class="c1">// res2: ConfigReader.Result[PortConf] = Left(</span>
+<span class="c1">//   ConfigReaderFailures(</span>
+<span class="c1">//     ConvertFailure(</span>
+<span class="c1">//       CannotConvert("-1", "Port", "Invalid port number"),</span>
+<span class="c1">//       Some(ConfigOrigin(String)),</span>
+<span class="c1">//       "port"</span>
+<span class="c1">//     ),</span>
+<span class="c1">//     WrappedArray()</span>
+<span class="c1">//   )</span>
+<span class="c1">// )</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">ensure</code> allows users to quickly fail a reader if a condition does not hold:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig.generic.semiauto._</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Bounds</span><span class="o">(</span><span class="n">min</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">max</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
+
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">boundsReader</span> <span class="k">=</span> <span class="n">deriveReader</span><span class="o">[</span><span class="kt">Bounds</span><span class="o">]</span>
+  <span class="o">.</span><span class="py">ensure</span><span class="o">(</span><span class="n">b</span> <span class="k">=&gt;</span> <span class="nv">b</span><span class="o">.</span><span class="py">max</span> <span class="o">&gt;</span> <span class="nv">b</span><span class="o">.</span><span class="py">min</span><span class="o">,</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="s">"Max must be bigger than Min"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ min = 1, max = 3 }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Bounds</span><span class="o">]</span>
+<span class="c1">// res3: ConfigReader.Result[Bounds] = Right(Bounds(1, 3))</span>
+<span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ min = 5, max = 3 }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Bounds</span><span class="o">]</span>
+<span class="c1">// res4: ConfigReader.Result[Bounds] = Left(</span>
+<span class="c1">//   ConfigReaderFailures(</span>
+<span class="c1">//     ConvertFailure(</span>
+<span class="c1">//       UserValidationFailed("Max must be bigger than Min"),</span>
+<span class="c1">//       Some(ConfigOrigin(String)),</span>
+<span class="c1">//       ""</span>
+<span class="c1">//     ),</span>
+<span class="c1">//     WrappedArray()</span>
+<span class="c1">//   )</span>
+<span class="c1">// )</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">orElse</code> can be used to provide alternative ways to load a config:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">csvIntListReader</span> <span class="k">=</span> <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">String</span><span class="o">].</span><span class="py">map</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">split</span><span class="o">(</span><span class="s">","</span><span class="o">).</span><span class="py">map</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">toInt</span><span class="o">).</span><span class="py">toList</span><span class="o">)</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">intListReader</span> <span class="k">=</span> <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">List</span><span class="o">[</span><span class="kt">Int</span><span class="o">]].</span><span class="py">orElse</span><span class="o">(</span><span class="n">csvIntListReader</span><span class="o">)</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">IntListConf</span><span class="o">(</span><span class="n">list</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Int</span><span class="o">])</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"""{ list = [1,2,3] }"""</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">IntListConf</span><span class="o">]</span>
+<span class="c1">// res5: ConfigReader.Result[IntListConf] = Right(IntListConf(List(1, 2, 3)))</span>
+<span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"""{ list = "4,5,6" }"""</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">IntListConf</span><span class="o">]</span>
+<span class="c1">// res6: ConfigReader.Result[IntListConf] = Right(IntListConf(List(4, 5, 6)))</span>
+</code></pre></div></div>
+</section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/v0.17.7/highlight/highlight.pack.js"></script><script src="/v0.17.7/lunr/lunr.js"></script><script>
+// For all code blocks, copy the language from the containing div
+// to the inner code tag (where hljs expects it to be)
+const langPrefix = 'language-';
+document.querySelectorAll(`div[class^='${langPrefix}']`).forEach(function(div) {
+  div.classList.forEach(function(cssClass) {
+    if (cssClass.startsWith(langPrefix)) {
+      const lang = cssClass.substring(langPrefix.length);
+      div.querySelectorAll('pre code').forEach(function(code) {
+        code.classList.add(lang);
+      });
+    }
+  });
+});
+
+hljs.configure({languages:['scala','java','bash']});
+hljs.initHighlightingOnLoad();
+      </script><script>console.info('\x57\x65\x62\x73\x69\x74\x65\x20\x62\x75\x69\x6c\x74\x20\x77\x69\x74\x68\x3a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5f\x5f\x20\x20\x20\x20\x5f\x5f\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5f\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5f\x20\x5f\x5f\x0a\x20\x20\x20\x5f\x5f\x5f\x5f\x5f\x2f\x20\x2f\x5f\x20\x20\x2f\x20\x2f\x5f\x20\x20\x20\x20\x20\x20\x5f\x5f\x5f\x5f\x20\x5f\x5f\x5f\x20\x20\x28\x5f\x29\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x20\x20\x5f\x5f\x5f\x5f\x5f\x28\x5f\x29\x20\x2f\x5f\x5f\x5f\x5f\x20\x20\x5f\x5f\x5f\x5f\x5f\x0a\x20\x20\x2f\x20\x5f\x5f\x5f\x2f\x20\x5f\x5f\x20\x5c\x2f\x20\x5f\x5f\x2f\x5f\x5f\x5f\x5f\x5f\x2f\x20\x5f\x5f\x20\x60\x5f\x5f\x20\x5c\x2f\x20\x2f\x20\x5f\x5f\x5f\x2f\x20\x5f\x5f\x5f\x2f\x20\x5f\x5f\x20\x5c\x2f\x20\x5f\x5f\x5f\x2f\x20\x2f\x20\x5f\x5f\x2f\x20\x5f\x20\x5c\x2f\x20\x5f\x5f\x5f\x2f\x0a\x20\x28\x5f\x5f\x20\x20\x29\x20\x2f\x5f\x2f\x20\x2f\x20\x2f\x5f\x2f\x5f\x5f\x5f\x5f\x5f\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x5f\x5f\x2f\x20\x2f\x20\x20\x2f\x20\x2f\x5f\x2f\x20\x28\x5f\x5f\x20\x20\x29\x20\x2f\x20\x2f\x5f\x2f\x20\x20\x5f\x5f\x28\x5f\x5f\x20\x20\x29\x0a\x2f\x5f\x5f\x5f\x5f\x2f\x5f\x2e\x5f\x5f\x5f\x2f\x5c\x5f\x5f\x2f\x20\x20\x20\x20\x20\x2f\x5f\x2f\x20\x2f\x5f\x2f\x20\x2f\x5f\x2f\x5f\x2f\x5c\x5f\x5f\x5f\x2f\x5f\x2f\x20\x20\x20\x5c\x5f\x5f\x5f\x5f\x2f\x5f\x5f\x5f\x5f\x2f\x5f\x2f\x5c\x5f\x5f\x2f\x5c\x5f\x5f\x5f\x2f\x5f\x5f\x5f\x5f\x2f\x0a\x0a\x68\x74\x74\x70\x73\x3a\x2f\x2f\x34\x37\x64\x65\x67\x2e\x67\x69\x74\x68\x75\x62\x2e\x69\x6f\x2f\x73\x62\x74\x2d\x6d\x69\x63\x72\x6f\x73\x69\x74\x65\x73')</script><script src="/v0.17.7/js/search.js"></script><script src="/v0.17.7/js/main.js"></script></body></html>
