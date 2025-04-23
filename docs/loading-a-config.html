@@ -27,22 +27,27 @@ used as a replacement for <code class="language-plaintext highlighter-rouge">Con
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// reads a config and loads it into a `Either[ConfigReaderFailures, Conf]`</span>
 <span class="nv">source</span><span class="o">.</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
-<span class="c1">// res0: ConfigReader.Result[Conf] = Right(Conf("John", 33))</span>
+<span class="c1">// res0: ConfigReader.Result[Conf] = Right(</span>
+<span class="c1">//   value = Conf(name = "John", age = 33)</span>
+<span class="c1">// )</span>
 
 <span class="c1">// reads a config and loads it into a `Conf` (throwing if not possible)</span>
 <span class="nv">source</span><span class="o">.</span><span class="py">loadOrThrow</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
-<span class="c1">// res1: Conf = Conf("John", 33)</span>
+<span class="c1">// res1: Conf = Conf(name = "John", age = 33)</span>
 
 <span class="c1">// reads a raw config from `source`</span>
 <span class="nv">source</span><span class="o">.</span><span class="py">config</span><span class="o">()</span>
 <span class="c1">// res2: ConfigReader.Result[com.typesafe.config.Config] = Right(</span>
-<span class="c1">//   Config(SimpleConfigObject({"age":33,"name":"John"}))</span>
+<span class="c1">//   value = Config(SimpleConfigObject({"age":33,"name":"John"}))</span>
 <span class="c1">// )</span>
 
 <span class="c1">// reads a config as a `ConfigCursor` (see "Config Cursors" section)</span>
 <span class="nv">source</span><span class="o">.</span><span class="py">cursor</span><span class="o">()</span>
 <span class="c1">// res3: ConfigReader.Result[ConfigCursor] = Right(</span>
-<span class="c1">//   ConfigObjectCursor(SimpleConfigObject({"age":33,"name":"John"}), List())</span>
+<span class="c1">//   value = ConfigObjectCursor(</span>
+<span class="c1">//     objValue = SimpleConfigObject({"age":33,"name":"John"}),</span>
+<span class="c1">//     pathElems = List()</span>
+<span class="c1">//   )</span>
 <span class="c1">// )</span>
 </code></pre></div></div>
 
@@ -64,7 +69,9 @@ equipped with an <code class="language-plaintext highlighter-rouge">.withFallbac
 </code></pre></div></div>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">appSource</span><span class="o">.</span><span class="py">withFallback</span><span class="o">(</span><span class="n">defaultsSource</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
-<span class="c1">// res4: ConfigReader.Result[Conf] = Right(Conf("Admin", 33))</span>
+<span class="c1">// res4: ConfigReader.Result[Conf] = Right(</span>
+<span class="c1">//   value = Conf(name = "Admin", age = 33)</span>
+<span class="c1">// )</span>
 </code></pre></div></div>
 
 <p>Sometimes you want some of the sources in your chain to be optional. You can call <code class="language-plaintext highlighter-rouge">.optional</code> on any
@@ -75,25 +82,29 @@ equipped with an <code class="language-plaintext highlighter-rouge">.withFallbac
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">otherAppSource</span><span class="o">.</span><span class="py">withFallback</span><span class="o">(</span><span class="n">defaultsSource</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
 <span class="c1">// res5: ConfigReader.Result[Conf] = Left(</span>
-<span class="c1">//   ConfigReaderFailures(</span>
-<span class="c1">//     CannotReadFile(</span>
-<span class="c1">//       non-existing-file.conf,</span>
-<span class="c1">//       Some(</span>
-<span class="c1">//         java.io.FileNotFoundException: non-existing-file.conf (No such file or directory)</span>
+<span class="c1">//   value = ConfigReaderFailures(</span>
+<span class="c1">//     head = CannotReadFile(</span>
+<span class="c1">//       path = non-existing-file.conf,</span>
+<span class="c1">//       reason = Some(</span>
+<span class="c1">//         value = java.io.FileNotFoundException: non-existing-file.conf (No such file or directory)</span>
 <span class="c1">//       )</span>
 <span class="c1">//     ),</span>
-<span class="c1">//     WrappedArray()</span>
+<span class="c1">//     tail = List()</span>
 <span class="c1">//   )</span>
 <span class="c1">// )</span>
 
 <span class="nv">otherAppSource</span><span class="o">.</span><span class="py">optional</span><span class="o">.</span><span class="py">withFallback</span><span class="o">(</span><span class="n">defaultsSource</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
-<span class="c1">// res6: ConfigReader.Result[Conf] = Right(Conf("Admin", -1))</span>
+<span class="c1">// res6: ConfigReader.Result[Conf] = Right(</span>
+<span class="c1">//   value = Conf(name = "Admin", age = -1)</span>
+<span class="c1">// )</span>
 </code></pre></div></div>
 
 <p>You also have the option to use an alternative source in case your primary source can’t be read by using <code class="language-plaintext highlighter-rouge">.recoverWith</code>:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">otherAppSource</span><span class="o">.</span><span class="py">recoverWith</span> <span class="o">{</span> <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="n">defaultsSource</span> <span class="o">}.</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
-<span class="c1">// res7: ConfigReader.Result[Conf] = Right(Conf("Admin", -1))</span>
+<span class="c1">// res7: ConfigReader.Result[Conf] = Right(</span>
+<span class="c1">//   value = Conf(name = "Admin", age = -1)</span>
+<span class="c1">// )</span>
 </code></pre></div></div>
 
 <h3 id="loading-a-config-in-a-path">Loading a Config in a Path</h3>
@@ -117,7 +128,9 @@ where you want the config to be read from:</p>
 </code></pre></div></div>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">multiAppSource</span><span class="o">.</span><span class="py">at</span><span class="o">(</span><span class="s">"app-b"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">MyAppConf</span><span class="o">]</span>
-<span class="c1">// res8: ConfigReader.Result[MyAppConf] = Right(MyAppConf("example.com", 8087))</span>
+<span class="c1">// res8: ConfigReader.Result[MyAppConf] = Right(</span>
+<span class="c1">//   value = MyAppConf(host = "example.com", port = 8087)</span>
+<span class="c1">// )</span>
 </code></pre></div></div>
 
 <h3 id="customizing-typesafe-configs-behavior">Customizing Typesafe Config’s Behavior</h3>

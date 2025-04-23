@@ -40,7 +40,7 @@ properly, most errors are automatically handled and filled with rich information
 <span class="k">def</span> <span class="nf">lastNamesOf</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span>
   <span class="nv">name</span><span class="o">.</span><span class="py">dropWhile</span><span class="o">(</span><span class="k">_</span> <span class="o">!=</span> <span class="sc">' '</span><span class="o">).</span><span class="py">drop</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="py">split</span><span class="o">(</span><span class="s">" "</span><span class="o">)</span>
 
-<span class="k">implicit</span> <span class="k">val</span> <span class="nv">personReader</span> <span class="k">=</span> <span class="nv">ConfigReader</span><span class="o">.</span><span class="py">fromCursor</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span> <span class="o">{</span> <span class="n">cur</span> <span class="k">=&gt;</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">personReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span> <span class="k">=</span> <span class="nv">ConfigReader</span><span class="o">.</span><span class="py">fromCursor</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span> <span class="o">{</span> <span class="n">cur</span> <span class="k">=&gt;</span>
   <span class="k">for</span> <span class="o">{</span>
     <span class="n">objCur</span> <span class="k">&lt;-</span> <span class="nv">cur</span><span class="o">.</span><span class="py">asObjectCursor</span>      <span class="c1">// 1</span>
     <span class="n">nameCur</span> <span class="k">&lt;-</span> <span class="nv">objCur</span><span class="o">.</span><span class="py">atKey</span><span class="o">(</span><span class="s">"name"</span><span class="o">)</span>   <span class="c1">// 2</span>
@@ -76,42 +76,44 @@ string.</li>
 <p>Either way, a well-formed config will now work correctly:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">fromConfig</span><span class="o">(</span><span class="n">conf</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
-<span class="c1">// res1: ConfigReader.Result[Conf] = Right(Conf(Person(John Doe)))</span>
+<span class="c1">// res1: ConfigReader.Result[Conf] = Right(</span>
+<span class="c1">//   value = Conf(person = Person(John Doe))</span>
+<span class="c1">// )</span>
 </code></pre></div></div>
 
 <p>While malformed configs will fail to load with appropriate errors:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"person = 45"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
 <span class="c1">// res2: ConfigReader.Result[Conf] = Left(</span>
-<span class="c1">//   ConfigReaderFailures(</span>
-<span class="c1">//     ConvertFailure(</span>
-<span class="c1">//       WrongType(NUMBER, Set(OBJECT)),</span>
-<span class="c1">//       Some(ConfigOrigin(String)),</span>
-<span class="c1">//       "person"</span>
+<span class="c1">//   value = ConfigReaderFailures(</span>
+<span class="c1">//     head = ConvertFailure(</span>
+<span class="c1">//       reason = WrongType(foundType = NUMBER, expectedTypes = Set(OBJECT)),</span>
+<span class="c1">//       origin = Some(value = ConfigOrigin(String)),</span>
+<span class="c1">//       path = "person"</span>
 <span class="c1">//     ),</span>
-<span class="c1">//     WrappedArray()</span>
+<span class="c1">//     tail = List()</span>
 <span class="c1">//   )</span>
 <span class="c1">// )</span>
 <span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"person.eman = John Doe"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
 <span class="c1">// res3: ConfigReader.Result[Conf] = Left(</span>
-<span class="c1">//   ConfigReaderFailures(</span>
-<span class="c1">//     ConvertFailure(</span>
-<span class="c1">//       KeyNotFound("name", Set()),</span>
-<span class="c1">//       Some(ConfigOrigin(String)),</span>
-<span class="c1">//       "person"</span>
+<span class="c1">//   value = ConfigReaderFailures(</span>
+<span class="c1">//     head = ConvertFailure(</span>
+<span class="c1">//       reason = KeyNotFound(key = "name", candidates = Set()),</span>
+<span class="c1">//       origin = Some(value = ConfigOrigin(String)),</span>
+<span class="c1">//       path = "person"</span>
 <span class="c1">//     ),</span>
-<span class="c1">//     WrappedArray()</span>
+<span class="c1">//     tail = List()</span>
 <span class="c1">//   )</span>
 <span class="c1">// )</span>
 <span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"person.name = [1, 2]"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
 <span class="c1">// res4: ConfigReader.Result[Conf] = Left(</span>
-<span class="c1">//   ConfigReaderFailures(</span>
-<span class="c1">//     ConvertFailure(</span>
-<span class="c1">//       WrongType(LIST, Set(STRING)),</span>
-<span class="c1">//       Some(ConfigOrigin(String)),</span>
-<span class="c1">//       "person.name"</span>
+<span class="c1">//   value = ConfigReaderFailures(</span>
+<span class="c1">//     head = ConvertFailure(</span>
+<span class="c1">//       reason = WrongType(foundType = LIST, expectedTypes = Set(STRING)),</span>
+<span class="c1">//       origin = Some(value = ConfigOrigin(String)),</span>
+<span class="c1">//       path = "person.name"</span>
 <span class="c1">//     ),</span>
-<span class="c1">//     WrappedArray()</span>
+<span class="c1">//     tail = List()</span>
 <span class="c1">//   )</span>
 <span class="c1">// )</span>
 </code></pre></div></div>

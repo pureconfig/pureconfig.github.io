@@ -18,15 +18,15 @@ be able to derive a reader.</p>
 
 <span class="k">case</span> <span class="k">class</span> <span class="nc">Conf</span><span class="o">(</span><span class="n">date</span><span class="k">:</span> <span class="kt">LocalDate</span><span class="o">,</span> <span class="n">intMap</span><span class="k">:</span> <span class="kt">Map</span><span class="o">[</span><span class="kt">Int</span>, <span class="kt">Int</span><span class="o">])</span>
 
-<span class="k">implicit</span> <span class="k">val</span> <span class="nv">localDateConvert</span> <span class="k">=</span> <span class="nf">localDateConfigConvert</span><span class="o">(</span><span class="nv">DateTimeFormatter</span><span class="o">.</span><span class="py">ISO_DATE</span><span class="o">)</span>
-<span class="k">implicit</span> <span class="k">val</span> <span class="nv">intMapReader</span> <span class="k">=</span> <span class="n">genericMapReader</span><span class="o">[</span><span class="kt">Int</span>, <span class="kt">Int</span><span class="o">](</span><span class="nf">catchReadError</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">toInt</span><span class="o">))</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">localDateConvert</span><span class="k">:</span> <span class="kt">ConfigConvert</span><span class="o">[</span><span class="kt">LocalDate</span><span class="o">]</span> <span class="k">=</span> <span class="nf">localDateConfigConvert</span><span class="o">(</span><span class="nv">DateTimeFormatter</span><span class="o">.</span><span class="py">ISO_DATE</span><span class="o">)</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">intMapReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">Map</span><span class="o">[</span><span class="kt">Int</span>, <span class="kt">Int</span><span class="o">]]</span> <span class="k">=</span> <span class="n">genericMapReader</span><span class="o">[</span><span class="kt">Int</span>, <span class="kt">Int</span><span class="o">](</span><span class="nf">catchReadError</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">toInt</span><span class="o">))</span>
 </code></pre></div></div>
 
 <p>Then load the configuration:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ date: 2011-12-03, int-map: { 2: 4, 4: 16 } }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
 <span class="c1">// res0: ConfigReader.Result[Conf] = Right(</span>
-<span class="c1">//   Conf(2011-12-03, Map(4 -&gt; 16, 2 -&gt; 4))</span>
+<span class="c1">//   value = Conf(date = 2011-12-03, intMap = Map(4 -&gt; 16, 2 -&gt; 4))</span>
 <span class="c1">// )</span>
 </code></pre></div></div>
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script src="/lunr/lunr.js"></script><script>

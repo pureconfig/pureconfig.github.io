@@ -29,7 +29,9 @@ three ways of setting up reader derivation, which are presented in the next sect
 <p>This import provides <code class="language-plaintext highlighter-rouge">ConfigReader</code> instances for all supported classes out-of-the-box:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">fromConfig</span><span class="o">(</span><span class="n">conf</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span>
-<span class="c1">// res0: ConfigReader.Result[Person] = Right(Person("John", "Doe"))</span>
+<span class="c1">// res0: ConfigReader.Result[Person] = Right(</span>
+<span class="c1">//   value = Person(name = "John", surname = "Doe")</span>
+<span class="c1">// )</span>
 </code></pre></div></div>
 
 <p>Internally, derivation is made through the use of <a href="https://github.com/milessabin/shapeless">shapeless</a>, a generic
@@ -49,13 +51,15 @@ reader for <code class="language-plaintext highlighter-rouge">Person</code> by c
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig.generic.semiauto._</span>
 
-<span class="k">implicit</span> <span class="k">val</span> <span class="nv">personReader</span> <span class="k">=</span> <span class="n">deriveReader</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">personReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span> <span class="k">=</span> <span class="n">deriveReader</span>
 </code></pre></div></div>
 
 <p>We are now ready to read <code class="language-plaintext highlighter-rouge">Person</code> configs:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">fromConfig</span><span class="o">(</span><span class="n">conf</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span>
-<span class="c1">// res2: ConfigReader.Result[Person] = Right(Person("John", "Doe"))</span>
+<span class="c1">// res2: ConfigReader.Result[Person] = Right(</span>
+<span class="c1">//   value = Person(name = "John", surname = "Doe")</span>
+<span class="c1">// )</span>
 </code></pre></div></div>
 
 <h4 id="semi-automatic-for-sealed-families">Semi-Automatic for Sealed Families</h4>
@@ -68,31 +72,39 @@ of the family and the base of the family.</p>
 <span class="k">object</span> <span class="nc">Occupation</span> <span class="o">{</span>
   <span class="k">case</span> <span class="k">class</span> <span class="nc">Employed</span><span class="o">(</span><span class="n">job</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Occupation</span>
   <span class="k">object</span> <span class="nc">Employed</span> <span class="o">{</span>
-    <span class="k">implicit</span> <span class="k">val</span> <span class="nv">employedReader</span> <span class="k">=</span> <span class="n">deriveReader</span><span class="o">[</span><span class="kt">Employed</span><span class="o">]</span>
+    <span class="k">implicit</span> <span class="k">val</span> <span class="nv">employedReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">Employed</span><span class="o">]</span> <span class="k">=</span> <span class="n">deriveReader</span>
   <span class="o">}</span>
   <span class="k">case</span> <span class="k">object</span> <span class="nc">Unemployed</span> <span class="k">extends</span> <span class="nc">Occupation</span> <span class="o">{</span>
-    <span class="k">implicit</span> <span class="k">val</span> <span class="nv">unemployedReader</span> <span class="k">=</span> <span class="n">deriveReader</span><span class="o">[</span><span class="kt">Unemployed.</span><span class="k">type</span><span class="o">]</span>
+    <span class="k">implicit</span> <span class="k">val</span> <span class="nv">unemployedReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">Unemployed.</span><span class="k">type</span><span class="o">]</span> <span class="k">=</span> <span class="n">deriveReader</span>
   <span class="o">}</span>
   <span class="k">case</span> <span class="k">object</span> <span class="nc">Student</span> <span class="k">extends</span> <span class="nc">Occupation</span> <span class="o">{</span>
-    <span class="k">implicit</span> <span class="k">val</span> <span class="nv">studentReader</span> <span class="k">=</span> <span class="n">deriveReader</span><span class="o">[</span><span class="kt">Student.</span><span class="k">type</span><span class="o">]</span>
+    <span class="k">implicit</span> <span class="k">val</span> <span class="nv">studentReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">Student.</span><span class="k">type</span><span class="o">]</span> <span class="k">=</span> <span class="n">deriveReader</span>
   <span class="o">}</span>
-  <span class="k">implicit</span> <span class="k">val</span> <span class="nv">occupationReader</span> <span class="k">=</span> <span class="n">deriveReader</span><span class="o">[</span><span class="kt">Occupation</span><span class="o">]</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="nv">occupationReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">Occupation</span><span class="o">]</span> <span class="k">=</span> <span class="n">deriveReader</span>
 <span class="o">}</span>
 
 <span class="k">case</span> <span class="k">class</span> <span class="nc">WorkingPerson</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">surname</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">occupation</span><span class="k">:</span> <span class="kt">Occupation</span><span class="o">)</span>
 
 <span class="k">object</span> <span class="nc">WorkingPerson</span> <span class="o">{</span>
-  <span class="k">implicit</span> <span class="k">val</span> <span class="nv">workingPersonReader</span> <span class="k">=</span> <span class="n">deriveReader</span><span class="o">[</span><span class="kt">WorkingPerson</span><span class="o">]</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="nv">workingPersonReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">WorkingPerson</span><span class="o">]</span> <span class="k">=</span> <span class="n">deriveReader</span>
 <span class="o">}</span>
 </code></pre></div></div>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ name: Isaac, surname: Newton, occupation.type: student }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">WorkingPerson</span><span class="o">]</span>
 <span class="c1">// res3: ConfigReader.Result[WorkingPerson] = Right(</span>
-<span class="c1">//   WorkingPerson("Isaac", "Newton", Student)</span>
+<span class="c1">//   value = WorkingPerson(</span>
+<span class="c1">//     name = "Isaac",</span>
+<span class="c1">//     surname = "Newton",</span>
+<span class="c1">//     occupation = Student</span>
+<span class="c1">//   )</span>
 <span class="c1">// )</span>
 <span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"""{ name: David, surname: Shingy, occupation: { type: employed, job: Digital Prophet } }"""</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">WorkingPerson</span><span class="o">]</span>
 <span class="c1">// res4: ConfigReader.Result[WorkingPerson] = Right(</span>
-<span class="c1">//   WorkingPerson("David", "Shingy", Employed("Digital Prophet"))</span>
+<span class="c1">//   value = WorkingPerson(</span>
+<span class="c1">//     name = "David",</span>
+<span class="c1">//     surname = "Shingy",</span>
+<span class="c1">//     occupation = Employed(job = "Digital Prophet")</span>
+<span class="c1">//   )</span>
 <span class="c1">// )</span>
 </code></pre></div></div>
 
@@ -104,11 +116,14 @@ methods are convenient for creating readers and writers for case class-like type
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig._</span>
 
-<span class="k">implicit</span> <span class="k">val</span> <span class="nv">personReader</span> <span class="k">=</span> <span class="nv">ConfigReader</span><span class="o">.</span><span class="py">forProduct2</span><span class="o">(</span><span class="s">"name"</span><span class="o">,</span> <span class="s">"surname"</span><span class="o">)(</span><span class="nc">Person</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="k">_</span><span class="o">))</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">personReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span> <span class="k">=</span>
+  <span class="nv">ConfigReader</span><span class="o">.</span><span class="py">forProduct2</span><span class="o">(</span><span class="s">"name"</span><span class="o">,</span> <span class="s">"surname"</span><span class="o">)(</span><span class="nc">Person</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="k">_</span><span class="o">))</span>
 </code></pre></div></div>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">fromConfig</span><span class="o">(</span><span class="n">conf</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span>
-<span class="c1">// res6: ConfigReader.Result[Person] = Right(Person("John", "Doe"))</span>
+<span class="c1">// res6: ConfigReader.Result[Person] = Right(</span>
+<span class="c1">//   value = Person(name = "John", surname = "Doe")</span>
+<span class="c1">// )</span>
 </code></pre></div></div>
 
 <p>If you don’t need reader or writer derivation anywhere in your project, you can replace the <code class="language-plaintext highlighter-rouge">pureconfig</code> Maven

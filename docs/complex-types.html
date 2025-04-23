@@ -65,10 +65,11 @@ to support unsupported complex types is to:</p>
 <span class="c1">// change the coproduct hint to tell PureConfig that the type value specified</span>
 <span class="c1">// is the name of the class without the "Dummy" suffix because we want the type to</span>
 <span class="c1">// be the one of the new types, not the mirroring types</span>
-<span class="k">implicit</span> <span class="k">val</span> <span class="nv">identifiableCoproductHint</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">FieldCoproductHint</span><span class="o">[</span><span class="kt">IdentifiableDummy</span><span class="o">](</span><span class="s">"type"</span><span class="o">)</span> <span class="o">{</span>
-  <span class="k">override</span> <span class="k">protected</span> <span class="k">def</span> <span class="nf">fieldValue</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span>
-    <span class="nv">name</span><span class="o">.</span><span class="py">take</span><span class="o">(</span><span class="nv">name</span><span class="o">.</span><span class="py">length</span> <span class="o">-</span> <span class="s">"Dummy"</span><span class="o">.</span><span class="py">length</span><span class="o">).</span><span class="py">toLowerCase</span>
-<span class="o">}</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">identifiableCoproductHint</span><span class="k">:</span> <span class="kt">FieldCoproductHint</span><span class="o">[</span><span class="kt">IdentifiableDummy</span><span class="o">]</span> <span class="k">=</span>
+  <span class="k">new</span> <span class="nc">FieldCoproductHint</span><span class="o">[</span><span class="kt">IdentifiableDummy</span><span class="o">](</span><span class="s">"type"</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">override</span> <span class="k">protected</span> <span class="k">def</span> <span class="nf">fieldValue</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span>
+      <span class="nv">name</span><span class="o">.</span><span class="py">take</span><span class="o">(</span><span class="nv">name</span><span class="o">.</span><span class="py">length</span> <span class="o">-</span> <span class="s">"Dummy"</span><span class="o">.</span><span class="py">length</span><span class="o">).</span><span class="py">toLowerCase</span>
+  <span class="o">}</span>
 
 <span class="c1">// we tell PureConfig that to read Identifiable, it has to read IdentifiableDummy first</span>
 <span class="c1">// and then maps it to Identifiable</span>
@@ -102,7 +103,7 @@ steps to read it.</p>
       <span class="n">s</span><span class="s">"type has value $t instead of class1 or class2"</span><span class="o">))</span>
 <span class="o">}</span>
 
-<span class="k">implicit</span> <span class="k">val</span> <span class="nv">identifiableConfigReader2</span> <span class="k">=</span> <span class="nv">ConfigReader</span><span class="o">.</span><span class="py">fromCursor</span> <span class="o">{</span> <span class="n">cur</span> <span class="k">=&gt;</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">identifiableConfigReader2</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">Identifiable</span><span class="o">]</span> <span class="k">=</span> <span class="nv">ConfigReader</span><span class="o">.</span><span class="py">fromCursor</span> <span class="o">{</span> <span class="n">cur</span> <span class="k">=&gt;</span>
   <span class="k">for</span> <span class="o">{</span>
     <span class="n">objCur</span> <span class="k">&lt;-</span> <span class="nv">cur</span><span class="o">.</span><span class="py">asObjectCursor</span>
     <span class="n">typeCur</span> <span class="k">&lt;-</span> <span class="nv">objCur</span><span class="o">.</span><span class="py">atKey</span><span class="o">(</span><span class="s">"type"</span><span class="o">)</span>
@@ -144,7 +145,7 @@ two things in order to read them:</p>
 <span class="c1">// create the singleton idw for the field id</span>
 <span class="k">val</span> <span class="nv">idw</span> <span class="k">=</span> <span class="nc">Witness</span><span class="o">(</span><span class="nc">Symbol</span><span class="o">(</span><span class="s">"id"</span><span class="o">))</span>
 
-<span class="k">implicit</span> <span class="k">val</span> <span class="nv">class1Generic</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LabelledGeneric</span><span class="o">[</span><span class="kt">Class1</span><span class="o">]</span> <span class="o">{</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">class1Generic</span><span class="k">:</span> <span class="kt">LabelledGeneric</span><span class="o">[</span><span class="kt">Class1</span><span class="o">]</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LabelledGeneric</span><span class="o">[</span><span class="kt">Class1</span><span class="o">]</span> <span class="o">{</span>
   <span class="c1">// the generic representation of Class1 is the field id of type String</span>
   <span class="k">override</span> <span class="k">type</span> <span class="kt">Repr</span> <span class="o">=</span> <span class="nc">FieldType</span><span class="o">[</span><span class="kt">idw.T</span>, <span class="kt">String</span><span class="o">]</span> <span class="o">::</span> <span class="nc">HNil</span>
 
@@ -156,7 +157,7 @@ two things in order to read them:</p>
 <span class="c1">// create the singleton valuew for the field value</span>
 <span class="k">val</span> <span class="nv">valuew</span> <span class="k">=</span> <span class="nc">Witness</span><span class="o">(</span><span class="nc">Symbol</span><span class="o">(</span><span class="s">"value"</span><span class="o">))</span>
 
-<span class="k">implicit</span> <span class="k">val</span> <span class="nv">class2Generic</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LabelledGeneric</span><span class="o">[</span><span class="kt">Class2</span><span class="o">]</span> <span class="o">{</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">class2Generic</span><span class="k">:</span> <span class="kt">LabelledGeneric</span><span class="o">[</span><span class="kt">Class2</span><span class="o">]</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LabelledGeneric</span><span class="o">[</span><span class="kt">Class2</span><span class="o">]</span> <span class="o">{</span>
   <span class="c1">// the generic representation of Class2 is the fields id of type String and value of type Int</span>
   <span class="k">override</span> <span class="k">type</span> <span class="kt">Repr</span> <span class="o">=</span> <span class="nc">FieldType</span><span class="o">[</span><span class="kt">idw.T</span>, <span class="kt">String</span><span class="o">]</span> <span class="o">::</span> <span class="nc">FieldType</span><span class="o">[</span><span class="kt">valuew.T</span>, <span class="kt">Int</span><span class="o">]</span> <span class="o">::</span> <span class="nc">HNil</span>
 
@@ -169,12 +170,12 @@ two things in order to read them:</p>
 
 <p>The second item is trivial because neither <code class="language-plaintext highlighter-rouge">Class1</code> nor <code class="language-plaintext highlighter-rouge">Class2</code> have default values for fields:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">class1Default</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">Default</span><span class="o">.</span><span class="py">AsOptions</span><span class="o">[</span><span class="kt">Class1</span><span class="o">]</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">class1Default</span><span class="k">:</span> <span class="kt">Default.AsOptions</span><span class="o">[</span><span class="kt">Class1</span><span class="o">]</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">Default</span><span class="o">.</span><span class="py">AsOptions</span><span class="o">[</span><span class="kt">Class1</span><span class="o">]</span> <span class="o">{</span>
   <span class="k">override</span> <span class="k">type</span> <span class="kt">Out</span> <span class="o">=</span> <span class="nc">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="o">::</span> <span class="nc">HNil</span>
   <span class="k">override</span> <span class="k">def</span> <span class="nf">apply</span><span class="o">()</span><span class="k">:</span> <span class="kt">Out</span> <span class="o">=</span> <span class="nc">None</span> <span class="o">::</span> <span class="nc">HNil</span>
 <span class="o">}</span>
 
-<span class="k">implicit</span> <span class="k">val</span> <span class="nv">class2Default</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">Default</span><span class="o">.</span><span class="py">AsOptions</span><span class="o">[</span><span class="kt">Class2</span><span class="o">]</span> <span class="o">{</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">class2Default</span><span class="k">:</span> <span class="kt">Default.AsOptions</span><span class="o">[</span><span class="kt">Class2</span><span class="o">]</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">Default</span><span class="o">.</span><span class="py">AsOptions</span><span class="o">[</span><span class="kt">Class2</span><span class="o">]</span> <span class="o">{</span>
   <span class="k">override</span> <span class="k">type</span> <span class="kt">Out</span> <span class="o">=</span> <span class="nc">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="o">::</span> <span class="nc">Option</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="o">::</span> <span class="nc">HNil</span>
   <span class="k">override</span> <span class="k">def</span> <span class="nf">apply</span><span class="o">()</span><span class="k">:</span> <span class="kt">Out</span> <span class="o">=</span> <span class="nc">None</span> <span class="o">::</span> <span class="nc">None</span> <span class="o">::</span> <span class="nc">HNil</span>
 <span class="o">}</span>
@@ -187,7 +188,7 @@ as a sealed family of <code class="language-plaintext highlighter-rouge">Class1<
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">class1w</span> <span class="k">=</span> <span class="nc">Witness</span><span class="o">(</span><span class="nc">Symbol</span><span class="o">(</span><span class="s">"Class1"</span><span class="o">))</span>
 <span class="k">val</span> <span class="nv">class2w</span> <span class="k">=</span> <span class="nc">Witness</span><span class="o">(</span><span class="nc">Symbol</span><span class="o">(</span><span class="s">"Class2"</span><span class="o">))</span>
 
-<span class="k">implicit</span> <span class="k">val</span> <span class="nv">identifiableGeneric</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LabelledGeneric</span><span class="o">[</span><span class="kt">Identifiable</span><span class="o">]</span> <span class="o">{</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">identifiableGeneric</span><span class="k">:</span> <span class="kt">LabelledGeneric</span><span class="o">[</span><span class="kt">Identifiable</span><span class="o">]</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LabelledGeneric</span><span class="o">[</span><span class="kt">Identifiable</span><span class="o">]</span> <span class="o">{</span>
   <span class="k">override</span> <span class="k">type</span> <span class="kt">Repr</span> <span class="o">=</span>
     <span class="nc">FieldType</span><span class="o">[</span><span class="kt">class1w.T</span>, <span class="kt">Class1</span><span class="o">]</span> <span class="o">:+:</span>
     <span class="nc">FieldType</span><span class="o">[</span><span class="kt">class2w.T</span>, <span class="kt">Class2</span><span class="o">]</span> <span class="o">:+:</span>

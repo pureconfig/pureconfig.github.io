@@ -43,7 +43,8 @@ and <a href="overriding-behavior-for-types.html">Overriding Behavior for Types</
   <span class="k">override</span> <span class="k">def</span> <span class="nf">toString</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">s</span><span class="s">"MyInt($value)"</span>
 <span class="o">}</span>
 
-<span class="k">implicit</span> <span class="k">val</span> <span class="nv">myIntWriter</span> <span class="k">=</span> <span class="nc">ConfigWriter</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="py">contramap</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">](</span><span class="nv">_</span><span class="o">.</span><span class="py">getValue</span><span class="o">)</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">myIntWriter</span><span class="k">:</span> <span class="kt">ConfigWriter</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">]</span> <span class="k">=</span>
+  <span class="nc">ConfigWriter</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="py">contramap</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">](</span><span class="nv">_</span><span class="o">.</span><span class="py">getValue</span><span class="o">)</span>
 </code></pre></div></div>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ConfigWriter</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">].</span><span class="py">to</span><span class="o">(</span><span class="k">new</span> <span class="nc">MyInt</span><span class="o">(</span><span class="mi">1</span><span class="o">))</span>
@@ -52,13 +53,19 @@ and <a href="overriding-behavior-for-types.html">Overriding Behavior for Types</
 
 <p>Finally, if you need both the reading and the writing part for a custom type, you can implement a <code class="language-plaintext highlighter-rouge">ConfigConvert</code>:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">myIntConvert</span> <span class="k">=</span> <span class="nc">ConfigConvert</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="py">xmap</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">](</span><span class="k">new</span> <span class="nc">MyInt</span><span class="o">(</span><span class="k">_</span><span class="o">),</span> <span class="nv">_</span><span class="o">.</span><span class="py">getValue</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyInt2</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">getValue</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="n">value</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">toString</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">s</span><span class="s">"MyInt2($value)"</span>
+<span class="o">}</span>
+
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">myIntConvert</span><span class="k">:</span> <span class="kt">ConfigConvert</span><span class="o">[</span><span class="kt">MyInt2</span><span class="o">]</span> <span class="k">=</span>
+  <span class="nc">ConfigConvert</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="py">xmap</span><span class="o">[</span><span class="kt">MyInt2</span><span class="o">](</span><span class="k">new</span> <span class="nc">MyInt2</span><span class="o">(</span><span class="k">_</span><span class="o">),</span> <span class="nv">_</span><span class="o">.</span><span class="py">getValue</span><span class="o">)</span>
 </code></pre></div></div>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">conf</span> <span class="k">=</span> <span class="nc">ConfigWriter</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">].</span><span class="py">to</span><span class="o">(</span><span class="k">new</span> <span class="nc">MyInt</span><span class="o">(</span><span class="mi">1</span><span class="o">))</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">conf</span> <span class="k">=</span> <span class="nc">ConfigWriter</span><span class="o">[</span><span class="kt">MyInt2</span><span class="o">].</span><span class="py">to</span><span class="o">(</span><span class="k">new</span> <span class="nc">MyInt2</span><span class="o">(</span><span class="mi">1</span><span class="o">))</span>
 <span class="c1">// conf: com.typesafe.config.ConfigValue = ConfigInt(1)</span>
-<span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">].</span><span class="py">from</span><span class="o">(</span><span class="n">conf</span><span class="o">)</span>
-<span class="c1">// res3: ConfigReader.Result[MyInt] = Right(MyInt(1))</span>
+<span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">MyInt2</span><span class="o">].</span><span class="py">from</span><span class="o">(</span><span class="n">conf</span><span class="o">)</span>
+<span class="c1">// res3: ConfigReader.Result[MyInt2] = Right(value = MyInt2(1))</span>
 </code></pre></div></div>
 
 <p>A <code class="language-plaintext highlighter-rouge">ConfigConvert</code> implements both the <code class="language-plaintext highlighter-rouge">ConfigReader</code> and <code class="language-plaintext highlighter-rouge">ConfigWriter</code> interfaces and can be used everywhere one of

@@ -15,11 +15,11 @@ configured first - see <a href="configurable-converters.html">Configurable Conve
   <li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/UUID.html"><code class="language-plaintext highlighter-rouge">java.util.UUID</code></a>;</li>
   <li><a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html"><code class="language-plaintext highlighter-rouge">java.nio.file.Path</code></a>;</li>
   <li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html"><code class="language-plaintext highlighter-rouge">java.util.regex.Pattern</code></a> and
-<a href="https://www.scala-lang.org/api/2.12.x/scala/util/matching/Regex.html"><code class="language-plaintext highlighter-rouge">scala.util.matching.Regex</code></a>;</li>
+<a href="https://www.scala-lang.org/api/2.13.x/scala/util/matching/Regex.html"><code class="language-plaintext highlighter-rouge">scala.util.matching.Regex</code></a>;</li>
   <li><a href="https://docs.oracle.com/javase/8/docs/api/java/math/BigDecimal.html"><code class="language-plaintext highlighter-rouge">java.math.BigDecimal</code></a>,
 <a href="https://docs.oracle.com/javase/8/docs/api/java/math/BigInteger.html"><code class="language-plaintext highlighter-rouge">java.math.BigInteger</code></a>,
-<a href="https://www.scala-lang.org/api/2.12.x/scala/math/BigDecimal.html"><code class="language-plaintext highlighter-rouge">scala.math.BigDecimal</code></a>, and
-<a href="https://www.scala-lang.org/api/2.12.x/scala/math/BigInt.html"><code class="language-plaintext highlighter-rouge">scala.math.BigInt</code></a>;</li>
+<a href="https://www.scala-lang.org/api/2.13.x/scala/math/BigDecimal.html"><code class="language-plaintext highlighter-rouge">scala.math.BigDecimal</code></a>, and
+<a href="https://www.scala-lang.org/api/2.13.x/scala/math/BigInt.html"><code class="language-plaintext highlighter-rouge">scala.math.BigInt</code></a>;</li>
   <li>Typesafe <code class="language-plaintext highlighter-rouge">ConfigValue</code>, <code class="language-plaintext highlighter-rouge">ConfigObject</code> and <code class="language-plaintext highlighter-rouge">ConfigList</code>;</li>
   <li>value classes (for which readers and writers of the inner type are directly used).</li>
 </ul>
@@ -28,7 +28,7 @@ configured first - see <a href="configurable-converters.html">Configurable Conve
 
 <ul>
   <li><code class="language-plaintext highlighter-rouge">Option</code> for optional values, i.e. values that can or cannot be in the configuration, of types on this list;</li>
-  <li>collections implementing the <code class="language-plaintext highlighter-rouge">TraversableOnce</code> trait, where the type of the elements is on this list;</li>
+  <li>collections implementing the <code class="language-plaintext highlighter-rouge">IterableOnce</code> trait, where the type of the elements is on this list;</li>
   <li><code class="language-plaintext highlighter-rouge">Map</code>s from <code class="language-plaintext highlighter-rouge">String</code> keys to any value type that is on this list;</li>
   <li><code class="language-plaintext highlighter-rouge">Map</code>s from types convertible to <code class="language-plaintext highlighter-rouge">String</code> to any value type that is on this list (must be configured first - see
 <a href="configurable-converters.html">Configurable Converters</a>);</li>

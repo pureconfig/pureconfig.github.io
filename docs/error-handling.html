@@ -30,13 +30,13 @@ config files where the conversion error occurred and a path in the config.</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">res</span> <span class="k">=</span> <span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ person: { name: John Doe, age: 35 } }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">PersonConf</span><span class="o">]</span>
 <span class="c1">// res: ConfigReader.Result[PersonConf] = Left(</span>
-<span class="c1">//   ConfigReaderFailures(</span>
-<span class="c1">//     ConvertFailure(</span>
-<span class="c1">//       WrongType(STRING, Set(OBJECT)),</span>
-<span class="c1">//       Some(ConfigOrigin(String)),</span>
-<span class="c1">//       "person.name"</span>
+<span class="c1">//   value = ConfigReaderFailures(</span>
+<span class="c1">//     head = ConvertFailure(</span>
+<span class="c1">//       reason = WrongType(foundType = STRING, expectedTypes = Set(OBJECT)),</span>
+<span class="c1">//       origin = Some(value = ConfigOrigin(String)),</span>
+<span class="c1">//       path = "person.name"</span>
 <span class="c1">//     ),</span>
-<span class="c1">//     WrappedArray()</span>
+<span class="c1">//     tail = List()</span>
 <span class="c1">//   )</span>
 <span class="c1">// )</span>
 </code></pre></div></div>
@@ -56,7 +56,7 @@ However, it also provides a <code class="language-plaintext highlighter-rouge">f
   <span class="nf">require</span><span class="o">(</span><span class="n">value</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
 <span class="o">}</span>
 
-<span class="k">implicit</span> <span class="k">val</span> <span class="nv">positiveIntReader</span> <span class="k">=</span> <span class="nv">ConfigReader</span><span class="o">.</span><span class="py">fromCursor</span><span class="o">[</span><span class="kt">PositiveInt</span><span class="o">]</span> <span class="o">{</span> <span class="n">cur</span> <span class="k">=&gt;</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">positiveIntReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">PositiveInt</span><span class="o">]</span> <span class="k">=</span> <span class="nv">ConfigReader</span><span class="o">.</span><span class="py">fromCursor</span><span class="o">[</span><span class="kt">PositiveInt</span><span class="o">]</span> <span class="o">{</span> <span class="n">cur</span> <span class="k">=&gt;</span>
   <span class="nv">cur</span><span class="o">.</span><span class="py">asString</span><span class="o">.</span><span class="py">flatMap</span> <span class="o">{</span> <span class="n">str</span> <span class="k">=&gt;</span>
     <span class="nc">Try</span><span class="o">(</span><span class="nv">str</span><span class="o">.</span><span class="py">toInt</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
       <span class="k">case</span> <span class="nc">Success</span><span class="o">(</span><span class="n">n</span><span class="o">)</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">=&gt;</span> <span class="nc">Right</span><span class="o">(</span><span class="nc">PositiveInt</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
@@ -70,27 +70,33 @@ However, it also provides a <code class="language-plaintext highlighter-rouge">f
 </code></pre></div></div>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ n: 23 }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
-<span class="c1">// res0: ConfigReader.Result[Conf] = Right(Conf(PositiveInt(23)))</span>
+<span class="c1">// res0: ConfigReader.Result[Conf] = Right(</span>
+<span class="c1">//   value = Conf(n = PositiveInt(value = 23))</span>
+<span class="c1">// )</span>
 <span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ n: -23 }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
 <span class="c1">// res1: ConfigReader.Result[Conf] = Left(</span>
-<span class="c1">//   ConfigReaderFailures(</span>
-<span class="c1">//     ConvertFailure(</span>
-<span class="c1">//       CannotConvert("-23", "PositiveInt", "-23 is not positive"),</span>
-<span class="c1">//       Some(ConfigOrigin(String)),</span>
-<span class="c1">//       "n"</span>
+<span class="c1">//   value = ConfigReaderFailures(</span>
+<span class="c1">//     head = ConvertFailure(</span>
+<span class="c1">//       reason = CannotConvert(</span>
+<span class="c1">//         value = "-23",</span>
+<span class="c1">//         toType = "PositiveInt",</span>
+<span class="c1">//         because = "-23 is not positive"</span>
+<span class="c1">//       ),</span>
+<span class="c1">//       origin = Some(value = ConfigOrigin(String)),</span>
+<span class="c1">//       path = "n"</span>
 <span class="c1">//     ),</span>
-<span class="c1">//     WrappedArray()</span>
+<span class="c1">//     tail = List()</span>
 <span class="c1">//   )</span>
 <span class="c1">// )</span>
 <span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ n: abc }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
 <span class="c1">// res2: ConfigReader.Result[Conf] = Left(</span>
-<span class="c1">//   ConfigReaderFailures(</span>
-<span class="c1">//     ConvertFailure(</span>
-<span class="c1">//       WrongType(STRING, Set(NUMBER)),</span>
-<span class="c1">//       Some(ConfigOrigin(String)),</span>
-<span class="c1">//       "n"</span>
+<span class="c1">//   value = ConfigReaderFailures(</span>
+<span class="c1">//     head = ConvertFailure(</span>
+<span class="c1">//       reason = WrongType(foundType = STRING, expectedTypes = Set(NUMBER)),</span>
+<span class="c1">//       origin = Some(value = ConfigOrigin(String)),</span>
+<span class="c1">//       path = "n"</span>
 <span class="c1">//     ),</span>
-<span class="c1">//     WrappedArray()</span>
+<span class="c1">//     tail = List()</span>
 <span class="c1">//   )</span>
 <span class="c1">// )</span>
 </code></pre></div></div>
@@ -117,9 +123,13 @@ reason for our <code class="language-plaintext highlighter-rouge">PositiveInt</c
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ n: -23 }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
 <span class="c1">// res3: ConfigReader.Result[Conf] = Left(</span>
-<span class="c1">//   ConfigReaderFailures(</span>
-<span class="c1">//     ConvertFailure(NonPositiveInt(-23), Some(ConfigOrigin(String)), "n"),</span>
-<span class="c1">//     WrappedArray()</span>
+<span class="c1">//   value = ConfigReaderFailures(</span>
+<span class="c1">//     head = ConvertFailure(</span>
+<span class="c1">//       reason = NonPositiveInt(value = -23),</span>
+<span class="c1">//       origin = Some(value = ConfigOrigin(String)),</span>
+<span class="c1">//       path = "n"</span>
+<span class="c1">//     ),</span>
+<span class="c1">//     tail = List()</span>
 <span class="c1">//   )</span>
 <span class="c1">// )</span>
 </code></pre></div></div>
@@ -131,7 +141,7 @@ in an application is to load the whole config with PureConfig at initialization 
 fast in case of a malformed config. For those cases, the <code class="language-plaintext highlighter-rouge">loadOrThrow</code> method can be used instead of <code class="language-plaintext highlighter-rouge">load</code>:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ n: 23 }"</span><span class="o">).</span><span class="py">loadOrThrow</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
-<span class="c1">// res4: Conf = Conf(PositiveInt(23))</span>
+<span class="c1">// res4: Conf = Conf(n = PositiveInt(value = 23))</span>
 </code></pre></div></div>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ n: -23 }"</span><span class="o">).</span><span class="py">loadOrThrow</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>

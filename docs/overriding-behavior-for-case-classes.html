@@ -43,14 +43,16 @@ instance in implicit scope:</p>
 
 <span class="k">case</span> <span class="k">class</span> <span class="nc">SampleConf</span><span class="o">(</span><span class="n">foo</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">bar</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
 
-<span class="k">implicit</span> <span class="k">val</span> <span class="nv">productHint</span> <span class="k">=</span> <span class="nc">ProductHint</span><span class="o">[</span><span class="kt">SampleConf</span><span class="o">](</span><span class="k">new</span> <span class="nc">ConfigFieldMapping</span> <span class="o">{</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">productHint</span><span class="k">:</span> <span class="kt">ProductHint</span><span class="o">[</span><span class="kt">SampleConf</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ProductHint</span><span class="o">[</span><span class="kt">SampleConf</span><span class="o">](</span><span class="k">new</span> <span class="nc">ConfigFieldMapping</span> <span class="o">{</span>
   <span class="k">def</span> <span class="nf">apply</span><span class="o">(</span><span class="n">fieldName</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="nv">fieldName</span><span class="o">.</span><span class="py">toUpperCase</span>
 <span class="o">})</span>
 </code></pre></div></div>
 
 <p>Then load a config:</p>
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ FOO: 2, BAR: two }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">SampleConf</span><span class="o">]</span>
-<span class="c1">// res0: ConfigReader.Result[SampleConf] = Right(SampleConf(2, "two"))</span>
+<span class="c1">// res0: ConfigReader.Result[SampleConf] = Right(</span>
+<span class="c1">//   value = SampleConf(foo = 2, bar = "two")</span>
+<span class="c1">// )</span>
 </code></pre></div></div>
 
 <p>PureConfig provides a way to create a <code class="language-plaintext highlighter-rouge">ConfigFieldMapping</code> by defining the
@@ -73,7 +75,7 @@ names and your configuration files in <code class="language-plaintext highlighte
 can make sure the following implicit is in scope before loading or writing
 configuration files:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">def</span> <span class="nf">hint</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ProductHint</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="nc">ConfigFieldMapping</span><span class="o">(</span><span class="nc">CamelCase</span><span class="o">,</span> <span class="nc">CamelCase</span><span class="o">))</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">def</span> <span class="nf">hint</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span><span class="k">:</span> <span class="kt">ProductHint</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ProductHint</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="nc">ConfigFieldMapping</span><span class="o">(</span><span class="nc">CamelCase</span><span class="o">,</span> <span class="nc">CamelCase</span><span class="o">))</span>
 </code></pre></div></div>
 
 <h3 id="default-field-values">Default field values</h3>
@@ -98,32 +100,44 @@ configuration.</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Defaulting `where`</span>
 <span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ how-long: 21 days }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">]</span>
-<span class="c1">// res2: ConfigReader.Result[Holiday] = Right(Holiday("last resort", 21 days))</span>
+<span class="c1">// res2: ConfigReader.Result[Holiday] = Right(</span>
+<span class="c1">//   value = Holiday(where = "last resort", howLong = 21 days)</span>
+<span class="c1">// )</span>
 
 <span class="c1">// Defaulting `howLong`</span>
 <span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ where: Zürich }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">]</span>
-<span class="c1">// res3: ConfigReader.Result[Holiday] = Right(Holiday("Zürich", 7 days))</span>
+<span class="c1">// res3: ConfigReader.Result[Holiday] = Right(</span>
+<span class="c1">//   value = Holiday(where = "Zürich", howLong = 7 days)</span>
+<span class="c1">// )</span>
 
 <span class="c1">// Defaulting both arguments</span>
 <span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{}"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">]</span>
-<span class="c1">// res4: ConfigReader.Result[Holiday] = Right(Holiday("last resort", 7 days))</span>
+<span class="c1">// res4: ConfigReader.Result[Holiday] = Right(</span>
+<span class="c1">//   value = Holiday(where = "last resort", howLong = 7 days)</span>
+<span class="c1">// )</span>
 
 <span class="c1">// Specifying both arguments</span>
 <span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ where: Texas, how-long: 3 hours }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">]</span>
-<span class="c1">// res5: ConfigReader.Result[Holiday] = Right(Holiday("Texas", 3 hours))</span>
+<span class="c1">// res5: ConfigReader.Result[Holiday] = Right(</span>
+<span class="c1">//   value = Holiday(where = "Texas", howLong = 3 hours)</span>
+<span class="c1">// )</span>
 </code></pre></div></div>
 
 <p>A <code class="language-plaintext highlighter-rouge">ProductHint</code> can make the conversion fail if a key is missing from the
 config regardless of whether a default value exists or not:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">hint</span> <span class="k">=</span> <span class="nc">ProductHint</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="n">useDefaultArgs</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">hint</span><span class="k">:</span> <span class="kt">ProductHint</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ProductHint</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="n">useDefaultArgs</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
 </code></pre></div></div>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ how-long: 21 days }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">]</span>
 <span class="c1">// res6: ConfigReader.Result[Holiday] = Left(</span>
-<span class="c1">//   ConfigReaderFailures(</span>
-<span class="c1">//     ConvertFailure(KeyNotFound("where", Set()), Some(ConfigOrigin(String)), ""),</span>
-<span class="c1">//     WrappedArray()</span>
+<span class="c1">//   value = ConfigReaderFailures(</span>
+<span class="c1">//     head = ConvertFailure(</span>
+<span class="c1">//       reason = KeyNotFound(key = "where", candidates = Set()),</span>
+<span class="c1">//       origin = Some(value = ConfigOrigin(String)),</span>
+<span class="c1">//       path = ""</span>
+<span class="c1">//     ),</span>
+<span class="c1">//     tail = List()</span>
 <span class="c1">//   )</span>
 <span class="c1">// )</span>
 </code></pre></div></div>
@@ -134,20 +148,26 @@ config regardless of whether a default value exists or not:</p>
 case class field, leading to potential bugs due to misspellings:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ wher: Texas, how-long: 21 days }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">]</span>
-<span class="c1">// res8: ConfigReader.Result[Holiday] = Right(Holiday("last resort", 21 days))</span>
+<span class="c1">// res8: ConfigReader.Result[Holiday] = Right(</span>
+<span class="c1">//   value = Holiday(where = "last resort", howLong = 21 days)</span>
+<span class="c1">// )</span>
 </code></pre></div></div>
 
 <p>With a <code class="language-plaintext highlighter-rouge">ProductHint</code>, one can tell the converter to fail if an unknown key is
 found:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">hint</span> <span class="k">=</span> <span class="nc">ProductHint</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="n">allowUnknownKeys</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
-<span class="c1">// hint: ProductHint[Holiday] = ProductHintImpl(&lt;function1&gt;, true, false)</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">hint</span><span class="k">:</span> <span class="kt">ProductHint</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ProductHint</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">](</span><span class="n">allowUnknownKeys</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+</code></pre></div></div>
 
-<span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ wher: Texas, how-long: 21 days }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">]</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ wher: Texas, how-long: 21 days }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Holiday</span><span class="o">]</span>
 <span class="c1">// res9: ConfigReader.Result[Holiday] = Left(</span>
-<span class="c1">//   ConfigReaderFailures(</span>
-<span class="c1">//     ConvertFailure(UnknownKey("wher"), Some(ConfigOrigin(String)), "wher"),</span>
-<span class="c1">//     List()</span>
+<span class="c1">//   value = ConfigReaderFailures(</span>
+<span class="c1">//     head = ConvertFailure(</span>
+<span class="c1">//       reason = UnknownKey(key = "wher"),</span>
+<span class="c1">//       origin = Some(value = ConfigOrigin(String)),</span>
+<span class="c1">//       path = "wher"</span>
+<span class="c1">//     ),</span>
+<span class="c1">//     tail = List()</span>
 <span class="c1">//   )</span>
 <span class="c1">// )</span>
 </code></pre></div></div>
@@ -170,17 +190,17 @@ required key is missing unless its type is an <code class="language-plaintext hi
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">empty</span><span class="o">.</span><span class="py">load</span><span class="o">[</span><span class="kt">Foo</span><span class="o">]</span>
 <span class="c1">// res11: ConfigReader.Result[Foo] = Left(</span>
-<span class="c1">//   ConfigReaderFailures(</span>
-<span class="c1">//     ConvertFailure(</span>
-<span class="c1">//       KeyNotFound("a", Set()),</span>
-<span class="c1">//       Some(ConfigOrigin(empty config)),</span>
-<span class="c1">//       ""</span>
+<span class="c1">//   value = ConfigReaderFailures(</span>
+<span class="c1">//     head = ConvertFailure(</span>
+<span class="c1">//       reason = KeyNotFound(key = "a", candidates = Set()),</span>
+<span class="c1">//       origin = Some(value = ConfigOrigin(empty config)),</span>
+<span class="c1">//       path = ""</span>
 <span class="c1">//     ),</span>
-<span class="c1">//     WrappedArray()</span>
+<span class="c1">//     tail = List()</span>
 <span class="c1">//   )</span>
 <span class="c1">// )</span>
 <span class="nv">ConfigSource</span><span class="o">.</span><span class="py">empty</span><span class="o">.</span><span class="py">load</span><span class="o">[</span><span class="kt">FooOpt</span><span class="o">]</span>
-<span class="c1">// res12: ConfigReader.Result[FooOpt] = Right(FooOpt(None))</span>
+<span class="c1">// res12: ConfigReader.Result[FooOpt] = Right(value = FooOpt(a = None))</span>
 </code></pre></div></div>
 
 <p>However, if you want to allow your custom <code class="language-plaintext highlighter-rouge">ConfigReader</code>s to handle missing keys, you can extend the <code class="language-plaintext highlighter-rouge">ReadsMissingKeys</code>
@@ -189,7 +209,7 @@ available <code class="language-plaintext highlighter-rouge">ConfigReader</code>
 
 <p>Under this setup:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">maybeIntReader</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">with</span> <span class="nc">ReadsMissingKeys</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">maybeIntReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">with</span> <span class="nc">ReadsMissingKeys</span> <span class="o">{</span>
   <span class="k">override</span> <span class="k">def</span> <span class="nf">from</span><span class="o">(</span><span class="n">cur</span><span class="k">:</span> <span class="kt">ConfigCursor</span><span class="o">)</span> <span class="k">=</span>
     <span class="nf">if</span> <span class="o">(</span><span class="nv">cur</span><span class="o">.</span><span class="py">isUndefined</span><span class="o">)</span> <span class="nc">Right</span><span class="o">(</span><span class="mi">42</span><span class="o">)</span> <span class="k">else</span> <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="py">from</span><span class="o">(</span><span class="n">cur</span><span class="o">)</span>
 <span class="o">}</span>
@@ -198,7 +218,7 @@ available <code class="language-plaintext highlighter-rouge">ConfigReader</code>
 <p>You can load an empty configuration and get a <code class="language-plaintext highlighter-rouge">Right</code>:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">empty</span><span class="o">.</span><span class="py">load</span><span class="o">[</span><span class="kt">Foo</span><span class="o">]</span>
-<span class="c1">// res13: ConfigReader.Result[Foo] = Right(Foo(42))</span>
+<span class="c1">// res13: ConfigReader.Result[Foo] = Right(value = Foo(a = 42))</span>
 </code></pre></div></div>
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script src="/lunr/lunr.js"></script><script>
 // For all code blocks, copy the language from the containing div

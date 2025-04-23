@@ -34,7 +34,7 @@ provided. There are three main ways to build such an instance:</p>
 <p>For the <code class="language-plaintext highlighter-rouge">MyInt</code> type above, we could create a <code class="language-plaintext highlighter-rouge">ConfigReader[MyInt]</code> by mapping the result of <code class="language-plaintext highlighter-rouge">ConfigReader[Int]</code> like
 this:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">myIntReader</span> <span class="k">=</span> <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="py">map</span><span class="o">(</span><span class="n">n</span> <span class="k">=&gt;</span> <span class="k">new</span> <span class="nc">MyInt</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">myIntReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="py">map</span><span class="o">(</span><span class="n">n</span> <span class="k">=&gt;</span> <span class="k">new</span> <span class="nc">MyInt</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
 </code></pre></div></div>
 
 <p>Note that the <code class="language-plaintext highlighter-rouge">ConfigReader[Int]</code> expression “summons” an existing implicit instance, being syntactic sugar for <code class="language-plaintext highlighter-rouge">implicitly[ConfigReader[Int]]</code>. This is usually the easiest way to create a <code class="language-plaintext highlighter-rouge">ConfigReader</code> for simple types. See
@@ -42,7 +42,7 @@ this:</p>
 
 <p>As an example for the second approach, we could read the required integer by parsing it from a string form like this:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">myIntReader</span> <span class="k">=</span> <span class="nv">ConfigReader</span><span class="o">.</span><span class="py">fromString</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">](</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">myIntReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">]</span> <span class="k">=</span> <span class="nv">ConfigReader</span><span class="o">.</span><span class="py">fromString</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">](</span>
   <span class="nv">ConvertHelpers</span><span class="o">.</span><span class="py">catchReadError</span><span class="o">(</span><span class="n">s</span> <span class="k">=&gt;</span> <span class="k">new</span> <span class="nc">MyInt</span><span class="o">(</span><span class="nv">s</span><span class="o">.</span><span class="py">toInt</span><span class="o">)))</span>
 </code></pre></div></div>
 
@@ -52,7 +52,7 @@ this:</p>
 
 <p>Finally, we could simply implement the <code class="language-plaintext highlighter-rouge">ConfigReader</code> interface by hand:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">myIntReader</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">]</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">myIntReader</span><span class="k">:</span> <span class="kt">ConfigReader</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">]</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ConfigReader</span><span class="o">[</span><span class="kt">MyInt</span><span class="o">]</span> <span class="o">{</span>
   <span class="k">def</span> <span class="nf">from</span><span class="o">(</span><span class="n">cur</span><span class="k">:</span> <span class="kt">ConfigCursor</span><span class="o">)</span> <span class="k">=</span> <span class="nv">cur</span><span class="o">.</span><span class="py">asString</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="n">s</span> <span class="k">=&gt;</span> <span class="k">new</span> <span class="nc">MyInt</span><span class="o">(</span><span class="nv">s</span><span class="o">.</span><span class="py">toInt</span><span class="o">))</span>
 <span class="o">}</span>
 </code></pre></div></div>
@@ -63,7 +63,7 @@ list of errors. You can read more about cursors at <a href="config-cursors.html"
 <p>Using any of the approaches above would now make the config be loaded successfully:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ n: 1 }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Conf</span><span class="o">]</span>
-<span class="c1">// res1: ConfigReader.Result[Conf] = Right(Conf(MyInt(1)))</span>
+<span class="c1">// res1: ConfigReader.Result[Conf] = Right(value = Conf(n = MyInt(1)))</span>
 </code></pre></div></div>
 
 <p>The case above serves as an example for most simple types. While for those types it is straightforward to create a

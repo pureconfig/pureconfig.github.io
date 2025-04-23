@@ -18,7 +18,7 @@ concrete class represented in the configuration.</p>
 <p>This will load a <code class="language-plaintext highlighter-rouge">DogConf</code> instance:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ type: dog-conf, age: 4 }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">AnimalConf</span><span class="o">]</span>
-<span class="c1">// res0: ConfigReader.Result[AnimalConf] = Right(DogConf(4))</span>
+<span class="c1">// res0: ConfigReader.Result[AnimalConf] = Right(value = DogConf(age = 4))</span>
 </code></pre></div></div>
 
 <p>For sealed families, PureConfig provides a way to customize the conversion
@@ -31,19 +31,19 @@ of a case class option, we can use another field.</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">pureconfig.generic.FieldCoproductHint</span>
 
-<span class="k">implicit</span> <span class="k">val</span> <span class="nv">animalConfHint</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">FieldCoproductHint</span><span class="o">[</span><span class="kt">AnimalConf</span><span class="o">](</span><span class="s">"kind"</span><span class="o">)</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">animalConfHint</span><span class="k">:</span> <span class="kt">FieldCoproductHint</span><span class="o">[</span><span class="kt">AnimalConf</span><span class="o">]</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">FieldCoproductHint</span><span class="o">[</span><span class="kt">AnimalConf</span><span class="o">](</span><span class="s">"kind"</span><span class="o">)</span>
 </code></pre></div></div>
 
 <p>Then load the config:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ kind: dog-conf, age: 4 }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">AnimalConf</span><span class="o">]</span>
-<span class="c1">// res1: ConfigReader.Result[AnimalConf] = Right(DogConf(4))</span>
+<span class="c1">// res1: ConfigReader.Result[AnimalConf] = Right(value = DogConf(age = 4))</span>
 </code></pre></div></div>
 
 <p><code class="language-plaintext highlighter-rouge">FieldCoproductHint</code> can also be adapted to write class names in a different
 way. First, define a new <code class="language-plaintext highlighter-rouge">FieldCoproductHint</code> in implicit scope:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">animalConfHint</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">FieldCoproductHint</span><span class="o">[</span><span class="kt">AnimalConf</span><span class="o">](</span><span class="s">"type"</span><span class="o">)</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">animalConfHint</span><span class="k">:</span> <span class="kt">FieldCoproductHint</span><span class="o">[</span><span class="kt">AnimalConf</span><span class="o">]</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">FieldCoproductHint</span><span class="o">[</span><span class="kt">AnimalConf</span><span class="o">](</span><span class="s">"type"</span><span class="o">)</span> <span class="o">{</span>
   <span class="k">override</span> <span class="k">def</span> <span class="nf">fieldValue</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="nv">name</span><span class="o">.</span><span class="py">dropRight</span><span class="o">(</span><span class="s">"Conf"</span><span class="o">.</span><span class="py">length</span><span class="o">)</span>
 <span class="o">}</span>
 </code></pre></div></div>
@@ -51,7 +51,9 @@ way. First, define a new <code class="language-plaintext highlighter-rouge">Fiel
 <p>Then load the config:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ type: Bird, can-fly: true }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">AnimalConf</span><span class="o">]</span>
-<span class="c1">// res2: ConfigReader.Result[AnimalConf] = Right(BirdConf(true))</span>
+<span class="c1">// res2: ConfigReader.Result[AnimalConf] = Right(</span>
+<span class="c1">//   value = BirdConf(canFly = true)</span>
+<span class="c1">// )</span>
 </code></pre></div></div>
 
 <p>If you encode enumerations using sealed traits of case objects, you can use the
@@ -77,7 +79,7 @@ to derive <code class="language-plaintext highlighter-rouge">ConfigReader</code>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ list: [spring, summer, autumn, winter] }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">MyConf</span><span class="o">]</span>
 <span class="c1">// res4: ConfigReader.Result[MyConf] = Right(</span>
-<span class="c1">//   MyConf(List(Spring, Summer, Autumn, Winter))</span>
+<span class="c1">//   value = MyConf(list = List(Spring, Summer, Autumn, Winter))</span>
 <span class="c1">// )</span>
 </code></pre></div></div>
 
@@ -96,7 +98,7 @@ specifying a different transformation function.</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ colors: [rainy_blue, sunny_yellow] }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">ColorList</span><span class="o">]</span>
 <span class="c1">// res5: ConfigReader.Result[ColorList] = Right(</span>
-<span class="c1">//   ColorList(List(RainyBlue, SunnyYellow))</span>
+<span class="c1">//   value = ColorList(colors = List(RainyBlue, SunnyYellow))</span>
 <span class="c1">// )</span>
 </code></pre></div></div>
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/highlight/highlight.pack.js"></script><script src="/lunr/lunr.js"></script><script>

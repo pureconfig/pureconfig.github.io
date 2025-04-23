@@ -83,9 +83,9 @@ can shade shapeless by adding to your <code class="language-plaintext highlighte
   api-key: 8ef72f48-2143-48af-9573-3b519bbcb777
 }"""</span><span class="o">).</span><span class="py">loadOrThrow</span><span class="o">[</span><span class="kt">SuperSecretConfig</span><span class="o">]</span>
 <span class="c1">// secret: SuperSecretConfig = SuperSecretConfig(</span>
-<span class="c1">//   "john.smith",</span>
-<span class="c1">//   Sensitive("password123"),</span>
-<span class="c1">//   Sensitive("8ef72f48-2143-48af-9573-3b519bbcb777")</span>
+<span class="c1">//   username = "john.smith",</span>
+<span class="c1">//   password = Sensitive(value = "password123"),</span>
+<span class="c1">//   apiKey = Sensitive(value = "8ef72f48-2143-48af-9573-3b519bbcb777")</span>
 <span class="c1">// )</span>
 
 <span class="nf">println</span><span class="o">(</span><span class="n">secret</span><span class="o">)</span>
@@ -138,8 +138,7 @@ itself to showing the message above.</p>
 
 <p>To more efficiently debug these “implicit not found” errors, we recommend using <a href="https://github.com/tek/splain">splain</a>.
 splain was integrated into the compiler in <a href="https://github.com/scala/scala/releases/tag/v2.13.6">Scala 2.13.6</a> and can
-be enabled with the <code class="language-plaintext highlighter-rouge">-Vimplicits</code> scalac flag. For Scala 2.13 versions prior to 2.13.6 or Scala 2.12 versions, please
-refer to the project’s documentation for instructions on how to include the compiler plugin.</p>
+be enabled with the <code class="language-plaintext highlighter-rouge">-Vimplicits</code> scalac flag. For Scala 2.13 versions prior to 2.13.6, please refer to the project’s documentation for instructions on how to include the compiler plugin.</p>
 
 <p>When code using PureConfig derived converters is compiled using the compiler plugin recommended above, you will get a
 more thorough error message. In this particular case, the message will be quite large because there are some alternative
