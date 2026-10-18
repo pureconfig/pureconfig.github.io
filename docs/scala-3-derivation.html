@@ -36,6 +36,15 @@ extensions must be imported:</p>
 <span class="c1">// val res1: pureconfig.ConfigReader.Result[MyConf] = Right(MyConf(List(Spring, Summer, Autumn, Winter)))</span>
 </code></pre></div></div>
 
+<p>If a key is missing from the config, the default value of the corresponding case class parameter is used, if one
+exists:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">case</span> <span class="k">class</span> <span class="nc">Server</span><span class="o">(</span><span class="n">host</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">port</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">8080</span><span class="o">)</span> <span class="n">derives</span> <span class="nc">ConfigReader</span>
+
+<span class="nv">ConfigSource</span><span class="o">.</span><span class="py">string</span><span class="o">(</span><span class="s">"{ host: example.com }"</span><span class="o">).</span><span class="py">load</span><span class="o">[</span><span class="kt">Server</span><span class="o">]</span>
+<span class="c1">// val res2: pureconfig.ConfigReader.Result[Server] = Right(Server(example.com,8080))</span>
+</code></pre></div></div>
+
 <h3 id="limitations">Limitations</h3>
 
 <p>There is currently no way to customize case class and sealed trait derivation - any <code class="language-plaintext highlighter-rouge">ProductHint</code> and <code class="language-plaintext highlighter-rouge">CoproductHint</code>
